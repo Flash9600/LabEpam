@@ -1,0 +1,22 @@
+@mixin flex-sp() {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header {
+
+  @include flex-sp;
+  background-color: #00ffff;
+
+  div:first-child {
+    width: 300px;
+    @include flex-sp;
+    img {
+      width: 200px;
+    }
+  }
+  div:last-child *{
+    margin-right: 50px;
+  }
+
+}
