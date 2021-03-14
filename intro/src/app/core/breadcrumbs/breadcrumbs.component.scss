@@ -1,12 +1,13 @@
-.breadcrumbs{
+:host {
   font-size: 18px;
   height: 2rem;
   background-color: #a9f8f8;
-display: flex;
+  display: flex;
   align-items: center;
-  ul{
+
+  ul {
     display: flex;
-    margin:15px;
+    margin: 15px;
     list-style: none;
   }
 }

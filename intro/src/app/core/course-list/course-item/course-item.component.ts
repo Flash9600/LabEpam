@@ -9,7 +9,9 @@ import {CourseInterface} from '../course.interface';
 export class CourseItemComponent implements OnInit {
 	@Input() course: CourseInterface;
 
-	constructor() { }
+	constructor() {
+	}
+
 	ngOnInit(): void {
 	}
 }
