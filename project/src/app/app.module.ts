@@ -1,4 +1,6 @@
+import { StaticModule } from './static/static.module';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -12,7 +14,9 @@ import {CoreModule} from './core/core.module';
 	imports: [
 		BrowserModule,
 		AppRoutingModule,
-		CoreModule
+		CoreModule,
+		StaticModule,
+		FormsModule
 	],
 	providers: [],
 	bootstrap: [AppComponent]
