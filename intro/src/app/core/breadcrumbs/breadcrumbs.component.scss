@@ -1,0 +1,13 @@
+:host {
+  font-size: 18px;
+  height: 2rem;
+  background-color: #a9f8f8;
+  display: flex;
+  align-items: center;
+
+  ul {
+    display: flex;
+    margin: 15px;
+    list-style: none;
+  }
+}

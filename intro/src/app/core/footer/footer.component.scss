@@ -1,0 +1,17 @@
+:host {
+  height: 8vh;
+  background-color: #06d0d0;
+  position: relative;
+  display: block;
+
+  .footer-wrapper {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin: 5px;
+  }
+}
+
+span, a {
+  margin-right: 10px;
+}

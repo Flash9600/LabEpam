@@ -1,0 +1,33 @@
+:host {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 20px;
+  background-color: #6beaea;
+  padding: 7px;
+  border-radius: 10px;
+  box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);;
+
+  .item-content {
+    padding: 15px;
+    width: 90%;
+  }
+
+  .item-btn button {
+    width: 100%;
+  }
+
+  .item-btn button:first-child {
+    margin-bottom: 5px;
+  }
+}
+
+.item-title {
+  display: flex;
+  justify-content: space-between;
+
+  .item-date span:first-child {
+    margin-right: 10px;
+  }
+}
