@@ -13,7 +13,8 @@ import { FormsModule } from '@angular/forms';
 		SearchComponent,
 		CourseListComponent,
 		CourseItemComponent,
-		AddCourseComponent],
+		AddCourseComponent
+		],
 	imports: [
 		CommonModule,
 		FormsModule
