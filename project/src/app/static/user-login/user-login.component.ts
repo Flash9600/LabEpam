@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 
 @Component({
 	selector: 'app-user-login',
@@ -6,15 +6,8 @@ import { Component, EventEmitter, OnInit, Output} from '@angular/core';
 	styleUrls: ['./user-login.component.scss']
 })
 export class UserLoginComponent implements OnInit{
-
-	@Output() switchLogin = new EventEmitter<boolean>();
-
 	ngOnInit(): void {
 
-	}
-
-	removeMe(): void {
-		this.switchLogin.emit(true);
 	}
 }
 

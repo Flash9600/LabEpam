@@ -31,7 +31,6 @@ export class HeaderComponent implements OnInit {
 		} else {
 			const factory: ComponentFactory<UserLoginComponent> = this.resolver.resolveComponentFactory(UserLoginComponent);
 			this.componentRef = this.userLogin.createComponent(factory);
-			// this.componentRef.type.switchLogin = this.removeLogin();
 		}
 		this.toggle = !this.toggle;
 	}
