@@ -6,8 +6,9 @@ import { Component, OnInit} from '@angular/core';
 	styleUrls: ['./user-login.component.scss']
 })
 export class UserLoginComponent implements OnInit{
-	ngOnInit(): void {
+	toggle: boolean;
 
+	ngOnInit(): void {
 	}
 }
 
