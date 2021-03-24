@@ -17,7 +17,7 @@ export class CourseItemComponent implements OnInit, OnChanges {
 	ngOnChanges(): void {
 		console.log('OnChanges');
 	}
-	handlerDelCourse(): void {
+	handleDeleteCourse(): void {
 		this.delCourse.emit(this.course.id);
 		console.log(this.course.id);
 	}
