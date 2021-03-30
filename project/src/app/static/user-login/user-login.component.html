@@ -1,5 +1,12 @@
-<div *ngIf = 'toggle'>
-    <input type='text'>
-    <input type="password" placeholder="password">
-    <button id="submit">Sign in</button>
+<div *ngIf = 'toggle' class='pop-up' id='close'>
+    <div class="pop-up_wrapper">
+        <div class="pop-up_title"><h5>Sign in</h5></div>
+        <span>Email address</span>
+        <input type='email' #emailInput>
+        <span>Password</span>
+        <input type="password" placeholder="password" #pasInput>
+        <button (click)='checkInput()'>Sign in</button>
+        <div class='close' id='close'></div>
+        <app-error-message *appValidation='inputValue'></app-error-message>
+    </div>
 </div>

@@ -27,7 +27,12 @@
   display: flex;
   justify-content: space-between;
 
-  .item-date span:first-child {
-    margin-right: 10px;
+  .item-date{
+    display: flex;
+    text-align: center;
+    span {
+      margin-right: 10px;
+    }
   }
 }
+

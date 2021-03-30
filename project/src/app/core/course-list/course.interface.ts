@@ -2,6 +2,7 @@ export interface CourseInterface {
 	id: number;
 	title: string;
 	date: Date;
-	duration: string;
+	duration: number;
 	description: string;
+	topRated: boolean;
 }

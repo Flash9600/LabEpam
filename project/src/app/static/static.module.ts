@@ -4,6 +4,8 @@ import { HeaderComponent } from './header/header.component';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { FooterComponent } from './footer/footer.component';
 import { UserLoginComponent } from './user-login/user-login.component';
+import { ErrorMessageComponent } from './user-login/error-message/error-message.component';
+import { ValidationDirective } from './user-login/validation-directive/validation.directive';
 
 
 
@@ -12,7 +14,9 @@ import { UserLoginComponent } from './user-login/user-login.component';
 	declarations: [HeaderComponent,
 		FooterComponent,
 		BreadcrumbsComponent,
-		UserLoginComponent
+		UserLoginComponent,
+		ErrorMessageComponent,
+		ValidationDirective
 	],
 	imports: [
 		CommonModule

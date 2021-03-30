@@ -1,7 +1,7 @@
 <app-header></app-header>
 <app-breadcrumbs></app-breadcrumbs>
 <div class="content">
-  <app-search></app-search>
-  <app-course-list ></app-course-list>
+  <app-search (sortWay)= 'sortWay=$event'></app-search>
+  <app-course-list [sortWay]='sortWay'></app-course-list>
 </div>
 <app-footer></app-footer>
