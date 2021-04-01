@@ -9,7 +9,8 @@ import { CourseInterface } from './course.interface';
 })
 
 export class CourseListComponent implements OnChanges {
-	private orderBy = new OrderByPipe();
+
+	constructor(private OrderByPipe: OrderByPipe) {}
 
 	public courses: CourseInterface[] = [
 			{
@@ -43,17 +44,17 @@ export class CourseListComponent implements OnChanges {
 			}
 		];
 
-	@Input() readonly sortWay: string;
+	@Input() protected sortWay: string;
 
 	ngOnChanges(): void {
 		this.sortCourses(this.sortWay);
 	}
 
 	sortCourses(way: string = 'date'): void {
-		this.courses = this.orderBy.transform<CourseInterface>(this.courses, way);
+		this.courses = this.OrderByPipe.transform<CourseInterface>(this.courses, way);
 	}
 
-	delCourse(id: number): void {
+	deleteCourse(id: number): void {
 		this.courses = this.courses.filter(item => item.id !== id);
 	}
 

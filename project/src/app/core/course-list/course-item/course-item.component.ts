@@ -9,10 +9,10 @@ import { CourseInterface } from '../course.interface';
 export class CourseItemComponent  {
 	@Input() course: CourseInterface;
 
-	@Output() delCourse = new EventEmitter<number>();
+	@Output() deleteCourse = new EventEmitter<number>();
 
-	handleDeleteCourse(): void {
-		this.delCourse.emit(this.course.id);
+	OnDeleteCourse(): void {
+		this.deleteCourse.emit(this.course.id);
 		console.log(this.course.id);
 	}
 

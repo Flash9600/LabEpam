@@ -1,16 +1,16 @@
 <div class="item-content">
   <div class="item-title">
-    <h3>{{'Course ' + course.title| uppercase}}</h3>
+    <h3>{{"Course " + course.title| uppercase}}</h3>
     <div class="item-date">
       <ng-content></ng-content>
       <span>{{course.duration | duration}}</span>
-      <span>{{course.date | date: 'EEE, dd MMM yyy'}}</span>
+      <span>{{course.date | date: "EEE, dd MMM yyy"}}</span>
     </div>
   </div>
   <p>{{course.description}}</p>
 </div>
 <div class="item-btn">
   <button>Edit</button>
-  <button (click)='handleDeleteCourse()'>Delete</button>
+  <button (click)="OnDeleteCourse()">Delete</button>
 </div>
 
