@@ -1,3 +1,4 @@
+import { OrderByPipe } from './core/orderBy-pipe/order-by.pipe';
 import { StaticModule } from './static/static.module';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -16,9 +17,10 @@ import {CoreModule} from './core/core.module';
 		AppRoutingModule,
 		CoreModule,
 		StaticModule,
-		FormsModule
+		FormsModule,
+
 	],
-	providers: [],
+	providers: [OrderByPipe],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }

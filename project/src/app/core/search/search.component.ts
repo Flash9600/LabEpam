@@ -1,19 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
 	selector: 'app-search',
 	templateUrl: './search.component.html',
 	styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit {
-	value: string;
+export class SearchComponent {
+	public value: string;
+	public toggleSort = true;
+	@Output() sortWay = new EventEmitter<string>();
 
-	ngOnInit(): void {
-
-	}
-
-	logInputValue(): void {
-		console.log(this.value);
+	sendSortWay(): void {
+		this.sortWay.emit(this.toggleSort ? 'title' : 'date');
+		this.toggleSort = !this.toggleSort;
 	}
 
 }

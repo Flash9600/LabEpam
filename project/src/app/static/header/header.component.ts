@@ -17,10 +17,13 @@ export class HeaderComponent implements OnInit {
 		this.toggle = true;
 	}
 
-	@HostListener('click', ['$event.target.id'])
+	@HostListener('mousedown', ['$event.target.id'])
 	removeLogin(eventId: string): void {
-		if (eventId === 'submit') {
+		if (eventId === 'close') {
 			this.showComponent();
+			this.componentRef.instance.inputValue = '';
+		} else if (eventId === 'error-ok') {
+			this.componentRef.instance.inputValue = '';
 		}
 	}
 
@@ -28,7 +31,7 @@ export class HeaderComponent implements OnInit {
 		if (!this.componentRef) {
 			this.createComponent();
 		} else {
-		this.toggle = !this.toggle;
+			this.toggle = !this.toggle;
 		}
 		this.componentRef.instance.toggle = this.toggle;
 	}
@@ -36,8 +39,5 @@ export class HeaderComponent implements OnInit {
 	createComponent(): void {
 		const factory: ComponentFactory<UserLoginComponent> = this.resolver.resolveComponentFactory(UserLoginComponent);
 		this.componentRef = this.userLogin.createComponent(factory);
-		console.log('factory:', factory);
-		console.log('componentRef:', this.componentRef);
-		console.log('userLogin:', this.userLogin);
 	}
 }
