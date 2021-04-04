@@ -1,5 +1,5 @@
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
-import { ErrorMessageComponent } from '../error-message/error-message.component';
+import { ErrorMessageComponent } from '../../static/user-login/error-message/error-message.component';
 
 @Directive({
 	selector: '[appValidation]',
@@ -9,7 +9,7 @@ export class ValidationDirective {
 
 	constructor(private templateRef: TemplateRef<ErrorMessageComponent>, private viewContainerRef: ViewContainerRef) {}
 
-	@Input() set appValidation(inputValue: string) {
+	@Input() set appValidation(inputValue: string, ) {
 		if (inputValue && !inputValue.match(/.+@.+\..+/i)) {
 			this.viewContainerRef.createEmbeddedView(this.templateRef);
 		} else {

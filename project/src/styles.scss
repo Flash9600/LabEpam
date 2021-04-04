@@ -40,4 +40,61 @@ button {
 body {
   height: 100vh;
   font-family: 'Roboto', sans-serif;
+  background: linear-gradient(90deg, rgba(172,240,240,1) 16%, rgba(0,255,255,1) 88%);
 }
+
+.pop-up{
+  width:100%;
+  min-height:100%;
+  background-color: rgba(0, 0, 0, 0.61);
+  overflow:hidden;
+  position:fixed;
+  top:0;
+  left:0;
+  z-index: 1;
+}
+
+.pop-up_wrapper{
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    justify-content: space-around;
+    background: #10d6d6;
+    padding: 30px;
+    .pop-up_title {
+        text-align: center;
+    }
+}
+
+.close {
+  cursor: pointer;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 32px;
+  height: 32px;
+  opacity: 0.3;
+  }
+  .close:hover {
+  opacity: 1;
+  transform: scale(1.05);
+  }
+  .close:before, .close:after {
+  position: absolute;
+  left: 15px;
+  content: ' ';
+  height: 33px;
+  width: 2px;
+  background-color: #333;
+  }
+  .close:before {
+  transform: rotate(45deg);
+  }
+  .close:after {
+  transform: rotate(-45deg);
+  }

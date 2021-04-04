@@ -1,3 +1,4 @@
+import { AuthorizationService } from './../service/authorization.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './header/header.component';
@@ -5,7 +6,7 @@ import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { FooterComponent } from './footer/footer.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { ErrorMessageComponent } from './user-login/error-message/error-message.component';
-import { ValidationDirective } from './user-login/validation-directive/validation.directive';
+import { ValidationDirective } from '../directives/validation-directive/validation.directive';
 
 
 
@@ -21,6 +22,7 @@ import { ValidationDirective } from './user-login/validation-directive/validatio
 	imports: [
 		CommonModule
 	],
+	providers: [AuthorizationService],
 	exports: [HeaderComponent, BreadcrumbsComponent, FooterComponent]
 })
 export class StaticModule { }

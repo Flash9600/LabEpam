@@ -1,43 +1,23 @@
-import { Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, HostListener, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { UserLoginComponent } from '../user-login/user-login.component';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+
 
 @Component({
 	selector: 'app-header',
 	templateUrl: './header.component.html',
 	styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
-	public toggle: boolean;
-	public componentRef: ComponentRef<UserLoginComponent>;
-	@ViewChild('userLogin', { read: ViewContainerRef }) userLogin: ViewContainerRef;
+export class HeaderComponent {
+	public btnAuthorizationText: string;
+	public userLogin: string;
 
-	constructor(private resolver: ComponentFactoryResolver) { }
+	@Output() showUserLoginComponent = new EventEmitter<void>();
 
-	ngOnInit(): void {
-		this.toggle = true;
+	@Input() set userName(name: string) {
+		this.userLogin = name;
+		this.btnAuthorizationText = !!name ? 'Sign out' : 'Sign in';
 	}
 
-	@HostListener('mousedown', ['$event.target.id'])
-	removeLogin(eventId: string): void {
-		if (eventId === 'close') {
-			this.showComponent();
-			this.componentRef.instance.inputValue = '';
-		} else if (eventId === 'error-ok') {
-			this.componentRef.instance.inputValue = '';
-		}
-	}
-
-	showComponent(): void {
-		if (!this.componentRef) {
-			this.createComponent();
-		} else {
-			this.toggle = !this.toggle;
-		}
-		this.componentRef.instance.toggle = this.toggle;
-	}
-
-	createComponent(): void {
-		const factory: ComponentFactory<UserLoginComponent> = this.resolver.resolveComponentFactory(UserLoginComponent);
-		this.componentRef = this.userLogin.createComponent(factory);
+	createEvent(): void{
+		this.showUserLoginComponent.emit();
 	}
 }

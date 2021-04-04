@@ -1,4 +1,4 @@
-import { CourseInterface } from '../course-list/course.interface';
+import { CourseInterface } from '../../interfaces/course.interface';
 import { Directive, HostBinding, Input, OnChanges } from '@angular/core';
 
 @Directive({

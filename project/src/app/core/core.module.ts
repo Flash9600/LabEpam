@@ -1,3 +1,4 @@
+import { CourseService } from './../service/course.service';
 import { NgModule} from '@angular/core';
 import { CommonModule, DatePipe, UpperCasePipe} from '@angular/common';
 import { SearchComponent } from './search/search.component';
@@ -5,9 +6,9 @@ import { CourseListComponent } from './course-list/course-list.component';
 import { CourseItemComponent } from './course-list/course-item/course-item.component';
 import { AddCourseComponent } from './search/add-course/add-course.component';
 import { FormsModule } from '@angular/forms';
-import { DateColorDirective } from './date-color-directive/date-color.directive';
-import { DurationPipe } from './duration-pipe/duration.pipe';
-import { OrderByPipe } from './orderBy-pipe/order-by.pipe';
+import { DateColorDirective } from '../directives/date-color-directive/date-color.directive';
+import { DurationPipe } from '../pipes/duration-pipe/duration.pipe';
+import { ConfirmationComponent } from './course-list/course-item/confirmation/confirmation.component';
 
 
 
@@ -19,19 +20,21 @@ import { OrderByPipe } from './orderBy-pipe/order-by.pipe';
 		AddCourseComponent,
 		DateColorDirective,
 		DurationPipe,
-		OrderByPipe
+		ConfirmationComponent
 		],
 	imports: [
 		CommonModule,
 		FormsModule
 	],
 	exports: [
-		CourseListComponent,
 		SearchComponent,
+		CourseListComponent,
 		CourseItemComponent,
+		AddCourseComponent,
 		DateColorDirective,
 		DurationPipe,
-		OrderByPipe]
+		ConfirmationComponent
+		]
 })
 export class CoreModule {
 

@@ -1,4 +1,5 @@
-import { OrderByPipe } from './core/orderBy-pipe/order-by.pipe';
+import { CourseService } from './service/course.service';
+import { OrderByPipe } from './pipes/orderBy-pipe/order-by.pipe';
 import { StaticModule } from './static/static.module';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -20,7 +21,7 @@ import {CoreModule} from './core/core.module';
 		FormsModule,
 
 	],
-	providers: [OrderByPipe],
+	providers: [OrderByPipe, CourseService],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }

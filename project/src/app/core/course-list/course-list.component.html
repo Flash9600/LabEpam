@@ -1,18 +1,15 @@
-
-<div  *ngIf='courses.length'>
-  <app-course-item
-    *ngFor="let course of courses"
-    [course]="course"
-    (deleteCourse)='deleteCourse($event)'
-    appDateColor
-    [class.rate] = "course.topRated">
+<div *ngIf='courseService.corseLength; else noData'>
+  <app-course-item *ngFor="let course of courseService.getCourseList(sortWay)" [course]="course"
+    (deleteCourse)='deleteCourse($event)' appDateColor [class.rate]="course.topRated">
 
     <span class="material-icons" *ngIf='course.topRated'>
       star_border
-      </span>
-    </app-course-item>
-    <button #loadMore (click)="showLogFromBtn(loadMore.innerText)">LOAD MORE</button>
+    </span>
+  </app-course-item>
+  <button #loadMore (click)="showLogFromBtn(loadMore.innerText)">LOAD MORE</button>
 </div>
-  <div *ngIf="!courses.length" class="message-nodata">
+<ng-template #noData>
+  <div class="message-nodata">
     <span>NO DATA. FEEL FREE TO ADD NEW COURSE</span>
   </div>
+</ng-template>
