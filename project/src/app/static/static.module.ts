@@ -1,12 +1,12 @@
-import { AuthorizationService } from './../service/authorization.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+import { AuthorizationService } from './../service/authorization.service';
 import { HeaderComponent } from './header/header.component';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { FooterComponent } from './footer/footer.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { ErrorMessageComponent } from './user-login/error-message/error-message.component';
-import { ValidationDirective } from '../directives/validation-directive/validation.directive';
 
 
 
@@ -16,8 +16,7 @@ import { ValidationDirective } from '../directives/validation-directive/validati
 		FooterComponent,
 		BreadcrumbsComponent,
 		UserLoginComponent,
-		ErrorMessageComponent,
-		ValidationDirective
+		ErrorMessageComponent
 	],
 	imports: [
 		CommonModule

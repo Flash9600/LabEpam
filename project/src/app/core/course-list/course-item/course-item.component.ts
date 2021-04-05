@@ -1,4 +1,5 @@
 import { Component, EventEmitter, HostListener, Input, OnDestroy, Output } from '@angular/core';
+
 import { CourseInterface } from '../../../interfaces/course.interface';
 
 @Component({

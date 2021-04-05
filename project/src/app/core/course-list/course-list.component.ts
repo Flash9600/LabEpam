@@ -1,5 +1,6 @@
-import { CourseService } from './../../service/course.service';
 import {  Component, Input } from '@angular/core';
+
+import { CourseService } from './../../service/course.service';
 import { CourseInterface } from '../../interfaces/course.interface';
 
 

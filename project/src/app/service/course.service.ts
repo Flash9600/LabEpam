@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
+
 import { CourseInterface } from '../interfaces/course.interface';
 import { OrderByPipe } from '../pipes/orderBy-pipe/order-by.pipe';
 
 @Injectable()
 export class CourseService {
 
-	constructor(private orderBy: OrderByPipe) { }
+	constructor(protected orderBy: OrderByPipe) { }
 
-	private courses: CourseInterface[] = [
+	protected courses: CourseInterface[] = [
 		{
 			id: 1,
 			title: 'intro',
@@ -43,11 +44,11 @@ export class CourseService {
 		return this.courses.length;
 	}
 
-	getCourseList(way: string = 'date'): CourseInterface[] {
+	public getCourseList(way: string = 'date'): CourseInterface[] {
 		return this.orderBy.transform<CourseInterface>(this.courses, way);
 	}
 
-	createCourse(): void {
+	public createCourse(): void {
 		const newCourse: CourseInterface = {
 			id: this.courses.length++,
 			title: 'new course',
@@ -61,17 +62,17 @@ export class CourseService {
 	}
 
 
-	getItemById(id: number): CourseInterface {
+	public getItemById(id: number): CourseInterface {
 		return this.courses.find((course) => {
 			return course.id === id;
 		});
 	}
 
-	deleteCourse(id: number): void {
+	public deleteCourse(id: number): void {
 		this.courses = this.courses.filter(item => item.id !== id);
 	}
 
-	updateCourse(newCourse: CourseInterface): void {
+	public updateCourse(newCourse: CourseInterface): void {
 		this.deleteCourse(newCourse.id);
 		this.courses.push(newCourse);
 	}

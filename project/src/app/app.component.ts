@@ -2,11 +2,9 @@ import {
 	Component,
 	ComponentFactory,
 	ComponentFactoryResolver,
-	ComponentRef, HostListener,
-	OnInit, Output, ViewChild,
-	ViewContainerRef,
-	EventEmitter,
-	OnChanges
+	ComponentRef,
+	ViewChild,
+	ViewContainerRef
 } from '@angular/core';
 
 import { AuthorizationService } from './service/authorization.service';
@@ -19,13 +17,12 @@ import { UserLoginComponent } from './static/user-login/user-login.component';
 })
 export class AppComponent {
 	public sortWay: string;
-	public shouldShowContent = true;
 
 	public componentRef: ComponentRef<UserLoginComponent>;
 
 	@ViewChild('userLogin', { read: ViewContainerRef }) userLoginContainer: ViewContainerRef;
 
-	constructor(private resolver: ComponentFactoryResolver, public authorizationService: AuthorizationService) { }
+	constructor(protected resolver: ComponentFactoryResolver, public authorizationService: AuthorizationService) { }
 
 	showUserLoginComponent(): void {
 			this.authorizationService.logOut();
@@ -34,7 +31,6 @@ export class AppComponent {
 			} else {
 				this.componentRef.instance.isShowUserLogin = true;
 			}
-			this.shouldShowContent = false;
 	}
 
 	createUserLoginComponent(): void {
