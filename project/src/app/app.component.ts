@@ -24,7 +24,7 @@ export class AppComponent {
 
 	constructor(protected resolver: ComponentFactoryResolver, public authorizationService: AuthorizationService) { }
 
-	showUserLoginComponent(): void {
+	showUserLogin(): void {
 			this.authorizationService.logOut();
 			if (!this.componentRef) {
 				this.createUserLoginComponent();

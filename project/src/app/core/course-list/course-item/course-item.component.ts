@@ -1,17 +1,17 @@
 import { Component, EventEmitter, HostListener, Input, OnDestroy, Output } from '@angular/core';
 
-import { CourseInterface } from '../../../interfaces/course.interface';
+import { Course } from '../../../interfaces/course.interface';
 
 @Component({
 	selector: 'app-course-item',
 	templateUrl: './course-item.component.html',
 	styleUrls: ['./course-item.component.scss']
 })
-export class CourseItemComponent implements OnDestroy{
+export class CourseItemComponent {
 
 	public isOpenConfirmation = false;
 
-	@Input() course: CourseInterface;
+	@Input() course: Course;
 
 	@Output() deleteCourse = new EventEmitter<number>();
 
@@ -26,12 +26,8 @@ export class CourseItemComponent implements OnDestroy{
 		this.isOpenConfirmation = true;
 	}
 
-	OnDeleteCourse(): void {
+	onDeleteCourse(): void {
 		this.isOpenConfirmation = false;
 		this.deleteCourse.emit(this.course.id);
-	}
-
-	ngOnDestroy(): void{
-		this.closeConfirmation = (): void => {};
 	}
 }

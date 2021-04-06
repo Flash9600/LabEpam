@@ -7,9 +7,9 @@ import { Component, Output, EventEmitter } from '@angular/core';
 })
 export class ConfirmationComponent {
 
-	@Output() confirmDeletionEvent = new EventEmitter<boolean>();
+	@Output() confirmDeletion = new EventEmitter<boolean>();
 
-	OnDeleteCourse(): void {
-		this.confirmDeletionEvent.emit(true);
+	onConfirmDeletion(): void {
+		this.confirmDeletion.emit(true);
 	}
 }

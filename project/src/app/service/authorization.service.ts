@@ -14,11 +14,11 @@ export class AuthorizationService {
 		return !!this.storageService.getValue<UserLogInterface | undefined>(this.userName);
 	}
 
-	public logIn(emailValue: string, passwordValue: string): boolean {
-		if (emailValue && emailValue.match(/.+@.+\..+/i) && passwordValue) {
+	public logIn(email: string, password: string): boolean {
+		if (this.isValidData(email, password)) {
 			const userData: UserLogInterface = {
-				email: emailValue,
-				password: passwordValue
+				email,
+				password
 			};
 			this.storageService.setValue<UserLogInterface>(this.userName, userData);
 			return false;
@@ -35,5 +35,9 @@ export class AuthorizationService {
 			return this.storageService.getValue<UserLogInterface>(this.userName).email;
 		}
 		return '';
+	}
+
+	protected isValidData(email: string, password: string): boolean {
+		return !!(email && email.match(/.+@.+\..+/i) && password);
 	}
 }

@@ -18,9 +18,9 @@ export class UserLoginComponent {
 	@ViewChild('pasInput') passwordElement: ElementRef;
 
 	logIn(): void {
-		const emailValue: string = this.emailElement.nativeElement.value;
-		const passwordValue: string = this.passwordElement.nativeElement.value;
-		this.isShowValidationError = this.authorizationService.logIn(emailValue, passwordValue);
+		const email: string = this.emailElement.nativeElement.value;
+		const password: string = this.passwordElement.nativeElement.value;
+		this.isShowValidationError = this.authorizationService.logIn(email, password);
 		if (!this.isShowValidationError) {
 			this.isShowUserLogin = false;
 		}

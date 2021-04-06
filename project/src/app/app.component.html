@@ -1,4 +1,4 @@
-<app-header (showUserLoginComponent)="showUserLoginComponent()" [userName]="authorizationService.getUserInfo()"></app-header>
+<app-header (showUserLogin)="showUserLogin()" [userName]="authorizationService.getUserInfo()"></app-header>
 <section class="page-wrapper" *ngIf="this.authorizationService.IsAuthenticated">
   <app-breadcrumbs></app-breadcrumbs>
   <div class="content">

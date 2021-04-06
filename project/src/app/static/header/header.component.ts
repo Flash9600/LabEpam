@@ -10,14 +10,14 @@ export class HeaderComponent {
 	public btnAuthorizationText: string;
 	public userLogin: string;
 
-	@Output() showUserLoginComponent = new EventEmitter<void>();
+	@Output() showUserLogin = new EventEmitter<void>();
 
 	@Input() set userName(name: string) {
 		this.userLogin = name;
 		this.btnAuthorizationText = !!name ? 'Sign out' : 'Sign in';
 	}
 
-	createEvent(): void{
-		this.showUserLoginComponent.emit();
+	onShowUserLogin(): void{
+		this.showUserLogin.emit();
 	}
 }
