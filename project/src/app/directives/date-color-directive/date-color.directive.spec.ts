@@ -22,7 +22,7 @@ describe('DateColorDirective', () => {
 		const result = directive.isFreshCourse(new Date().getTime() - 10 ** 3);
 		expect(result).toBeTrue();
 	});
-	it('should return true', () => {
+	it('should return false', () => {
 		const result = directive.isFreshCourse(new Date(2020, 0, 1).getTime());
 		expect(result).toBeFalse();
 	});

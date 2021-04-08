@@ -1,12 +1,15 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 
 import { Course } from '../interfaces/course.interface';
 import { OrderByPipe } from '../pipes/orderBy-pipe/order-by.pipe';
+import { NAVIGATOR } from './navigator';
 
 @Injectable()
 export class CourseService {
 
-	constructor(protected orderBy: OrderByPipe) { }
+	constructor(protected orderBy: OrderByPipe, @Inject(NAVIGATOR) protected navigator: Navigator) {
+		console.log(navigator.userAgent );
+	}
 
 	protected courses: Course[] = [
 		{
