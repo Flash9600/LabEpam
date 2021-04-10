@@ -7,9 +7,7 @@ import { NAVIGATOR } from './navigator';
 @Injectable()
 export class CourseService {
 
-	constructor(protected orderBy: OrderByPipe, @Inject(NAVIGATOR) protected navigator: Navigator) {
-		console.log(navigator.userAgent );
-	}
+	constructor(protected orderBy: OrderByPipe) {}
 
 	protected courses: Course[] = [
 		{
@@ -43,7 +41,7 @@ export class CourseService {
 		}
 	];
 
-	get corseLength(): number {
+	get coursesLength(): number {
 		return this.courses.length;
 	}
 

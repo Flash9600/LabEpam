@@ -15,7 +15,7 @@ describe('DateColorDirective', () => {
 		expect(result).toBeTrue();
 	});
 	it('should return true', () => {
-		const result = directive.isUpcomingCourse(new Date().getTime() - 1);
+		const result = directive.isUpcomingCourse(new Date().getTime() - 1000);
 		expect(result).toBeFalse();
 	});
 	it('should return true', () => {

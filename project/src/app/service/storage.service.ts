@@ -11,6 +11,7 @@ const BROWSER_STORAGE = new InjectionToken<Storage>('Storage',
 })
 export class StorageService {
 	constructor(@Inject(BROWSER_STORAGE) protected storage: Storage){}
+
 	public setValue<T>(name: string, value: T): void{
 		this.storage.setItem(name, JSON.stringify(value));
 	}
