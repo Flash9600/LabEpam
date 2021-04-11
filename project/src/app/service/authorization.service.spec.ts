@@ -1,3 +1,4 @@
+// tslint:disable:no-any
 import { AuthorizationService } from './authorization.service';
 import { StorageService } from './storage.service';
 
@@ -6,9 +7,7 @@ describe('AuthorizationService', () => {
 
 	let service: AuthorizationService;
 	let serviceSpy: AuthorizationService;
-	// tslint:disable-next-line:no-any
 	let storageServiceFake: any;
-	// tslint:disable-next-line:no-any
 	let storageServiceSpy: any;
 	let email = 'user@mail.com';
 	const password = 'password123';
@@ -17,7 +16,7 @@ describe('AuthorizationService', () => {
 		setValue: () => undefined,
 		deleteValue: () => undefined
 	};
-	storageServiceSpy = {...storageServiceFake};
+	storageServiceSpy = { ...storageServiceFake };
 	beforeEach(() => {
 		service = new AuthorizationService(storageServiceFake as StorageService);
 		spyOn(storageServiceSpy, 'getValue');
@@ -41,14 +40,14 @@ describe('AuthorizationService', () => {
 
 	describe('getUserInfo method', () => {
 
-		it('getUserInfo method should return "flagTrue" when IsAuthenticated = true', () => {
-			storageServiceSpy.getValue.and.returnValue({email: 'flagTrue'});
-			expect(serviceSpy.getUserInfo()).toBe('flagTrue');
-		});
-
 		it('getUserInfo method should return empty string when IsAuthenticated = false', () => {
 			storageServiceSpy.getValue.and.returnValue(undefined);
 			expect(serviceSpy.getUserInfo()).toBe('');
+		});
+
+		it('getUserInfo method should return "flagTrue" when IsAuthenticated = true', () => {
+			storageServiceSpy.getValue.and.returnValue({ email: 'flagTrue' });
+			expect(serviceSpy.getUserInfo()).toBe('flagTrue');
 		});
 
 	});
@@ -79,14 +78,12 @@ describe('AuthorizationService', () => {
 
 	describe('isValidData method', () => {
 		it('isValidData method should return true when function arguments are valid', () => {
-			// tslint:disable-next-line:no-any
 			const result = (service as any).isValidData(email, password);
 			expect(result).toBeTrue;
 		});
 
 		it('isValidData method should return false when function arguments are invalid', () => {
 			email = 'user';
-			// tslint:disable-next-line:no-any
 			const result = (service as any).isValidData(email, password);
 			expect(result).toBeFalse;
 		});

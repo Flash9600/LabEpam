@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { StorageService } from './storage.service';
-import { UserLogInterface } from './../interfaces/userLog.interface';
+import { User } from './../interfaces/userLog.interface';
 
 @Injectable()
 export class AuthorizationService {
@@ -11,16 +11,16 @@ export class AuthorizationService {
 	protected userName = 'user';
 
 	public get IsAuthenticated(): boolean {
-		return !!this.storageService.getValue<UserLogInterface | undefined>(this.userName);
+		return !!this.storageService.getValue<User | undefined>(this.userName);
 	}
 
 	public logIn(email: string, password: string): boolean {
 		if (this.isValidData(email, password)) {
-			const userData: UserLogInterface = {
+			const userData: User = {
 				email,
 				password
 			};
-			this.storageService.setValue<UserLogInterface>(this.userName, userData);
+			this.storageService.setValue<User>(this.userName, userData);
 			return false;
 		}
 		return true;
@@ -32,7 +32,7 @@ export class AuthorizationService {
 
 	public getUserInfo(): string {
 		if (this.IsAuthenticated) {
-			return this.storageService.getValue<UserLogInterface>(this.userName).email;
+			return this.storageService.getValue<User>(this.userName).email;
 		}
 		return '';
 	}

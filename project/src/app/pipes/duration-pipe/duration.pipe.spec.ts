@@ -5,18 +5,16 @@ describe('DurationPipe', () => {
 	beforeEach (() => {
 		pipe = new DurationPipe();
 	});
-	it('create an instance', () => {
-		expect(pipe).toBeTruthy();
-	});
-	it('should return duration', () => {
+
+	it('transform should return duration in format "1h"', () => {
 
 		expect(pipe.transform(60)).toBe('1h');
 	});
-	it('should return duration', () => {
+	it('transform should return duration in format "1m"', () => {
 
 		expect(pipe.transform(59)).toBe('59m');
 	});
-	it('should return duration', () => {
+	it('transform should return duration in format "1h: 1m"', () => {
 
 		expect(pipe.transform(61)).toBe('1h 1m');
 	});

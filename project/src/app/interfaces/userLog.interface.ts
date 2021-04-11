@@ -1,4 +1,4 @@
-export interface UserLogInterface {
+export interface User {
 	email: string;
 	password: string;
 }
