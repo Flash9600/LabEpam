@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { StorageService } from './storage.service';
-import { User } from './../interfaces/userLog.interface';
+import { StorageService } from 'src/app/service/local-storage-service/storage.service';
+import { User } from '../../../interfaces/userLog.interface';
 
 @Injectable()
 export class AuthorizationService {

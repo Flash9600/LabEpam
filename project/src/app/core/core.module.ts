@@ -6,8 +6,8 @@ import { SearchComponent } from './search/search.component';
 import { CourseListComponent } from './course-list/course-list.component';
 import { CourseItemComponent } from './course-list/course-item/course-item.component';
 import { AddCourseComponent } from './search/add-course/add-course.component';
-import { DateColorDirective } from '../directives/date-color-directive/date-color.directive';
-import { DurationPipe } from '../pipes/duration-pipe/duration.pipe';
+import { DateColorDirective } from './date-color-directive/date-color.directive';
+import { DurationPipe } from './pipes/duration-pipe/duration.pipe';
 import { ConfirmationComponent } from './course-list/course-item/confirmation/confirmation.component';
 
 

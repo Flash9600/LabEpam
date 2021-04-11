@@ -1,8 +1,7 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { Course } from '../interfaces/course.interface';
-import { OrderByPipe } from '../pipes/orderBy-pipe/order-by.pipe';
-import { NAVIGATOR } from './navigator';
+import { Course } from 'src/app/interfaces/course.interface';
+import { OrderByPipe } from 'src/app/pipes/orderBy-pipe/order-by.pipe';
 
 @Injectable()
 export class CourseService {

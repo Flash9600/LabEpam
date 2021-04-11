@@ -1,6 +1,6 @@
 // tslint:disable:no-any
-import { Course } from './../interfaces/course.interface';
-import { OrderByPipe } from '../pipes/orderBy-pipe/order-by.pipe';
+import { Course } from '../../interfaces/course.interface';
+import { OrderByPipe } from '../../pipes/orderBy-pipe/order-by.pipe';
 import { CourseService } from './course.service';
 
 

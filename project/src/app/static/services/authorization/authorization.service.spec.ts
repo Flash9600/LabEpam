@@ -1,7 +1,6 @@
 // tslint:disable:no-any
+import { StorageService } from 'src/app/service/local-storage-service/storage.service';
 import { AuthorizationService } from './authorization.service';
-import { StorageService } from './storage.service';
-
 
 describe('AuthorizationService', () => {
 
