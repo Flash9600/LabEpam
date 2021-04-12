@@ -28,10 +28,10 @@ describe('AuthorizationService', () => {
 			serviceSpy.IsAuthenticated;
 			expect(storageServiceSpy.getValue).toHaveBeenCalledWith('user');
 		});
-		it('IsAuthenticated method should return false', () => {
+		it('IsAuthenticated method should return false, if storageService.getValue return undefined', () => {
 			expect(service.IsAuthenticated).toBeFalse;
 		});
-		it('IsAuthenticated method should return true', () => {
+		it('IsAuthenticated method should return true, if storageService.getValue return user', () => {
 			storageServiceFake.getValue = () => 'userName';
 			expect(service.IsAuthenticated).toBeTrue;
 		});
