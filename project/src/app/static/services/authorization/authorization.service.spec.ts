@@ -46,7 +46,7 @@ describe('AuthorizationService', () => {
 
 		it('getUserInfo method should return "flagTrue" when IsAuthenticated = true', () => {
 			storageServiceSpy.getValue.and.returnValue({ email: 'flagTrue' });
-			expect(serviceSpy.getUserInfo()).toBe('flagTrue');
+			expect(serviceSpy.getUserInfo()).toContain('flagTrue');
 		});
 
 	});

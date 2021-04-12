@@ -8,24 +8,26 @@ describe('DateColorDirective', () => {
 	});
 
 	describe('isUpcomingCourse', () => {
-		it('isUpcomingCourse should return true, when incoming date of milliseconds >= currentDate', () => {
+		it('should return true, if incoming date of milliseconds >= currentDate', () => {
 			const result = directive.isUpcomingCourse(new Date(9999, 0, 0).getTime());
 			expect(result).toBeTrue();
 		});
 
-		it('isUpcomingCourse should return false, when incoming date of milliseconds < currentDate', () => {
+		it('should return false, if incoming date of milliseconds < currentDate', () => {
 			const result = directive.isUpcomingCourse(new Date().getTime() - 1000);
 			expect(result).toBeFalse();
 		});
 	});
 
 	describe('isFreshCourse', () => {
-		it('isFreshCourse should return true, when incoming date of milliseconds not less than or equal 14 days then currentDate', () => {
-			const result = directive.isFreshCourse(new Date().getTime() - 10 ** 3);
+		let result: boolean;
+
+		it('should return true, if incoming date of milliseconds not less than or equal 14 days then currentDate', () => {
+			result = directive.isFreshCourse(new Date().getTime() - 10 ** 3);
 			expect(result).toBeTrue();
 		});
-		it('isFreshCourse should return false, when incoming date of milliseconds less than 14 days then currentDate', () => {
-			const result = directive.isFreshCourse(new Date(2020, 0, 1).getTime());
+		it('should return false, if incoming date of milliseconds less than 14 days then currentDate', () => {
+			result = directive.isFreshCourse(new Date(2020, 0, 1).getTime());
 			expect(result).toBeFalse();
 		});
 	});
@@ -40,13 +42,13 @@ describe('DateColorDirective', () => {
 				description: 'about course',
 				topRated: true
 			};
-		})
-		it('ngOnChanges should return true, when incoming date of milliseconds not less than or equal 14 days then currentDate', () => {
+		});
+		it('should change elementClass to "course-item_upcoming", if course date of milliseconds >= currentDate', () => {
 			directive.isUpcomingCourse = () => true;
 			directive.ngOnChanges();
 			expect(directive.elementClass).toEqual('course-item_upcoming');
 		});
-		it('ngOnChanges should return false, when incoming date of milliseconds less than 14 days then currentDate', () => {
+	 it('should change elementClass to "course-item_fresh", if date of milliseconds not less than or equal 14 days then currentDate', () => {
 			directive.isUpcomingCourse = () => false;
 			directive.isFreshCourse = () => true;
 			directive.ngOnChanges();

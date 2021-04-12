@@ -1,6 +1,7 @@
 import { Directive, HostBinding, Input, OnChanges } from '@angular/core';
 
-import { Course } from '../../interfaces/course.interface';
+import { Course } from 'src/app/interfaces/course.interface';
+
 
 @Directive({
 	selector: '[appDateColor]'
