@@ -1,7 +1,7 @@
 import {  Component, Input } from '@angular/core';
 
 import { CourseService } from 'src/app/service/course-service/course.service';
-import { Course } from '../../interfaces/course.interface';
+import { ICourse } from '../../interfaces/course.interface';
 
 
 @Component({
@@ -11,7 +11,7 @@ import { Course } from '../../interfaces/course.interface';
 })
 export class CourseListComponent {
 
-	public courses: Course[];
+	public courses: ICourse[];
 	constructor( public courseService: CourseService) {}
 
 	@Input() public sortWay: string;
@@ -20,7 +20,7 @@ export class CourseListComponent {
 		this.courseService.deleteCourse(id);
 	}
 
-	get courseList(): Course[] {
+	get courseList(): ICourse[] {
 		return this.courseService.getCourseList(this.sortWay);
 	}
 }
