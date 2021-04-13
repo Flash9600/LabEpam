@@ -40,10 +40,6 @@ export class CourseService {
 		}
 	];
 
-	get coursesLength(): number {
-		return this.courses.length;
-	}
-
 	public getCourseList(way: string = 'date'): ICourse[] {
 		return this.orderBy.transform<ICourse>(this.courses, way);
 	}

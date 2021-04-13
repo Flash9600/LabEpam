@@ -14,5 +14,5 @@
     <button>Edit</button>
     <button (click)="confirmDeletion()">Delete</button>
   </div>
-  <app-confirmation *ngIf='isOpenConfirmation' (confirmDeletionEvent)="onDeleteCourse()"></app-confirmation>
+  <app-confirmation *ngIf='isOpenConfirmation' (confirmDeletion)="onDeleteCourse()"></app-confirmation>
 </div>

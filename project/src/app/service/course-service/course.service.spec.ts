@@ -1,4 +1,5 @@
 // tslint:disable:no-any
+import { Mock } from 'protractor/built/driverProviders';
 import { Course } from '../../interfaces/course.interface';
 import { OrderByPipe } from '../../pipes/orderBy-pipe/order-by.pipe';
 import { CourseService } from './course.service';

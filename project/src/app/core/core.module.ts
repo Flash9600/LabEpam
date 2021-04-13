@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { SearchComponent } from './search/search.component';
-import { CourseListComponent } from './course-list/course-list.component';
-import { CourseItemComponent } from './course-list/course-item/course-item.component';
+import { CourseListComponent } from './custom-course-list/course-list/course-list.component';
+import { CourseItemComponent } from './custom-course-list/course-list/course-item/course-item.component';
 import { AddCourseComponent } from './search/add-course/add-course.component';
 import { DurationPipe } from './pipes/duration-pipe/duration.pipe';
-import { ConfirmationComponent } from './course-list/course-item/confirmation/confirmation.component';
+import { ConfirmationComponent } from './custom-course-list/course-list/course-item/confirmation/confirmation.component';
 import { DateColorDirective } from './date-color-directive/date-color.directive';
+import { CustomCourseListComponent } from './custom-course-list/custom-course-list.component';
 
 
 
@@ -20,7 +21,8 @@ import { DateColorDirective } from './date-color-directive/date-color.directive'
 		AddCourseComponent,
 		DateColorDirective,
 		DurationPipe,
-		ConfirmationComponent
+		ConfirmationComponent,
+		CustomCourseListComponent
 		],
 	imports: [
 		CommonModule,
@@ -33,7 +35,8 @@ import { DateColorDirective } from './date-color-directive/date-color.directive'
 		AddCourseComponent,
 		DateColorDirective,
 		DurationPipe,
-		ConfirmationComponent
+		ConfirmationComponent,
+		CustomCourseListComponent
 		]
 })
 export class CoreModule {
