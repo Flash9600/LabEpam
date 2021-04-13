@@ -1,9 +1,6 @@
 <div *ngIf="courseList.length">
   <app-course-item *ngFor="let course of courseList" [course]="course" (deleteCourse)="onCourseItem($event)"
     appDateColor>
-    <span class="material-icons" *ngIf="course.topRated">
-      star_border
-    </span>
   </app-course-item>
   <button>LOAD MORE</button>
 </div>
