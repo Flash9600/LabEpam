@@ -1,5 +1,5 @@
 // tslint:disable:no-any
-import { Course } from '../../interfaces/course.interface';
+import { ICourse } from '../../interfaces/course.interface';
 import { OrderByPipe } from '../../pipes/orderBy-pipe/order-by.pipe';
 import { CourseService } from './course.service';
 
@@ -12,12 +12,12 @@ describe('CourseService', () => {
 	};
 	let coursesLength: number;
 	const id = 1;
-	let findCourse: (idCourse: number) => Course | undefined;
+	let findCourse: (idCourse: number) => ICourse | undefined;
 	beforeEach(() => {
 		service = new CourseService(OrderByFake as OrderByPipe);
 		coursesLength = (service as any).courses.length;
 		findCourse = (idCourse: number) => {
-			return (service as any).courses.find((course: Course) => {
+			return (service as any).courses.find((course: ICourse) => {
 				return course.id === idCourse;
 			});
 		};
@@ -44,12 +44,12 @@ describe('CourseService', () => {
 	});
 
 	it('getItemById should find course by id from courses array and return it', () => {
-		const courseById: Course = service.getItemById(id);
+		const courseById: ICourse = service.getItemById(id);
 		expect(courseById.id).toEqual(id);
 	});
 
 	it('updateCourse should change course by id of courses array', () => {
-		const newCourse: Course = {
+		const newCourse: ICourse = {
 			id,
 			title: 'any',
 			duration: 1,
@@ -58,7 +58,7 @@ describe('CourseService', () => {
 			topRated: true
 		};
 		service.updateCourse(newCourse);
-		const [newCourseFromArr] = (service as any).courses.filter((item: Course) => item.id === id);
+		const [newCourseFromArr] = (service as any).courses.filter((item: ICourse) => item.id === id);
 		expect(newCourseFromArr === newCourse).toBeTrue;
 	});
 });
