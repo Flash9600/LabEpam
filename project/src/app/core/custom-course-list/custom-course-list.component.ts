@@ -1,5 +1,5 @@
 import { ICourse } from './../../interfaces/course.interface';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CourseService } from 'src/app/service/course-service/course.service';
 
 @Component({
@@ -12,6 +12,7 @@ export class CustomCourseListComponent {
 	constructor(public courseService: CourseService) { }
 
 	@Input() public sortWay: string;
+	 public courses: ICourse[];
 
 	onCourseList(id: number): void {
 		this.courseService.deleteCourse(id);

@@ -5,23 +5,19 @@ import { AuthorizationService } from './services/authorization/authorization.ser
 import { HeaderComponent } from './header/header.component';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { FooterComponent } from './footer/footer.component';
-import { UserLoginComponent } from './user-login/user-login.component';
-import { ErrorMessageComponent } from './user-login/error-message/error-message.component';
+import { UserLoginComponent } from '../core/user-login/user-login.component';
+import { ErrorMessageComponent } from '../core/user-login/error-message/error-message.component';
 
 
 
 @NgModule({
-	entryComponents: [UserLoginComponent],
 	declarations: [HeaderComponent,
 		FooterComponent,
 		BreadcrumbsComponent,
-		UserLoginComponent,
-		ErrorMessageComponent
 	],
 	imports: [
 		CommonModule
 	],
-	providers: [AuthorizationService],
 	exports: [HeaderComponent, BreadcrumbsComponent, FooterComponent]
 })
 export class StaticModule { }

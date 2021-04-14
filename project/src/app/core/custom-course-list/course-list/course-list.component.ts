@@ -9,8 +9,7 @@ import { ICourse } from '../../../interfaces/course.interface';
 	styleUrls: ['./course-list.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CourseListComponent {
-
+export class CourseListComponent{
 
 	@Input() public courseList: ICourse[];
 
@@ -19,4 +18,5 @@ export class CourseListComponent {
 	onCourseItem(id: number): void {
 		this.courseListEvent.emit(id);
 	}
+
 }

@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 
-import { AuthorizationService } from '../services/authorization/authorization.service';
+import { AuthorizationService } from '../../static/services/authorization/authorization.service';
 
 @Component({
 	selector: 'app-user-login',
