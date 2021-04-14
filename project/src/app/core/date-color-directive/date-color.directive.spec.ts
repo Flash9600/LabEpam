@@ -2,19 +2,22 @@ import { DateColorDirective } from './date-color.directive';
 
 describe('DateColorDirective', () => {
 	let directive: DateColorDirective;
-
+	const subtrahendForDate = 1000;
+	const oldDate = new Date().getTime() - subtrahendForDate;
+	const futureYear = 9999;
+	const oldYear = 2020;
 	beforeEach(() => {
 		directive = new DateColorDirective();
 	});
 
 	describe('isUpcomingCourse', () => {
 		it('should return true, if incoming date of milliseconds >= currentDate', () => {
-			const result = directive.isUpcomingCourse(new Date(9999, 0, 0).getTime());
+			const result = directive.isUpcomingCourse(new Date(futureYear, 0, 0).getTime());
 			expect(result).toBeTrue();
 		});
 
 		it('should return false, if incoming date of milliseconds < currentDate', () => {
-			const result = directive.isUpcomingCourse(new Date().getTime() - 1000);
+			const result = directive.isUpcomingCourse(oldDate);
 			expect(result).toBeFalse();
 		});
 	});
@@ -23,11 +26,11 @@ describe('DateColorDirective', () => {
 		let result: boolean;
 
 		it('should return true, if incoming date of milliseconds not less than or equal 14 days then currentDate', () => {
-			result = directive.isFreshCourse(new Date().getTime() - 10 ** 3);
+			result = directive.isFreshCourse(oldDate);
 			expect(result).toBeTrue();
 		});
 		it('should return false, if incoming date of milliseconds less than 14 days then currentDate', () => {
-			result = directive.isFreshCourse(new Date(2020, 0, 1).getTime());
+			result = directive.isFreshCourse(new Date(oldYear, 0, 0).getTime());
 			expect(result).toBeFalse();
 		});
 	});
