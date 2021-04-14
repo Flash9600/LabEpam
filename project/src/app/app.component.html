@@ -2,10 +2,10 @@
 <section class="page-wrapper" *ngIf="this.authorizationService.IsAuthenticated">
   <app-breadcrumbs></app-breadcrumbs>
   <div class="content">
-    <app-search (sortWay)="sortWay = $event"></app-search>
+    <app-search></app-search>
     <app-custom-course-list [sortWay]="sortWay"></app-custom-course-list>
   </div>
 </section>
+<app-add-course-page *ngIf="isShowAddCoursePage"></app-add-course-page>
 <ng-template #userLogin ></ng-template>
-
 <app-footer></app-footer>

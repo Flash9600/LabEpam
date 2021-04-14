@@ -1,6 +1,8 @@
-import { ICourse } from './../../interfaces/course.interface';
 import { Component, Input } from '@angular/core';
+
+import { ICourse } from './../../interfaces/course.interface';
 import { CourseService } from 'src/app/service/course-service/course.service';
+import { StateService } from 'src/app/service/state/state.service';
 
 @Component({
 	selector: 'app-custom-course-list',
@@ -9,7 +11,7 @@ import { CourseService } from 'src/app/service/course-service/course.service';
 })
 export class CustomCourseListComponent {
 
-	constructor(public courseService: CourseService) { }
+	constructor(public courseService: CourseService, protected stateService: StateService) { }
 
 	@Input() public sortWay: string;
 	 public courses: ICourse[];
@@ -21,5 +23,4 @@ export class CustomCourseListComponent {
 	get courseList(): ICourse[] {
 		return this.courseService.getCourseList(this.sortWay);
 	}
-
 }

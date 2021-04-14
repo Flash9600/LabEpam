@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { SearchComponent } from './search/search.component';
 import { CourseListComponent } from './custom-course-list/course-list/course-list.component';
 import { CourseItemComponent } from './custom-course-list/course-list/course-item/course-item.component';
-import { AddCourseComponent } from './search/add-course/add-course.component';
 import { DurationPipe } from './pipes/duration-pipe/duration.pipe';
 import { ConfirmationComponent } from './custom-course-list/course-list/course-item/confirmation/confirmation.component';
 import { DateColorDirective } from './date-color-directive/date-color.directive';
@@ -16,7 +15,7 @@ import { DurationInputComponent } from './add-course-page/duration-input/duratio
 import { AuthorsInputComponent } from './add-course-page/authors-input/authors-input.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { ErrorMessageComponent } from './user-login/error-message/error-message.component';
-import { AuthorizationService } from '../static/services/authorization/authorization.service';
+import { AuthorizationService } from './services/authorization/authorization.service';
 
 
 
@@ -26,7 +25,6 @@ import { AuthorizationService } from '../static/services/authorization/authoriza
 		SearchComponent,
 		CourseListComponent,
 		CourseItemComponent,
-		AddCourseComponent,
 		DateColorDirective,
 		DurationPipe,
 		ConfirmationComponent,
@@ -47,7 +45,6 @@ import { AuthorizationService } from '../static/services/authorization/authoriza
 		SearchComponent,
 		CourseListComponent,
 		CourseItemComponent,
-		AddCourseComponent,
 		DateColorDirective,
 		DurationPipe,
 		ConfirmationComponent,

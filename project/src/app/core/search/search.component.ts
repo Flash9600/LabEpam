@@ -1,18 +1,22 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 
+import { SearchEvent } from './../../interfaces/searchEvent.interface';
+import { StateService } from 'src/app/service/state/state.service';
+
 @Component({
 	selector: 'app-search',
 	templateUrl: './search.component.html',
 	styleUrls: ['./search.component.scss']
 })
 export class SearchComponent {
-	public value: string;
-	public toggleSort = true;
-	@Output() sortWay = new EventEmitter<string>();
 
-	sendSortWay(): void {
-		this.sortWay.emit(this.toggleSort ? 'title' : 'date');
-		this.toggleSort = !this.toggleSort;
+	constructor(protected stateService: StateService) {}
+
+	switchSortWay(): void {
+		this.stateService.changeSortWayOfCoursesList();
 	}
 
+	switchAddCoursePage(): void {
+		this.stateService.switchAddCoursePage();
+	}
 }

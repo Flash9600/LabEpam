@@ -42,7 +42,7 @@ export class CourseService {
 
 	public getCourseList(way: string = 'date'): ICourse[] {
 		const newCourses = this.orderBy.transform<ICourse>(this.courses, way);
-		return newCourses;
+		return [...newCourses];
 	}
 
 	public createCourse(): void {

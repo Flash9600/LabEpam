@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {CoreModule} from './core/core.module';
 import { CourseService } from './service/course-service/course.service';
+import { StorageService } from './service/local-storage-service/storage.service';
 
 @NgModule({
 	declarations: [
@@ -21,7 +22,7 @@ import { CourseService } from './service/course-service/course.service';
 		FormsModule,
 
 	],
-	providers: [OrderByPipe, CourseService],
+	providers: [OrderByPipe, CourseService, StorageService],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }
