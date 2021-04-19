@@ -40,7 +40,7 @@ describe('DateColorDirective', () => {
 				duration: 1,
 				date: new Date(),
 				description: 'about course',
-				topRated: true
+				isTopRated: true
 			};
 		});
 		it('should change elementClass to "course-item_upcoming", if course date of milliseconds >= currentDate', () => {

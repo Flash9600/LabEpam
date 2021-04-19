@@ -24,12 +24,8 @@ describe('CourseService', () => {
 		};
 	});
 
-	it('corseLength should return length of course array', () => {
-		expect(service.coursesLength).toBeGreaterThan(0);
-	});
-
-	it('getCourseList should return sort array', () => {
-		expect(service.getCourseList()).toBe((service as any).courses);
+	it('getCourseList should return new sort array', () => {
+		expect(service.getCourseList()).toEqual((service as any).courses);
 	});
 
 	it('createCourse should push new course to courses array', () => {
@@ -56,7 +52,7 @@ describe('CourseService', () => {
 			duration: 1,
 			date: new Date(),
 			description: 'about course',
-			topRated: true
+			isTopRated: true
 		};
 		service.updateCourse(newCourse);
 		const [newCourseFromArr] = (service as any).courses.filter((item: Course) => item.id === id);
