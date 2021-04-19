@@ -6,11 +6,10 @@ import {
 	ViewChild,
 	ViewContainerRef
 } from '@angular/core';
+import { UserLoginComponent } from './core-module/components/user-login/user-login.component';
 
-import { SearchEvent } from './interfaces/searchEvent.interface';
-import { AuthorizationService } from './core/services/authorization/authorization.service';
-import { UserLoginComponent } from './core/user-login/user-login.component';
-import { StateService } from './service/state/state.service';
+import { AuthorizationService } from './core-module/services/authorization/authorization.service';
+import { StateService } from './services/state/state.service';
 
 @Component({
 	selector: 'app-root',
@@ -47,8 +46,6 @@ export class AppComponent {
 	}
 
 	get sortWay(): string {
-		console.log('this.stateService.sortWay;');
-
 		return this.stateService.sortWay;
 	}
 }

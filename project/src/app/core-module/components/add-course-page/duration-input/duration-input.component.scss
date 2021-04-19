@@ -1,0 +1,15 @@
+:host{
+    display: flex;
+    justify-content: space-between;
+    width: 25%;
+    min-width: 100px;
+    align-items: center;
+    input{
+        width: 70%;
+    }
+    span{
+        padding: 2px;
+        border-radius: 25px;
+        background: #e9ec5cb6;
+    }
+}

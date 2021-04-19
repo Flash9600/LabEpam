@@ -38,17 +38,15 @@ button {
 }
 
 body {
-  height: 100vh;
   font-family: 'Roboto', sans-serif;
-  background: linear-gradient(90deg, rgba(172,240,240,1) 16%, rgba(0,255,255,1) 88%);
 }
 
 .pop-up{
-  width:100%;
-  min-height:100%;
+  width: 100%;
+  min-height: 100%;
   background-color: rgba(0, 0, 0, 0.61);
-  overflow:hidden;
-  position:fixed;
+  overflow: hidden;
+  position: fixed;
   top:0;
   left:0;
   z-index: 1;
@@ -71,30 +69,14 @@ body {
     }
 }
 
-.close {
-  cursor: pointer;
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  width: 32px;
-  height: 32px;
-  opacity: 0.3;
-  }
-  .close:hover {
-  opacity: 1;
-  transform: scale(1.05);
-  }
-  .close:before, .close:after {
-  position: absolute;
-  left: 15px;
-  content: ' ';
-  height: 33px;
-  width: 2px;
-  background-color: #333;
-  }
-  .close:before {
-  transform: rotate(45deg);
-  }
-  .close:after {
-  transform: rotate(-45deg);
-  }
+input, textarea{
+  min-height: 25px;
+  border-radius: 5px;
+  background: #bff1f1 ;
+  border: 2px solid #00bcd2;
+  outline: #01818f;
+  font-size: 1.05rem;
+  &:invalid {
+    border-color: #d20e00;
+ }
+}
