@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class OrderByPipe implements PipeTransform {
 
-	transform<T extends {date?: Date, title?: string}>(coursesArr: T[], property: string): T[] {
+	transform<T>(coursesArr: T[], property: string): T[] {
 
 		return coursesArr.sort((a: T, b: T) => {
 			const valueA = a[property];

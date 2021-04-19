@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 
-import { Course } from '../interfaces/course.interface';
-import { OrderByPipe } from '../pipes/orderBy-pipe/order-by.pipe';
+import { ICourse } from 'src/app/interfaces/course.interface';
+import { OrderByPipe } from 'src/app/pipes/orderBy-pipe/order-by.pipe';
 
 @Injectable()
 export class CourseService {
 
-	constructor(protected orderBy: OrderByPipe) { }
+	constructor(protected orderBy: OrderByPipe) {}
 
-	protected courses: Course[] = [
+	protected courses: ICourse[] = [
 		{
 			id: 1,
 			title: 'intro',
@@ -40,16 +40,16 @@ export class CourseService {
 		}
 	];
 
-	get corseLength(): number {
+	get coursesLength(): number {
 		return this.courses.length;
 	}
 
-	public getCourseList(way: string = 'date'): Course[] {
-		return this.orderBy.transform<Course>(this.courses, way);
+	public getCourseList(way: string = 'date'): ICourse[] {
+		return this.orderBy.transform<ICourse>(this.courses, way);
 	}
 
 	public createCourse(): void {
-		const newCourse: Course = {
+		const newCourse: ICourse = {
 			id: this.courses.length++,
 			title: 'new course',
 			duration: Math.floor(Math.random() * 300),
@@ -62,7 +62,7 @@ export class CourseService {
 	}
 
 
-	public getItemById(id: number): Course {
+	public getItemById(id: number): ICourse {
 		return this.courses.find((course) => {
 			return course.id === id;
 		});
@@ -72,7 +72,7 @@ export class CourseService {
 		this.courses = this.courses.filter(item => item.id !== id);
 	}
 
-	public updateCourse(newCourse: Course): void {
+	public updateCourse(newCourse: ICourse): void {
 		this.deleteCourse(newCourse.id);
 		this.courses.push(newCourse);
 	}

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, HostListener, Input, OnDestroy, Output } from '@angular/core';
 
-import { Course } from '../../../interfaces/course.interface';
+import { ICourse } from '../../../interfaces/course.interface';
 
 @Component({
 	selector: 'app-course-item',
@@ -11,7 +11,7 @@ export class CourseItemComponent {
 
 	public isOpenConfirmation = false;
 
-	@Input() course: Course;
+	@Input() course: ICourse;
 
 	@Output() deleteCourse = new EventEmitter<number>();
 

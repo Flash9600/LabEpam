@@ -1,6 +1,7 @@
 import { Directive, HostBinding, Input, OnChanges } from '@angular/core';
 
-import { Course } from '../../interfaces/course.interface';
+import { ICourse } from 'src/app/interfaces/course.interface';
+
 
 @Directive({
 	selector: '[appDateColor]'
@@ -8,7 +9,7 @@ import { Course } from '../../interfaces/course.interface';
 export class DateColorDirective implements OnChanges{
 	private currentDate: number = new Date().getTime();
 
-	@Input() course: Course;
+	@Input() course: ICourse;
 
 	@HostBinding('class') elementClass: string;
 

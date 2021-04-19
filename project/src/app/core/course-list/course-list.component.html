@@ -1,4 +1,4 @@
-<div *ngIf='courseService.corseLength'>
+<div *ngIf='courseService.coursesLength'>
   <app-course-item *ngFor="let course of courseList" [course]="course" (deleteCourse)='deleteCourse($event)'
     appDateColor>
     <span class="material-icons" *ngIf='course.topRated'>
@@ -7,6 +7,6 @@
   </app-course-item>
   <button #loadMore (click)="showLogFromBtn(loadMore.innerText)">LOAD MORE</button>
 </div>
-<div class="message-nodata" *ngIf='!courseService.corseLength'>
+<div class="message-nodata" *ngIf='!courseService.coursesLength'>
   <span>NO DATA. FEEL FREE TO ADD NEW COURSE</span>
 </div>

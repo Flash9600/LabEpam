@@ -1,4 +1,4 @@
-export interface UserLogInterface {
+export interface IUser {
 	email: string;
 	password: string;
 }

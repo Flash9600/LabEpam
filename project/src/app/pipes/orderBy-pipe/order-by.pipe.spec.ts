@@ -1,22 +1,29 @@
 import { OrderByPipe } from './order-by.pipe';
 
+type SortObj = { value: string | number };
+
 describe('OrderByPipe', () => {
 
 	let pipe: OrderByPipe;
 
- const a = {value: 1};
- const b = {value: 2};
- const c = {value: 3};
+	let a: SortObj = { value: 1 };
+	let b: SortObj = { value: 2 };
+	let c: SortObj = { value: 3 };
 
 	beforeEach(() => {
-			pipe = new OrderByPipe();
-		});
-
-	it('create an instance', () => {
-		expect(pipe).toBeTruthy();
+		pipe = new OrderByPipe();
 	});
- it('should return sort array', () => {
-		expect(pipe.transform<{value: number, date?: Date, title?: string}>([c, b, a], 'value')
+
+	it('transform should return sort number array, if incoming number array is not sorted', () => {
+		expect(pipe.transform<SortObj>([c, b, a], 'value')
+		).toEqual([a, b, c]);
+	});
+
+	it('transform should return sort string array, if incoming string array is not sorted', () => {
+		a = { value: 'a' };
+		b = { value: 'd' };
+		c = { value: 'g' };
+		expect(pipe.transform<SortObj>([c, b, a], 'value')
 		).toEqual([a, b, c]);
 	});
 });

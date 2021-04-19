@@ -7,7 +7,7 @@ import {
 	ViewContainerRef
 } from '@angular/core';
 
-import { AuthorizationService } from './service/authorization.service';
+import { AuthorizationService } from './static/services/authorization/authorization.service';
 import { UserLoginComponent } from './static/user-login/user-login.component';
 
 @Component({
