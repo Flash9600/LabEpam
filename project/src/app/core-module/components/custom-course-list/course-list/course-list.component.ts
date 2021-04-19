@@ -1,6 +1,6 @@
 import {  ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { ICourse } from 'src/app/interfaces/course.interface';
+import { Course } from 'src/app/interfaces/course.interface';
 
 
 
@@ -12,7 +12,7 @@ import { ICourse } from 'src/app/interfaces/course.interface';
 })
 export class CourseListComponent{
 
-	@Input() public courseList: ICourse[];
+	@Input() public courseList: Course[];
 
 	@Output() courseListEvent =  new EventEmitter<number>();
 

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 
-import { ICourse } from 'src/app/interfaces/course.interface';
+import { Course } from 'src/app/interfaces/course.interface';
 
 
 @Component({
@@ -13,7 +13,7 @@ export class CourseItemComponent {
 
 	public isOpenConfirmation = false;
 
-	@Input() course: ICourse;
+	@Input() course: Course;
 
 	@Output() deleteCourse = new EventEmitter<number>();
 
