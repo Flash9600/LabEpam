@@ -13,11 +13,7 @@ export class StateService {
 		this.sortWay = this.sortWay === 'date' ? 'title' : 'date';
 	}
 
-	showAddCoursePage(): void {
-		this.isShowAddCoursePage = true;
-	}
-
-	hideAddCoursePage(): void{
-		this.isShowAddCoursePage = false;
+	toggleAddCoursePage(): void {
+		this.isShowAddCoursePage = !this.isShowAddCoursePage;
 	}
 }

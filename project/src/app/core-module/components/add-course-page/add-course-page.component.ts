@@ -1,5 +1,5 @@
 import { ICourse } from 'src/app/interfaces/course.interface';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
 import { StateService } from 'src/app/services/state/state.service';
 
@@ -31,7 +31,7 @@ export class AddCoursePageComponent implements OnInit{
 	}
 
 	hideAddCoursePage(): void{
-		this.stateService.hideAddCoursePage();
+		this.stateService.toggleAddCoursePage();
 		console.log(this.newCourse);
 	}
 }

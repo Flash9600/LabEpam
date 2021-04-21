@@ -9,16 +9,19 @@ describe('StateService', () => {
 		service = new StateService();
 	});
 
-	it('showAddCoursePage should change value of isShowAddCoursePage with true', () => {
-		service.isShowAddCoursePage = false;
-		service.showAddCoursePage();
-		expect(service.isShowAddCoursePage).toBeTrue;
-	});
+	describe('toggleAddCoursePage', () => {
 
-	it('hideAddCoursePage should change value of isShowAddCoursePage with false', () => {
-		service.isShowAddCoursePage = true;
-		service.hideAddCoursePage();
-		expect(service.isShowAddCoursePage).toBeFalse;
+		it('should change value of isShowAddCoursePage with true', () => {
+			service.isShowAddCoursePage = false;
+			service.toggleAddCoursePage();
+			expect(service.isShowAddCoursePage).toBeTrue;
+		});
+
+		it('should change value of isShowAddCoursePage with false', () => {
+			service.isShowAddCoursePage = true;
+			service.toggleAddCoursePage();
+			expect(service.isShowAddCoursePage).toBeFalse;
+		});
 	});
 
 	it('changeSortWayOfCoursesList should change value of sortWay with date', () => {
