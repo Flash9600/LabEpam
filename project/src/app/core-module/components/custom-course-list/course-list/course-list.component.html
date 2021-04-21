@@ -1,0 +1,9 @@
+<div *ngIf="courseList.length">
+  <app-course-item *ngFor="let course of courseList" [course]="course" (deleteCourse)="onCourseItem($event)"
+    appDateColor>
+  </app-course-item>
+  <button>LOAD MORE</button>
+</div>
+<div class="message-nodata" *ngIf="!courseList.length">
+  <span>NO DATA. FEEL FREE TO ADD NEW COURSE</span>
+</div>

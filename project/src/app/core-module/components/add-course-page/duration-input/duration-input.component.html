@@ -1,0 +1,3 @@
+<input #input placeholder="time in minutes" type="number" max="999" min="0" [(ngModel)]="sendInputValue">
+<span [innerText]="inputValue | duration" *ngIf="inputValue">
+</span>
