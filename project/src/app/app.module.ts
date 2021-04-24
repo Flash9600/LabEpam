@@ -1,3 +1,4 @@
+import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -12,15 +13,15 @@ import { StorageService } from './services/local-storage-service/storage.service
 
 @NgModule({
 	declarations: [
-		AppComponent
+		AppComponent,
 	],
 	imports: [
 		BrowserModule,
+		FormsModule,
 		AppRoutingModule,
+		RouterModule,
 		CoreModule,
 		StaticModule,
-		FormsModule,
-
 	],
 	providers: [OrderByPipe, CourseService, StorageService],
 	bootstrap: [AppComponent]

@@ -1,12 +1,19 @@
 import { Injectable } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
+import { StateService } from './../state/state.service';
 import { Course } from 'src/app/interfaces/course.interface';
 import { OrderByPipe } from 'src/app/pipes/orderBy-pipe/order-by.pipe';
 
 @Injectable()
 export class CourseService {
 
-	constructor(protected orderBy: OrderByPipe) {}
+	constructor(
+		protected orderBy: OrderByPipe,
+		protected stateService: StateService,
+		protected activatedRoute: ActivatedRoute,
+		protected router: Router
+		) {}
 
 	protected courses: Course[] = [
 		new Course({
@@ -17,14 +24,14 @@ export class CourseService {
 			description: 'about course',
 			isTopRated: true
 		}), new Course({
-			id: 3,
+			id: 2,
 			title: 'directives',
 			duration: 80,
 			date: new Date(2021, 3, 27),
 			description: 'about course',
 			isTopRated: true
 		}), new Course({
-			id: 2,
+			id: 3,
 			title: 'component',
 			duration: 65,
 			date: new Date(2021, 2, 22),
@@ -61,24 +68,37 @@ export class CourseService {
 		}),
 	];
 
-	public getCourseList(way: string = 'date'): Course[] {
-		const newCourses = this.orderBy.transform<Course>(this.courses, way);
+	public getCourseList(): Course[] {
+		const sortWay = this.stateService.sortWay;
+		const newCourses = this.orderBy.transform<Course>(this.courses, sortWay);
 		return [...newCourses];
 	}
 
-	public createCourse(): void {
-		const newCourse: Course = new Course({
-			id: this.courses.length++,
-			title: 'new course',
-			duration: Math.floor(Math.random() * 300),
-			date: new Date(),
-			description: 'about course',
-			isTopRated: false
-		});
+	public getNewCourse(id: string | undefined): Course{
+		let newCourse: Course;
 
-		this.courses.push(newCourse);
+		if (!isNaN(+id) && +id <= this.courses.length) {
+
+			newCourse = this.getItemById(+id);
+
+		} else {
+
+			newCourse = new Course({
+				id: this.courses.length + 1,
+				title: '',
+				date: new Date(),
+				duration: 0,
+				description: '',
+				isTopRated: false,
+			});
+
+			if (id !== undefined) {
+				this.router.navigate(['/courses']);
+			}
+		}
+
+		return newCourse;
 	}
-
 
 	public getItemById(id: number): Course {
 		return this.courses.find((course) => {

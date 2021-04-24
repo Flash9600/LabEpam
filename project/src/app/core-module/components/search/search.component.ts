@@ -15,12 +15,4 @@ export class SearchComponent {
 		this.stateService.changeSortWayOfCoursesList();
 	}
 
-	f(): void {
-console.log('search');
-
-	}
-
-	showAddCoursePage(): void {
-		this.stateService.toggleAddCoursePage();
-	}
 }

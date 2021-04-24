@@ -3,6 +3,7 @@ import {
 	ComponentFactory,
 	ComponentFactoryResolver,
 	ComponentRef,
+	OnInit,
 	ViewChild,
 	ViewContainerRef
 } from '@angular/core';
@@ -17,28 +18,15 @@ import { StateService } from './services/state/state.service';
 	styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-	public componentRef: ComponentRef<UserLoginComponent>;
-
-	@ViewChild('userLogin', { read: ViewContainerRef }) userLoginContainer: ViewContainerRef;
+	public isShowUserLogin: boolean;
 
 	constructor(
-		protected resolver: ComponentFactoryResolver,
 		public authorizationService: AuthorizationService,
 		public stateService: StateService
 	) { }
 
-	showUserLogin(): void {
+	logOut(): void {
 		this.authorizationService.logOut();
-		if (!this.componentRef) {
-			this.createUserLoginComponent();
-		} else {
-			this.componentRef.instance.isShowUserLogin = true;
-		}
-	}
-
-	createUserLoginComponent(): void {
-		const factory: ComponentFactory<UserLoginComponent> = this.resolver.resolveComponentFactory(UserLoginComponent);
-		this.componentRef = this.userLoginContainer.createComponent(factory);
 	}
 
 	get isShowAddCoursePage(): boolean {

@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class StateService {
 
-	public sortWay = 'title';
+	public sortWay = 'date';
 
 	public isShowAddCoursePage = false;
 
