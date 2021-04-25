@@ -1,9 +1,7 @@
 <app-header (showUserLogin)="logOut()" [userName]="authorizationService.getUserInfo()"></app-header>
-<main class="main_wrapper" *ngIf="authorizationService.IsAuthenticated">
-  <app-breadcrumbs></app-breadcrumbs>
-  <div class="main-content" *ngIf="!isShowAddCoursePage">
+<main class="main_wrapper">
+  <div class="main-content">
     <router-outlet></router-outlet>
   </div>
 </main>
-<app-user-login *ngIf="!this.authorizationService.IsAuthenticated"></app-user-login>
 <app-footer></app-footer>

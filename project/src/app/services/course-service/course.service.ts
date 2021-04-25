@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { StateService } from './../state/state.service';
 import { Course } from 'src/app/interfaces/course.interface';
@@ -11,9 +11,10 @@ export class CourseService {
 	constructor(
 		protected orderBy: OrderByPipe,
 		protected stateService: StateService,
-		protected activatedRoute: ActivatedRoute,
 		protected router: Router
 		) {}
+
+	protected breadcrumbsTitle: string;
 
 	protected courses: Course[] = [
 		new Course({
@@ -74,12 +75,16 @@ export class CourseService {
 		return [...newCourses];
 	}
 
+	public get breadcrumbs(): string {
+		return this.breadcrumbsTitle;
+	}
+
 	public getNewCourse(id: string | undefined): Course{
 		let newCourse: Course;
+		const numbId = +id;
+		if (!isNaN(numbId) && numbId <= this.courses.length) {
 
-		if (!isNaN(+id) && +id <= this.courses.length) {
-
-			newCourse = {...this.getItemById(+id)};
+			newCourse = {...this.getItemById(numbId)};
 
 		} else {
 
@@ -96,7 +101,7 @@ export class CourseService {
 				this.router.navigate(['/courses']);
 			}
 		}
-
+		this.breadcrumbsTitle = newCourse.title;
 		return newCourse;
 	}
 

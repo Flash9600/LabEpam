@@ -1,3 +1,4 @@
+<app-breadcrumbs></app-breadcrumbs>
 <app-search></app-search>
 <div *ngIf="courseList.length">
   <app-course-item *ngFor="let course of courseList" [course]="course" (deleteCourse)="onCourseItem($event)"

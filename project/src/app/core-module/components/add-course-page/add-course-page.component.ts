@@ -1,4 +1,4 @@
-import {Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { CourseService } from 'src/app/services/course-service/course.service';
@@ -25,15 +25,15 @@ export class AddCoursePageComponent implements OnInit{
 	ngOnInit(): void{
 		this.id = this.activatedRoute.snapshot.params.id;
 		this.newCourse = this.courseService.getNewCourse(this.id);
-		this.title = this.newCourse.title;
+		this.title = `Course ${this.newCourse.title || 'New'}`;
 	}
 
 	checkNewCourse(): void{
 		this.courseService.updateCourse(this.newCourse);
-		this.router.navigateByUrl('/courses');
+		this.moveToCoursesPage();
 	}
 
-	hideAddCoursePage(): void{
+	moveToCoursesPage(): void{
 		this.router.navigateByUrl('/courses');
 	}
 }

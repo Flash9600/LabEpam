@@ -1,5 +1,5 @@
+<app-breadcrumbs [title]="title"></app-breadcrumbs>
 <div class="content">
-    <h3 *ngIf="id">Course {{title}}</h3>
     <h4>Title:</h4>
     <input [(ngModel)]="newCourse.title" >
     <h4>Description:</h4>
@@ -12,6 +12,6 @@
     <app-authors-input (inputEvent)="authors" ngDefaultControl></app-authors-input>
     <div class="btn-wrapper">
         <button (click)="checkNewCourse()">Save</button>
-        <button (click)="hideAddCoursePage()">Cancel</button>
+        <button (click)="moveToCoursesPage()">Cancel</button>
     </div>
 </div>

@@ -1,6 +1,6 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component } from '@angular/core';
 
-import { AuthorizationService } from '../../services/authorization/authorization.service';
+import { AuthorizationService } from '../../../services/authorization/authorization.service';
 
 @Component({
 	selector: 'app-user-login',
@@ -10,20 +10,13 @@ import { AuthorizationService } from '../../services/authorization/authorization
 export class UserLoginComponent {
 
 	public isShowValidationError = false;
-	public isShowUserLogin = true;
+	public email: string;
+	public password: string;
 
 	constructor(public authorizationService: AuthorizationService) { }
 
-	@ViewChild('emailInput') emailElement: ElementRef;
-	@ViewChild('pasInput') passwordElement: ElementRef;
-
 	logIn(): void {
-		const email: string = this.emailElement.nativeElement.value;
-		const password: string = this.passwordElement.nativeElement.value;
-		this.isShowValidationError = this.authorizationService.logIn(email, password);
-		if (!this.isShowValidationError) {
-			this.isShowUserLogin = false;
-		}
+		this.isShowValidationError = this.authorizationService.logIn(this.email, this.password);
 	}
 
 	closeError(): void{

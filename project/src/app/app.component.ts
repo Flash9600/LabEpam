@@ -1,15 +1,7 @@
-import {
-	Component,
-	ComponentFactory,
-	ComponentFactoryResolver,
-	ComponentRef,
-	OnInit,
-	ViewChild,
-	ViewContainerRef
-} from '@angular/core';
-import { UserLoginComponent } from './core-module/components/user-login/user-login.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Component } from '@angular/core';
 
-import { AuthorizationService } from './core-module/services/authorization/authorization.service';
+import { AuthorizationService } from './services/authorization/authorization.service';
 import { StateService } from './services/state/state.service';
 
 @Component({
@@ -18,22 +10,9 @@ import { StateService } from './services/state/state.service';
 	styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-	public isShowUserLogin: boolean;
-
-	constructor(
-		public authorizationService: AuthorizationService,
-		public stateService: StateService
-	) { }
+	constructor( public authorizationService: AuthorizationService ) { }
 
 	logOut(): void {
 		this.authorizationService.logOut();
-	}
-
-	get isShowAddCoursePage(): boolean {
-		return this.stateService.isShowAddCoursePage;
-	}
-
-	get sortWay(): string {
-		return this.stateService.sortWay;
 	}
 }

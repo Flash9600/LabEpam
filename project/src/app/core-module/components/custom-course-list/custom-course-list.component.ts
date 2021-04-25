@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { Course } from 'src/app/interfaces/course.interface';
 
 import { CourseService } from 'src/app/services/course-service/course.service';
-import { StateService } from 'src/app/services/state/state.service';
 
 @Component({
 	selector: 'app-custom-course-list',

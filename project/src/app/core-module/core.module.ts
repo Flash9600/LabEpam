@@ -8,7 +8,6 @@ import { AddCoursePageComponent } from './components/add-course-page/add-course-
 import { DateInputComponent } from './components/add-course-page/date-input/date-input.component';
 import { DurationInputComponent } from './components/add-course-page/duration-input/duration-input.component';
 import { AuthorsInputComponent } from './components/add-course-page/authors-input/authors-input.component';
-import { AuthorizationService } from './services/authorization/authorization.service';
 import { ConfirmationComponent } from './components/custom-course-list/course-list/course-item/confirmation/confirmation.component';
 import { CourseItemComponent } from './components/custom-course-list/course-list/course-item/course-item.component';
 import { CourseListComponent } from './components/custom-course-list/course-list/course-list.component';
@@ -18,6 +17,7 @@ import { ErrorMessageComponent } from './components/user-login/error-message/err
 import { UserLoginComponent } from './components/user-login/user-login.component';
 import { DateColorDirective } from './directives/date-color-directive/date-color.directive';
 import { NoContentComponent } from './components/no-content/no-content.component';
+import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 
 
 
@@ -26,6 +26,7 @@ import { NoContentComponent } from './components/no-content/no-content.component
 		SearchComponent,
 		CourseListComponent,
 		CourseItemComponent,
+		BreadcrumbsComponent,
 		DateColorDirective,
 		DurationPipe,
 		UserLoginComponent,
@@ -43,7 +44,6 @@ import { NoContentComponent } from './components/no-content/no-content.component
 		FormsModule,
 		RouterModule
 	],
-	providers: [AuthorizationService],
 	exports: [
 		SearchComponent,
 		CourseListComponent,
@@ -54,7 +54,8 @@ import { NoContentComponent } from './components/no-content/no-content.component
 		CustomCourseListComponent,
 		AddCoursePageComponent,
 		NoContentComponent,
-		UserLoginComponent
+		UserLoginComponent,
+		BreadcrumbsComponent
 		]
 })
 export class CoreModule {

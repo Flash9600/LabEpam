@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { StorageService } from 'src/app/services/local-storage-service/storage.service';
-import { IUser } from '../../../interfaces/userLog.interface';
+import { IUser } from '../../interfaces/userLog.interface';
 
 @Injectable()
 export class AuthorizationService {
 
-	constructor(protected storageService: StorageService) { }
+	constructor(protected storageService: StorageService, protected router: Router) { }
 
 	protected userName = 'user';
 
@@ -21,6 +22,7 @@ export class AuthorizationService {
 				password
 			};
 			this.storageService.setValue<IUser>(this.userName, userData);
+			this.router.navigateByUrl('courses');
 			return false;
 		}
 		return true;
