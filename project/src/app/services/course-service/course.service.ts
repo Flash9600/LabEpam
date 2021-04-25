@@ -79,7 +79,7 @@ export class CourseService {
 
 		if (!isNaN(+id) && +id <= this.courses.length) {
 
-			newCourse = this.getItemById(+id);
+			newCourse = {...this.getItemById(+id)};
 
 		} else {
 

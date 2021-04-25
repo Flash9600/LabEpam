@@ -1,7 +1,7 @@
-import { CourseService } from 'src/app/services/course-service/course.service';
 import {Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { CourseService } from 'src/app/services/course-service/course.service';
 import { ICourse } from 'src/app/interfaces/course.interface';
 
 @Component({
@@ -14,6 +14,7 @@ export class AddCoursePageComponent implements OnInit{
 	public newCourse: ICourse;
 	public authors: string;
 	public id: string | undefined;
+	public title: string;
 
 	constructor(
 		protected activatedRoute: ActivatedRoute,
@@ -24,6 +25,7 @@ export class AddCoursePageComponent implements OnInit{
 	ngOnInit(): void{
 		this.id = this.activatedRoute.snapshot.params.id;
 		this.newCourse = this.courseService.getNewCourse(this.id);
+		this.title = this.newCourse.title;
 	}
 
 	checkNewCourse(): void{
