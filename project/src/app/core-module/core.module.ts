@@ -13,11 +13,10 @@ import { CourseItemComponent } from './components/custom-course-list/course-list
 import { CourseListComponent } from './components/custom-course-list/course-list/course-list.component';
 import { CustomCourseListComponent } from './components/custom-course-list/custom-course-list.component';
 import { SearchComponent } from './components/search/search.component';
-import { ErrorMessageComponent } from './components/user-login/error-message/error-message.component';
-import { UserLoginComponent } from './components/user-login/user-login.component';
 import { DateColorDirective } from './directives/date-color-directive/date-color.directive';
 import { NoContentComponent } from './components/no-content/no-content.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
+import { CoreRoutingModule } from './router-module/core-routing.module';
 
 
 
@@ -29,11 +28,9 @@ import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.compo
 		BreadcrumbsComponent,
 		DateColorDirective,
 		DurationPipe,
-		UserLoginComponent,
 		ConfirmationComponent,
 		CustomCourseListComponent,
 		AddCoursePageComponent,
-		ErrorMessageComponent,
 		DateInputComponent,
 		DurationInputComponent,
 		AuthorsInputComponent,
@@ -42,7 +39,8 @@ import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.compo
 	imports: [
 		CommonModule,
 		FormsModule,
-		RouterModule
+		RouterModule,
+		CoreRoutingModule
 	],
 	exports: [
 		SearchComponent,
@@ -54,7 +52,6 @@ import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.compo
 		CustomCourseListComponent,
 		AddCoursePageComponent,
 		NoContentComponent,
-		UserLoginComponent,
 		BreadcrumbsComponent
 		]
 })
