@@ -11,10 +11,7 @@ const routes: Routes = [
 	{ path: 'login', component: UserLoginComponent},
 
 	{ path: 'courses', loadChildren: () => import('../core-module/core.module')
-		.then(module => {
-			console.log(module);
-			return module.CoreModule;
-		} ),
+		.then(module => module.CoreModule ),
 		canLoad: [CoursesGuard]
 	},
 
