@@ -98,7 +98,7 @@ export class CourseService {
 			});
 
 			if (id !== undefined) {
-				this.router.navigate(['/courses']);
+				this.router.navigate(['error']);
 			}
 		}
 		this.breadcrumbsTitle = newCourse.title;
