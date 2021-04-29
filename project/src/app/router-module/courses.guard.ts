@@ -9,7 +9,7 @@ export class CoursesGuard implements CanLoad {
 
 	constructor(protected authorizationService: AuthorizationService, protected router: Router) {}
 
-	canLoad(rout: Route, segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+	canLoad(rout: Route, segments: UrlSegment[]): boolean  {
 		if (this.authorizationService.IsAuthenticated) {
 			return true;
 		}

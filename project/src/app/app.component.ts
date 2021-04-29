@@ -1,16 +1,21 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { Component } from '@angular/core';
+import { Component, OnChanges } from '@angular/core';
 
 import { AuthorizationService } from './services/authorization/authorization.service';
-import { StateService } from './services/state/state.service';
 
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-	constructor( public authorizationService: AuthorizationService ) { }
+export class AppComponent implements OnChanges{
+
+	userName: string;
+
+	constructor( private authorizationService: AuthorizationService ) { }
+
+	ngOnChanges(): void{
+		this.userName = this.authorizationService.getUserInfo();
+	}
 
 	logOut(): void {
 		this.authorizationService.logOut();
