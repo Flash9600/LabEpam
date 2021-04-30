@@ -10,11 +10,11 @@
   overflow: scroll;
 }
 
-.page-wrapper{
+.main_wrapper{
   margin-top: 80px;
   display: block;
-  .content{
-    padding: 50px;
+  .main-content{
+    padding: 0px 50px 50px 50px;
   }
 }
 app-header{

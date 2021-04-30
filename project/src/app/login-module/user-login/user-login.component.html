@@ -1,11 +1,11 @@
-<div class="pop-up_wrapper" *ngIf="!authorizationService.IsAuthenticated">
+<div class="pop-up_wrapper">
     <div class="pop-up_title">
         <h4>Sign in</h4>
     </div>
     <span>Email address:</span>
-    <input type="email" #emailInput>
+    <input type="email"[(ngModel)]='email'>
     <span>Password:</span>
-    <input type="password" #pasInput>
+    <input type="password" [(ngModel)]='password'>
     <button (click)="logIn()">Sign in</button>
 </div>
 <app-error-message *ngIf="isShowValidationError" (closeError)="closeError()"></app-error-message>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { StateService } from 'src/app/services/state/state.service';
 
@@ -15,12 +15,4 @@ export class SearchComponent {
 		this.stateService.changeSortWayOfCoursesList();
 	}
 
-	f(): void {
-console.log('search');
-
-	}
-
-	showAddCoursePage(): void {
-		this.stateService.toggleAddCoursePage();
-	}
 }

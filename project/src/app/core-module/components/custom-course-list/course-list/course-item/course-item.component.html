@@ -13,7 +13,7 @@
     <p>{{course.description}}</p>
   </div>
   <div class="item-btn">
-    <button>Edit</button>
+    <button [routerLink]="[course.id]">Edit</button>
     <button (click)="confirmDeletion()">Delete</button>
   </div>
   <app-confirmation *ngIf="isOpenConfirmation" (confirmDeletion)="onDeleteCourse()"></app-confirmation>

@@ -10,6 +10,6 @@ export class DateInputComponent{
 	@Output() inputEvent = new EventEmitter<Date>();
 
 	set sendInputValue(input: Date){
-		this.inputEvent.emit(input);
+		this.inputEvent.emit(new Date(input));
 	}
 }
