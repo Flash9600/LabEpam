@@ -17,19 +17,14 @@ export class CourseItemComponent {
 
 	@Output() deleteCourse = new EventEmitter<number>();
 
-	@HostListener('click', ['$event.target.id'])
-	closeConfirmation(id: string): void {
-		if (id === 'close') {
-			this.isOpenConfirmation = false;
-		}
-	}
-
 	confirmDeletion(): void {
 		this.isOpenConfirmation = true;
 	}
 
-	onDeleteCourse(): void {
-		this.isOpenConfirmation = false;
-		this.deleteCourse.emit(this.course.id);
+	onDeleteCourse(isDeletion: boolean): void {
+			this.isOpenConfirmation = false;
+		 if (isDeletion) {
+			this.deleteCourse.emit(this.course.id);
+		}
 	}
 }
