@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { StateService } from 'src/app/services/state/state.service';
+import { StateService } from 'src/app/services/state-service/state.service';
 
 @Component({
 	selector: 'app-search',

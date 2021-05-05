@@ -6,6 +6,6 @@
     <input type="email"[(ngModel)]='email'>
     <span>Password:</span>
     <input type="password" [(ngModel)]='password'>
-    <button (click)="logIn()">Sign in</button>
+    <button (click)="login()">Sign in</button>
 </div>
-<app-error-message *ngIf="isShowValidationError" (closeError)="closeError()"></app-error-message>
+<app-error-message *ngIf="isShowValidationError" (closeError)="closeError()" [text]="isShowValidationError"></app-error-message>

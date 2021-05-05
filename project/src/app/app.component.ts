@@ -1,6 +1,6 @@
 import { Component, OnChanges } from '@angular/core';
 
-import { AuthorizationService } from './services/authorization/authorization.service';
+import { AuthorizationService } from './services/authorization-service/authorization.service';
 
 @Component({
 	selector: 'app-root',

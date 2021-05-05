@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Input, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 
 import { Course } from 'src/app/interfaces/course.interface';
 

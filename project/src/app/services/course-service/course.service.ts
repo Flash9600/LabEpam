@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { StateService } from './../state/state.service';
+import { StateService } from '../state-service/state.service';
 import { Course } from 'src/app/interfaces/course.interface';
 import { OrderByPipe } from 'src/app/pipes/orderBy-pipe/order-by.pipe';
 

@@ -1,3 +1,5 @@
+import { HttpService } from './services/http-service/http.service';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -9,7 +11,7 @@ import { AppComponent } from './app.component';
 import { CourseService } from './services/course-service/course.service';
 import { StorageService } from './services/local-storage-service/storage.service';
 import { CoursesGuard } from './router-module/courses.guard';
-import { AuthorizationService } from './services/authorization/authorization.service';
+import { AuthorizationService } from './services/authorization-service/authorization.service';
 import { AppRoutingModule } from './router-module/app-routing.module';
 import { LoginModule } from './login-module/login.module';
 
@@ -23,7 +25,8 @@ import { LoginModule } from './login-module/login.module';
 		AppRoutingModule,
 		RouterModule,
 		StaticModule,
-		LoginModule
+		LoginModule,
+		HttpClientModule,
 	],
 	providers: [
 		OrderByPipe,
@@ -31,6 +34,7 @@ import { LoginModule } from './login-module/login.module';
 		StorageService,
 		AuthorizationService,
 		CoursesGuard,
+		HttpService
 	],
 	bootstrap: [AppComponent]
 })
