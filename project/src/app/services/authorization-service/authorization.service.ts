@@ -29,17 +29,12 @@ export class AuthorizationService {
 		return !!(email && email.match(regexp) && password.length > 3);
 	}
 
-	protected moveToCoursesPage(user: IUser): void {
-		// TODO resolve load courses-list in guard
-		console.log('Authorized is successfully');
-		this.storageService.setValue<IUser>(this.userName, user);
-		this.router.navigateByUrl('courses');
-	}
-
 	protected subscribeAuthorization(user: IUser): void{
-		this.http.makeAuthorization(user).subscribe(
-			() => {
-				this.moveToCoursesPage(user);
+			this.http.makeAuthorization(user).subscribe(
+				() => {
+				console.log('Authorized is successfully');
+				this.storageService.setValue<IUser>(this.userName, user);
+				this.router.navigateByUrl('courses');
 			},
 			(err) => {
 				this.toggleValidationError(err);

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Course } from 'src/app/interfaces/course.interface';
 
 import { CourseService } from 'src/app/services/course-service/course.service';
@@ -8,17 +9,18 @@ import { CourseService } from 'src/app/services/course-service/course.service';
 	templateUrl: './custom-course-list.component.html',
 	styleUrls: ['./custom-course-list.component.scss'],
 })
-export class CustomCourseListComponent {
+export class CustomCourseListComponent implements OnInit{
 
 	constructor(public courseService: CourseService) { }
 
-	public courses: Course[];
+	public courses: Observable<Course[]>;
 
-	onCourseList(id: number): void {
+	ngOnInit(): void{
+		this.courses = this.courseService.getCoursesList();
+	}
+
+	onCoursesList(id: number): void {
 		this.courseService.deleteCourse(id);
 	}
 
-	get courseList(): Course[] {
-		return this.courseService.getCourseList();
-	}
 }

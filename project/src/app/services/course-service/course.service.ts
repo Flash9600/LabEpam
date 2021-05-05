@@ -1,9 +1,12 @@
+import { HttpService } from './../http-service/http.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { StateService } from '../state-service/state.service';
 import { Course } from 'src/app/interfaces/course.interface';
 import { OrderByPipe } from 'src/app/pipes/orderBy-pipe/order-by.pipe';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class CourseService {
@@ -11,10 +14,13 @@ export class CourseService {
 	constructor(
 		protected orderBy: OrderByPipe,
 		protected stateService: StateService,
-		protected router: Router
+		protected router: Router,
+		protected network: HttpService
 		) {}
 
 	protected breadcrumbsTitle: string;
+
+	protected courseLength: number;
 
 	protected courses: Course[] = [
 		new Course({
@@ -24,55 +30,18 @@ export class CourseService {
 			date: new Date(2021, 2, 20),
 			description: 'about course',
 			isTopRated: true
-		}), new Course({
-			id: 2,
-			title: 'directives',
-			duration: 80,
-			date: new Date(2021, 3, 27),
-			description: 'about course',
-			isTopRated: true
-		}), new Course({
-			id: 3,
-			title: 'component',
-			duration: 65,
-			date: new Date(2021, 2, 22),
-			description: 'about course',
-			isTopRated: false
-		}), new Course({
-			id: 4,
-			title: 'service',
-			duration: 235,
-			date: new Date(2021, 1, 15),
-			description: 'about course',
-			isTopRated: false
-		}), new Course({
-			id: 5,
-			title: 'service',
-			duration: 235,
-			date: new Date(2021, 1, 15),
-			description: 'about course',
-			isTopRated: false
-		}), new Course({
-			id: 6,
-			title: 'service',
-			duration: 235,
-			date: new Date(2021, 1, 15),
-			description: 'about course',
-			isTopRated: false
-		}), new Course({
-			id: 7,
-			title: 'service',
-			duration: 235,
-			date: new Date(2021, 1, 15),
-			description: 'about course',
-			isTopRated: false
-		}),
+		})
 	];
 
-	public getCourseList(): Course[] {
+	public getCoursesList(): Observable<Course[]> {
 		const sortWay = this.stateService.sortWay;
-		const newCourses = this.orderBy.transform<Course>(this.courses, sortWay);
-		return [...newCourses];
+		return this.network.getCourses(1).pipe(
+			map((courses) => {
+				const newCourses = courses.map((course: Course) => new Course(course));
+				this.courseLength = newCourses.length;
+				return this.orderBy.transform<Course>(newCourses, sortWay);
+			})
+		);
 	}
 
 	public get breadcrumbs(): string {
@@ -82,14 +51,14 @@ export class CourseService {
 	public getNewCourse(id: string | undefined): Course{
 		let newCourse: Course;
 		const numbId = +id;
-		if (!isNaN(numbId) && numbId <= this.courses.length) {
+		if (!isNaN(numbId) && numbId <= this.courseLength) {
 
 			newCourse = {...this.getItemById(numbId)};
 
 		} else {
 
 			newCourse = new Course({
-				id: this.courses.length + 1,
+				id: this.courseLength + 1,
 				title: '',
 				date: new Date(),
 				duration: 0,

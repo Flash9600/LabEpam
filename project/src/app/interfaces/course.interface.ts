@@ -18,7 +18,7 @@ export class Course {
 	constructor( course: ICourse ) {
 		this.id = course.id;
 		this.title = course.title;
-		this.date = course.date;
+		this.date = new Date(course.date);
 		this.duration = course.duration;
 		this.description = course.description;
 		this.isTopRated = course.isTopRated;

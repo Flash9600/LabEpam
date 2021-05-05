@@ -1,9 +1,10 @@
 import { Observable, Subscriber } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { IUser } from './../../interfaces/userLog.interface';
+import { Course } from 'src/app/interfaces/course.interface';
 
 @Injectable()
 export class HttpService {
@@ -59,8 +60,15 @@ export class HttpService {
 		});
 	}
 
-
-
-
+	getCourses(pageNumber: number): Observable<Course[]>{
+		const headers = new HttpHeaders({token: this.token});
+		const params = new HttpParams().appendAll({
+				_limit: '4',
+				_page: `${pageNumber}`
+		});
+		return this.httpClient.get(`${this.mainLink}courses`, {headers, params}).pipe(
+			map((value) => value as Course[])
+		);
+	}
 
 }
