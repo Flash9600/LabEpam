@@ -3,8 +3,8 @@ import { map, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
-import { IUser } from './../../interfaces/userLog.interface';
 import { Course } from 'src/app/interfaces/course.interface';
+import { User } from 'src/app/interfaces/userEntity.interface';
 
 @Injectable()
 export class HttpService {
@@ -13,15 +13,15 @@ export class HttpService {
 
 	private token: string;
 
-	private user: IUser;
+	private user: User;
 
 	constructor(private httpClient: HttpClient) { }
 
-	private setNewUser(user: IUser): Observable<object>{
+	private setNewUser(user: User): Observable<object>{
 		return this.httpClient.post(`${this.mainLink}sign-in`, user);
 	}
 
-	public logInUser(user: IUser): Observable<boolean>{
+	public logInUser(user: User): Observable<boolean>{
 		return this.httpClient.post(`${this.mainLink}login`, user)
 		.pipe(tap((value: string) => this.token = value),
 			map((value) => !!value));
@@ -43,7 +43,7 @@ export class HttpService {
 		return this.token;
 	}
 
-	makeAuthorization(user: IUser): Observable<boolean>{
+	makeAuthorization(user: User): Observable<boolean>{
 		this.user = user;
 		const setNewUser = this.setNewUser(user);
 		return new Observable<boolean>((observer) => {
