@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Course } from 'src/app/interfaces/course.interface';
 
 import { CourseService } from 'src/app/services/course-service/course.service';
@@ -13,14 +12,16 @@ export class CustomCourseListComponent implements OnInit{
 
 	constructor(public courseService: CourseService) { }
 
-	public courses: Observable<Course[]>;
+	public courses: Course[];
 
 	ngOnInit(): void{
-		this.courses = this.courseService.getCoursesList();
+		this.courseService.getCoursesList().subscribe((courses) => {
+			this.courses = courses;
+		});
 	}
 
 	onCoursesList(id: number): void {
-		this.courseService.deleteCourse(id);
+		this.courseService.courseForDeletionTracker.next(id);
 	}
 
 }

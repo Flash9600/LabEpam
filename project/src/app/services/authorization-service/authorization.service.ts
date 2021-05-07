@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { HttpService } from './../http-service/http.service';
 import { StorageService } from 'src/app/services/local-storage-service/storage.service';
@@ -9,11 +9,19 @@ import { User } from 'src/app/interfaces/userEntity.interface';
 @Injectable()
 export class AuthorizationService {
 
-	constructor(protected storageService: StorageService, protected router: Router, protected http: HttpService) { }
-
-	protected userName = 'user';
-
+	public userEmailTracker: Subject<string>;
+	public userName: string;
 	public validationErrorText: string;
+
+
+	constructor(
+		protected storageService: StorageService,
+		protected router: Router,
+		protected network: HttpService) {
+			this.userEmailTracker = new Subject<string>();
+			this.userName = 'user';
+
+		}
 
 	public get isLogin(): boolean {
 		return !!this.storageService.getValue<User | undefined>(this.userName);
@@ -30,11 +38,12 @@ export class AuthorizationService {
 	}
 
 	protected subscribeAuthorization(user: User): void{
-			this.http.makeAuthorization(user).subscribe(
-				() => {
-				console.log('Authorized is successfully');
-				this.storageService.setValue<User>(this.userName, user);
-				this.router.navigateByUrl('courses');
+		this.network.makeAuthorization(user).subscribe(
+			() => {
+			console.log('Authorized is successfully');
+			this.storageService.setValue<User>(this.userName, user);
+			this.userEmailTracker.next(user.email);
+			this.router.navigateByUrl('courses');
 			},
 			(err) => {
 				this.toggleValidationError(err);
@@ -55,10 +64,11 @@ export class AuthorizationService {
 		}
 	}
 
-	public createToken(): boolean | Observable<boolean>{
-		if (!this.http.getToken) {
+	public createToken(): boolean | Subject<boolean>{
+		if (!this.network.getToken) {
 			const user = this.storageService.getValue<User | undefined>(this.userName);
-			return this.http.logInUser(user);
+			this.userEmailTracker.next(user.email);
+			return this.network.makeAuthorization(user);
 		} else {
 			return true;
 		}
@@ -66,14 +76,7 @@ export class AuthorizationService {
 
 	public logOut(): void {
 		this.storageService.deleteValue(this.userName);
+		this.userEmailTracker.next('');
 	}
-
-	public getUserInfo(): string {
-		if (this.isLogin) {
-			return this.storageService.getValue<User>(this.userName).email;
-		}
-		return '';
-	}
-
 
 }

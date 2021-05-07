@@ -1,4 +1,4 @@
-import { Component, OnChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { AuthorizationService } from './services/authorization-service/authorization.service';
 
@@ -7,14 +7,15 @@ import { AuthorizationService } from './services/authorization-service/authoriza
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnChanges{
+export class AppComponent implements OnInit{
 
-	userName: string;
+	public userName: string;
 
 	constructor( private authorizationService: AuthorizationService ) { }
 
-	ngOnChanges(): void{
-		this.userName = this.authorizationService.getUserInfo();
+	ngOnInit(): void{
+		this.authorizationService.userEmailTracker
+		.subscribe((email) => this.userName = email);
 	}
 
 	logOut(): void {

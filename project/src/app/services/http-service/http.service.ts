@@ -1,5 +1,5 @@
-import { Observable, Subscriber } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { Observable, Subject, Subscriber, throwError } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
@@ -11,9 +11,12 @@ export class HttpService {
 
 	private mainLink = 'https://lab-be-courses.herokuapp.com/';
 
+	private headers: HttpHeaders;
+
 	private token: string;
 
 	private user: User;
+	subject: Subject<boolean>;
 
 	constructor(private httpClient: HttpClient) { }
 
@@ -21,53 +24,58 @@ export class HttpService {
 		return this.httpClient.post(`${this.mainLink}sign-in`, user);
 	}
 
-	public logInUser(user: User): Observable<boolean>{
-		return this.httpClient.post(`${this.mainLink}login`, user)
-		.pipe(tap((value: string) => this.token = value),
+	private logInUser(user: User): Observable<boolean>{
+		return this.httpClient.post(`${this.mainLink}login`, user).pipe(
+			tap((value: string) => {
+				this.headers = new HttpHeaders({token: value});
+				this.token = value;
+			}),
 			map((value) => !!value));
 	}
 
-	private subscriberLogInUser(observer: Subscriber<boolean>): void{
+	private subscribeLogInUser(subject: Subject<boolean>): void{
 		this.logInUser(this.user).subscribe({
 			next(): void{
-				observer.next(true);
+				subject.next(true);
 			},
 			error(err): void {
-					console.log(typeof err);
-					observer.error(err);
+				subject.error(err);
 			}
 		});
 	}
 
-	get getToken(): string{
+	public get getToken(): string{
 		return this.token;
 	}
 
-	makeAuthorization(user: User): Observable<boolean>{
+	public makeAuthorization(user: User): Subject<boolean>{
 		this.user = user;
 		const setNewUser = this.setNewUser(user);
-		return new Observable<boolean>((observer) => {
-			setNewUser.subscribe(
-				() => {
-					this.subscriberLogInUser(observer);
-				},
-				(err) => {
-					console.log(typeof err);
-
-					this.subscriberLogInUser(observer);
-				}
-			);
-		});
+		const subject =  new Subject<boolean>();
+		setNewUser.subscribe(
+			() => {
+				this.subscribeLogInUser(subject);
+			},
+			() => {
+				this.subscribeLogInUser(subject);
+			}
+		);
+		return subject;
 	}
 
-	getCourses(pageNumber: number): Observable<Course[]>{
-		const headers = new HttpHeaders({token: this.token});
+	public getCourses(pageNumber: number): Observable<Course[]>{
+		const headers = this.headers;
+		const limitCourses = 4;
 		const params = new HttpParams().appendAll({
-				_limit: '4',
-				_page: `${pageNumber}`
+				_limit: `${limitCourses * pageNumber}`
 		});
-		return this.httpClient.get(`${this.mainLink}courses`, {headers, params}).pipe(
-			map((value) => value as Course[])
+		return this.httpClient.get<Course[]>(`${this.mainLink}courses`, {headers, params});
+	}
+
+	public deleteCourse(id: number): Observable<string> {
+		const headers = this.headers;
+		return this.httpClient.delete<string>(`${this.mainLink}courses/${id}`, {headers}).pipe(
+			catchError((err) => throwError(id + err.message))
 		);
 	}
 
