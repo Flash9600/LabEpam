@@ -11,18 +11,16 @@ import { CourseService } from 'src/app/services/course-service/course.service';
 })
 export class CustomCourseListComponent implements OnInit, OnDestroy{
 
-	constructor(
-		public courseService: CourseService,
-		) { }
+	constructor(public courseService: CourseService) { }
 
 	public courses: Course[];
 
 	protected trackers: Subscription[] = [];
 
-	public isShowLoadMore: boolean;
+	public isShowLoadMoreBtn: boolean;
 
 	ngOnInit(): void{
-		this.isShowLoadMore = true;
+		this.isShowLoadMoreBtn = true;
 
 		const getCourseListSubscription = this.courseService.getCoursesList().subscribe((courses) => {
 			this.courses = courses;

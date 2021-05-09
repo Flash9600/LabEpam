@@ -12,22 +12,16 @@ import { BehaviorSubject, Subject } from 'rxjs';
 export class CourseService {
 
 	protected courseLength: number;
-
 	protected isNewCourse: boolean;
-
+	protected pageNumber: number;
 	public courseForDeletionTracker: Subject<number>;
-
 	public coursesListTracker: Subject<Course[]>;
-
 	public setNewCourseTracker: Subject<Course>;
-
 	public getCourseByIdTracker: Subject<Course>;
-
 	public getIdTracker: Subject<string>;
-
 	public moveToCoursesPageTarget: Subject<void>;
-
 	public loadMoreTracker: Subject<void>;
+	public getCoursesListByTextTracker: Subject<string>;
 
 	constructor(
 		protected orderBy: OrderByPipe,
@@ -42,37 +36,42 @@ export class CourseService {
 		this.getIdTracker.subscribe((id) => this.getCourseById(id));
 		this.getCourseByIdTracker = new BehaviorSubject<Course>(null);
 		this.setNewCourseTracker = new Subject<Course>();
-		this.setNewCourseTracker.subscribe((newCourse) => {
-				this.setNewCourse(newCourse);
-		});
+		this.setNewCourseTracker.subscribe((newCourse) => this.setNewCourse(newCourse));
 		this.moveToCoursesPageTarget = new Subject<void>();
-		this.moveToCoursesPageTarget.subscribe(() => {
-			this.router.navigateByUrl('/courses');
-		});
-		let pageNumber = 1;
+		this.moveToCoursesPageTarget.subscribe(() => this.router.navigateByUrl('/courses'));
 		this.loadMoreTracker = new Subject<void>();
 		this.loadMoreTracker.subscribe(() => {
-			pageNumber ++;
-			this.getCoursesList(pageNumber);
-		}, null,
-		() => pageNumber = 1
-		);
+			this.pageNumber ++;
+			this.getCoursesList(this.pageNumber);
+		});
+		this.getCoursesListByTextTracker = new Subject<string>();
+		this.getCoursesListByTextTracker.subscribe((text) => {
+			if (text) {
+				this.getCoursesListByText(text);
+			}
+		});
 	}
 
-	protected sortCoursesList(courses: Course[]): Course[] {
-		const sortWay = this.stateService.sortWay;
-		const newCourses = courses.map((course: Course) => new Course(course));
-		this.courseLength = newCourses.length;
-		return this.orderBy.transform<Course>(newCourses, sortWay);
+	protected createCoursesListFromServer(coursesList: Course[]): Course[]{
+		return coursesList.map((course: Course) => new Course(course));
 	}
 
 	public getCoursesList(pageNumber: number = 1): Subject<Course[]> {
+		this.pageNumber = pageNumber;
 		this.network.getCoursesList(pageNumber).pipe(
-			map((courses) => this.sortCoursesList(courses))
+			map((coursesList) => this.createCoursesListFromServer(coursesList))
 		).subscribe((coursesList) => {
 			this.coursesListTracker.next(coursesList);
 		});
 		return this.coursesListTracker;
+	}
+
+	public getCoursesListByText(text: string): void{
+		this.network.getCoursesListByText(text).pipe(
+			map((coursesList) => this.createCoursesListFromServer(coursesList))
+		).subscribe((coursesList) => {
+			this.coursesListTracker.next(coursesList);
+		});
 	}
 
 	public getCourseById(id: string | undefined): void{
@@ -101,7 +100,7 @@ export class CourseService {
 	}
 
 	protected findCourseById(id: number): void{
-		this.network.getCourse(id).subscribe((course) => {
+		this.network.getCourseById(id).subscribe((course) => {
 			this.getCourseByIdTracker.next(...course);
 		});
 	}

@@ -1,5 +1,5 @@
 <div>
-  <input type="text" placeholder="Name, fragment or date" #input>
-  <button (click)="switchSortWay()">Search</button>
+  <input type="text" placeholder="Name, fragment or date" [(ngModel)]="inputText">
+  <button (click)="findCoursesByInput()">Search</button>
 </div>
 <button routerLink="/courses/new">Add course</button>

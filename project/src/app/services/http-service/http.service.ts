@@ -1,4 +1,4 @@
-import { Observable, Subject, Subscriber, throwError } from 'rxjs';
+import { Observable, Subject, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -16,7 +16,6 @@ export class HttpService {
 	private token: string;
 
 	private user: User;
-	subject: Subject<boolean>;
 
 	constructor(private httpClient: HttpClient) { }
 
@@ -65,7 +64,10 @@ export class HttpService {
 
 	public getCoursesList(pageNumber: number): Observable<Course[]>{
 		const limitCourses = 4;
-		const params = new HttpParams().set('_limit', `${limitCourses * pageNumber}`);
+		const params = new HttpParams().appendAll({
+			_limit: `${limitCourses * pageNumber}`,
+			_sort: 'title',
+		});
 		return this.httpClient.get<Course[]>(`${this.mainLink}courses`, {params});
 	}
 
@@ -76,10 +78,17 @@ export class HttpService {
 		);
 	}
 
-	public getCourse(id: number): Observable<Course[]>{
+	public getCourseById(id: number): Observable<Course[]>{
 		const params = new HttpParams().set('id', `${id}`);
 		return this.httpClient.get<Course[]>(`${this.mainLink}courses/`, {params}).pipe(
 			catchError((err) => throwError(id + err.message))
+		);
+	}
+
+	public getCoursesListByText(text: string): Observable<Course[]>{
+		const params = new HttpParams().set('q', `${text}`);
+		return this.httpClient.get<Course[]>(`${this.mainLink}courses/`, {params}).pipe(
+			catchError((err) => throwError(text + err.message))
 		);
 	}
 
