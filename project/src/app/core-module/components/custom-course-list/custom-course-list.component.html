@@ -1,1 +1,4 @@
-<app-course-list [coursesList]="courses" (coursesListEvent)="onCoursesList($event)"></app-course-list>
+<app-course-list [coursesList]="courses"
+[isShowLoadMore]="isShowLoadMore"
+(courseDeletion)="onCoursesList($event)"
+(loadMore)="onLoadMore()"></app-course-list>

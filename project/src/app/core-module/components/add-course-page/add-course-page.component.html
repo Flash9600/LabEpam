@@ -1,5 +1,5 @@
 <app-breadcrumbs [title]="title"></app-breadcrumbs>
-<div class="content">
+<div class="content" *ngIf="newCourse">
     <h4>Title:</h4>
     <input [(ngModel)]="newCourse.title" required>
     <h4>Description:</h4>

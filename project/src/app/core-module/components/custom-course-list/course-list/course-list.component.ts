@@ -13,18 +13,17 @@ import { Course } from 'src/app/interfaces/course.interface';
 export class CourseListComponent {
 
 	@Input() public coursesList: Course[];
+	@Input() public isShowLoadMore: boolean;
 
-	@Output() coursesListEvent =  new EventEmitter<number>();
+	@Output() courseDeletion =  new EventEmitter<number>();
+	@Output() loadMore =  new EventEmitter<void>();
 
 	onCourseItem(id: number): void {
-		this.coursesListEvent.emit(id);
+		this.courseDeletion.emit(id);
 	}
 
-	get coursesLength(): number | boolean{
-		if (this.coursesList) {
-			return this.coursesList.length;
-		} else {
-			return false;
-		}
+	onLoadMore(): void{
+		this.loadMore.emit();
 	}
+
 }

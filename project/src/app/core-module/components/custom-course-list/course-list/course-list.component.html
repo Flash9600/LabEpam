@@ -1,11 +1,11 @@
 <app-breadcrumbs></app-breadcrumbs>
 <app-search></app-search>
-<div *ngIf="coursesLength">
+<div *ngIf="coursesList">
   <app-course-item *ngFor="let course of coursesList" [course]="course" (deleteCourse)="onCourseItem($event)"
     appDateColor>
   </app-course-item>
-  <button>LOAD MORE</button>
+  <button *ngIf="isShowLoadMore" (click)="onLoadMore()">LOAD MORE</button>
 </div>
-<div class="message-nodata" *ngIf="!coursesLength">
+<div class="message-nodata" *ngIf="!coursesList">
   <span>NO DATA. FEEL FREE TO ADD NEW COURSE</span>
 </div>

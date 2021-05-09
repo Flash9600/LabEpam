@@ -6,43 +6,60 @@ import { StateService } from '../state-service/state.service';
 import { Course } from 'src/app/interfaces/course.interface';
 import { OrderByPipe } from 'src/app/pipes/orderBy-pipe/order-by.pipe';
 import { map } from 'rxjs/operators';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable()
 export class CourseService {
 
-	protected breadcrumbsTitle: string;
-
 	protected courseLength: number;
+
+	protected isNewCourse: boolean;
 
 	public courseForDeletionTracker: Subject<number>;
 
 	public coursesListTracker: Subject<Course[]>;
 
+	public setNewCourseTracker: Subject<Course>;
+
+	public getCourseByIdTracker: Subject<Course>;
+
+	public getIdTracker: Subject<string>;
+
+	public moveToCoursesPageTarget: Subject<void>;
+
+	public loadMoreTracker: Subject<void>;
+
 	constructor(
 		protected orderBy: OrderByPipe,
 		protected stateService: StateService,
 		protected router: Router,
-		protected network: HttpService
+		protected network: HttpService,
 		) {
 		this.courseForDeletionTracker = new Subject<number>();
 		this.courseForDeletionTracker.subscribe((id) => this.deleteCourse(id));
 		this.coursesListTracker = new Subject<Course[]>();
+		this.getIdTracker = new Subject<string>();
+		this.getIdTracker.subscribe((id) => this.getCourseById(id));
+		this.getCourseByIdTracker = new BehaviorSubject<Course>(null);
+		this.setNewCourseTracker = new Subject<Course>();
+		this.setNewCourseTracker.subscribe((newCourse) => {
+				this.setNewCourse(newCourse);
+		});
+		this.moveToCoursesPageTarget = new Subject<void>();
+		this.moveToCoursesPageTarget.subscribe(() => {
+			this.router.navigateByUrl('/courses');
+		});
+		let pageNumber = 1;
+		this.loadMoreTracker = new Subject<void>();
+		this.loadMoreTracker.subscribe(() => {
+			pageNumber ++;
+			this.getCoursesList(pageNumber);
+		}, null,
+		() => pageNumber = 1
+		);
 	}
 
-
-	protected courses: Course[] = [
-		new Course({
-			id: 1,
-			title: 'intro',
-			duration: 25,
-			date: new Date(2021, 2, 20),
-			description: 'about course',
-			isTopRated: true
-		})
-	];
-
-	protected createSortedCoursesList(courses: Course[]): Course[] {
+	protected sortCoursesList(courses: Course[]): Course[] {
 		const sortWay = this.stateService.sortWay;
 		const newCourses = courses.map((course: Course) => new Course(course));
 		this.courseLength = newCourses.length;
@@ -50,47 +67,42 @@ export class CourseService {
 	}
 
 	public getCoursesList(pageNumber: number = 1): Subject<Course[]> {
-		this.network.getCourses(pageNumber).pipe(
-			map((courses) => this.createSortedCoursesList(courses))
+		this.network.getCoursesList(pageNumber).pipe(
+			map((courses) => this.sortCoursesList(courses))
 		).subscribe((coursesList) => {
 			this.coursesListTracker.next(coursesList);
 		});
 		return this.coursesListTracker;
 	}
 
-	public get breadcrumbs(): string {
-		return this.breadcrumbsTitle;
-	}
-
-	public getNewCourse(id: string | undefined): Course{
-		let newCourse: Course;
+	public getCourseById(id: string | undefined): void{
 		const numbId = +id;
-		if (!isNaN(numbId) && numbId <= this.courseLength) {
 
-			newCourse = {...this.getItemById(numbId)};
-
-		} else {
-
-			newCourse = new Course({
-				id: this.courseLength + 1,
-				title: '',
-				date: new Date(),
-				duration: 0,
-				description: '',
-				isTopRated: false,
-			});
-
-			if (id !== undefined) {
-				this.router.navigate(['error']);
-			}
+		if (isNaN(numbId)) {
+			this.isNewCourse = true;
+			this.createNewCourse();
+		} else if (numbId >= 0){
+			this.isNewCourse = false;
+			this.findCourseById(numbId);
+		} else if (id !== undefined){
+			this.router.navigate(['error']);
 		}
-		this.breadcrumbsTitle = newCourse.title;
-		return newCourse;
 	}
 
-	public getItemById(id: number): Course {
-		return this.courses.find((course) => {
-			return course.id === id;
+	protected createNewCourse(): void{
+		const newCourse = new Course({
+			title: '',
+			date: new Date(),
+			duration: 0,
+			description: '',
+			isTopRated: false,
+		});
+		this.getCourseByIdTracker.next(newCourse);
+	}
+
+	protected findCourseById(id: number): void{
+		this.network.getCourse(id).subscribe((course) => {
+			this.getCourseByIdTracker.next(...course);
 		});
 	}
 
@@ -100,9 +112,15 @@ export class CourseService {
 		});
 	}
 
-	public updateCourse(newCourse: Course): void {
-		this.deleteCourse(newCourse.id);
-		this.courses.push(newCourse);
+	public setNewCourse(newCourse: Course): void {
+		const subscribeCB = () => this.moveToCoursesPageTarget.next();
+
+		if (this.isNewCourse) {
+			this.network.addCourse(newCourse).subscribe(subscribeCB);
+		} else {
+			this.network.updateCourse(newCourse).subscribe(subscribeCB);
+		}
 	}
+
 }
 

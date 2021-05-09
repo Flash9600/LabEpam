@@ -63,19 +63,37 @@ export class HttpService {
 		return subject;
 	}
 
-	public getCourses(pageNumber: number): Observable<Course[]>{
-		const headers = this.headers;
+	public getCoursesList(pageNumber: number): Observable<Course[]>{
 		const limitCourses = 4;
-		const params = new HttpParams().appendAll({
-				_limit: `${limitCourses * pageNumber}`
-		});
-		return this.httpClient.get<Course[]>(`${this.mainLink}courses`, {headers, params});
+		const params = new HttpParams().set('_limit', `${limitCourses * pageNumber}`);
+		return this.httpClient.get<Course[]>(`${this.mainLink}courses`, {params});
 	}
 
 	public deleteCourse(id: number): Observable<string> {
 		const headers = this.headers;
 		return this.httpClient.delete<string>(`${this.mainLink}courses/${id}`, {headers}).pipe(
 			catchError((err) => throwError(id + err.message))
+		);
+	}
+
+	public getCourse(id: number): Observable<Course[]>{
+		const params = new HttpParams().set('id', `${id}`);
+		return this.httpClient.get<Course[]>(`${this.mainLink}courses/`, {params}).pipe(
+			catchError((err) => throwError(id + err.message))
+		);
+	}
+
+	public updateCourse(course: Course): Observable<Course>{
+		const headers = this.headers;
+		return this.httpClient.put<Course>(`${this.mainLink}courses/${course.id}`, course, {headers}).pipe(
+			catchError((err) => throwError(err.message))
+		);
+	}
+
+	public addCourse(course: Course): Observable<Course>{
+		const headers = this.headers;
+		return this.httpClient.post<Course>(`${this.mainLink}courses/`, course, {headers}).pipe(
+			catchError((err) => throwError(err.message))
 		);
 	}
 

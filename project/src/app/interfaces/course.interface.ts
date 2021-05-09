@@ -1,5 +1,5 @@
 export interface ICourse {
-	id: number;
+	id?: number;
 	title: string;
 	date: Date;
 	duration: number;
@@ -16,7 +16,9 @@ export class Course {
 	public isTopRated: boolean;
 
 	constructor( course: ICourse ) {
-		this.id = course.id;
+		if (course.id >= 0) {
+			this.id = course.id;
+		}
 		this.title = course.title;
 		this.date = new Date(course.date);
 		this.duration = course.duration;
