@@ -2,7 +2,6 @@ import { HttpService } from './../http-service/http.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { StateService } from '../state-service/state.service';
 import { Course } from 'src/app/interfaces/course.interface';
 import { OrderByPipe } from 'src/app/pipes/orderBy-pipe/order-by.pipe';
 import { map } from 'rxjs/operators';
@@ -25,7 +24,6 @@ export class CourseService {
 
 	constructor(
 		protected orderBy: OrderByPipe,
-		protected stateService: StateService,
 		protected router: Router,
 		protected network: HttpService,
 		) {
