@@ -34,7 +34,7 @@ import { CoreRoutingModule } from './router-module/core-routing.module';
 		DateInputComponent,
 		DurationInputComponent,
 		AuthorsInputComponent,
-		NoContentComponent
+		NoContentComponent,
 		],
 	imports: [
 		CommonModule,

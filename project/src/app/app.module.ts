@@ -1,4 +1,3 @@
-import { HttpService } from './services/http-service/http.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -14,10 +13,13 @@ import { CoursesGuard } from './router-module/courses.guard';
 import { AuthorizationService } from './services/authorization-service/authorization.service';
 import { AppRoutingModule } from './router-module/app-routing.module';
 import { LoginModule } from './login-module/login.module';
+import { LoaderService } from './services/loader-service/loader.service';
+import { HttpService } from './services/http-service/http.service';
+import { LoaderInterceptor } from './interceptors/loader.interceptor';
 
 @NgModule({
 	declarations: [
-		AppComponent,
+		AppComponent
 	],
 	imports: [
 		BrowserModule,
@@ -34,7 +36,9 @@ import { LoginModule } from './login-module/login.module';
 		StorageService,
 		AuthorizationService,
 		CoursesGuard,
-		HttpService
+		HttpService,
+		LoaderService,
+		{ provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }
 	],
 	bootstrap: [AppComponent]
 })
