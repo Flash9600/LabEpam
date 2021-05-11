@@ -1,5 +1,5 @@
 import { Router, CanLoad, Route, UrlSegment } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 import { AuthorizationService } from '../services/authorization-service/authorization.service';
@@ -11,7 +11,7 @@ export class CoursesGuard implements CanLoad {
 		protected authorizationService: AuthorizationService,
 		protected router: Router) {}
 
-	canLoad(rout: Route, segments: UrlSegment[]): boolean | Subject<boolean> {
+	canLoad(rout: Route, segments: UrlSegment[]): boolean | Observable<boolean> {
 		if (this.authorizationService.isLogin) {
 			return this.authorizationService.createToken();
 		}

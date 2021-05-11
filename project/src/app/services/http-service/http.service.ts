@@ -1,7 +1,7 @@
 import { Observable, Subject, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, retryWhen, switchMap, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { Course } from 'src/app/interfaces/course.interface';
 import { User } from 'src/app/interfaces/userEntity.interface';
@@ -17,14 +17,28 @@ export class HttpService {
 
 	private user: User;
 
+	private errorUnauthorized = 401;
+
 	constructor(private httpClient: HttpClient) { }
 
 	private setNewUser(user: User): Observable<object>{
 		return this.httpClient.post(`${this.mainLink}sign-in`, user);
 	}
 
-	private logInUser(user: User): Observable<boolean>{
+	public makeAuthorization(user: User): Observable<boolean>{
+		const setNewUser = this.setNewUser(user);
 		return this.httpClient.post(`${this.mainLink}login`, user).pipe(
+			retryWhen((error) => {
+				return error.pipe(
+					tap((errorResponse: HttpErrorResponse) => {
+						if (errorResponse.status !== this.errorUnauthorized) {
+							throw errorResponse;
+						}
+					}),
+					switchMap(() => setNewUser)
+				);
+
+			}),
 			tap((value: string) => {
 				this.headers = new HttpHeaders({token: value});
 				this.token = value;
@@ -32,34 +46,8 @@ export class HttpService {
 			map((value) => !!value));
 	}
 
-	private subscribeLogInUser(subject: Subject<boolean>): void{
-		this.logInUser(this.user).subscribe({
-			next(): void{
-				subject.next(true);
-			},
-			error(err): void {
-				subject.error(err);
-			}
-		});
-	}
-
 	public get getToken(): string{
 		return this.token;
-	}
-
-	public makeAuthorization(user: User): Subject<boolean>{
-		this.user = user;
-		const setNewUser = this.setNewUser(user);
-		const subject =  new Subject<boolean>();
-		setNewUser.subscribe(
-			() => {
-				this.subscribeLogInUser(subject);
-			},
-			() => {
-				this.subscribeLogInUser(subject);
-			}
-		);
-		return subject;
 	}
 
 	public getCoursesList(pageNumber: number): Observable<Course[]>{

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { HttpService } from './../http-service/http.service';
 import { StorageService } from 'src/app/services/local-storage-service/storage.service';
@@ -64,7 +64,7 @@ export class AuthorizationService {
 		}
 	}
 
-	public createToken(): boolean | Subject<boolean>{
+	public createToken(): boolean | Observable<boolean>{
 		if (!this.network.getToken) {
 			const user = this.storageService.getValue<User | undefined>(this.userName);
 			this.userEmailTracker.next(user.email);
