@@ -40,14 +40,12 @@ export class AuthorizationService {
 	protected subscribeAuthorization(user: User): void{
 		this.network.makeAuthorization(user).subscribe(
 			() => {
-			console.log('Authorized is successfully');
 			this.storageService.setValue<User>(this.userName, user);
 			this.userEmailTracker.next(user.email);
 			this.router.navigateByUrl('courses');
 			},
 			(err) => {
 				this.toggleValidationError(err);
-				console.log('isValidDataERROR:', err);
 		});
 	}
 

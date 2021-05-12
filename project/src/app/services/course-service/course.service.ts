@@ -5,7 +5,8 @@ import { Router } from '@angular/router';
 import { Course } from 'src/app/interfaces/course.interface';
 import { OrderByPipe } from 'src/app/pipes/orderBy-pipe/order-by.pipe';
 import { map } from 'rxjs/operators';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
+import { StorageService } from '../local-storage-service/storage.service';
 
 @Injectable()
 export class CourseService {
@@ -13,8 +14,10 @@ export class CourseService {
 	protected courseLength: number;
 	protected isNewCourse: boolean;
 	protected pageNumber: number;
+	private coursesNameInStorage = 'courses';
+	private limitCoursesOnPage = 4;
 	public courseForDeletionTracker: Subject<number>;
-	public coursesListTracker: Subject<Course[]>;
+	public coursesListTracker: ReplaySubject<Course[]>;
 	public setNewCourseTracker: Subject<Course>;
 	public getCourseByIdTracker: Subject<Course>;
 	public getIdTracker: Subject<string>;
@@ -26,10 +29,11 @@ export class CourseService {
 		protected orderBy: OrderByPipe,
 		protected router: Router,
 		protected network: HttpService,
+		private storageService: StorageService
 		) {
 		this.courseForDeletionTracker = new Subject<number>();
 		this.courseForDeletionTracker.subscribe((id) => this.deleteCourse(id));
-		this.coursesListTracker = new Subject<Course[]>();
+		this.coursesListTracker = new ReplaySubject<Course[]>(1);
 		this.getIdTracker = new Subject<string>();
 		this.getIdTracker.subscribe((id) => this.getCourseById(id));
 		this.getCourseByIdTracker = new BehaviorSubject<Course>(null);
@@ -50,23 +54,40 @@ export class CourseService {
 		});
 	}
 
-	protected createCoursesListFromServer(coursesList: Course[]): Course[]{
+	protected createTypeForCoursesList(coursesList: Course[]): Course[]{
+		if (coursesList[0].date instanceof Date) {
+			return coursesList;
+		}
 		return coursesList.map((course: Course) => new Course(course));
 	}
 
-	public getCoursesList(pageNumber: number = 1): Subject<Course[]> {
-		this.pageNumber = pageNumber;
-		this.network.getCoursesList(pageNumber).pipe(
-			map((coursesList) => this.createCoursesListFromServer(coursesList))
-		).subscribe((coursesList) => {
+	protected refreshCoursesList(): void{
+		this.network.getCoursesList(this.pageNumber).pipe(
+			map((coursesList) => this.createTypeForCoursesList(coursesList)))
+			.subscribe((coursesList) => {
+			this.storageService.setValue(this.coursesNameInStorage, coursesList);
 			this.coursesListTracker.next(coursesList);
-		});
+			});
+	}
+
+	public getCoursesList(pageNumber: number = 1): ReplaySubject<Course[]> {
+		this.pageNumber = pageNumber;
+		const coursesNumber = pageNumber * this.limitCoursesOnPage;
+		let courses = this.storageService.getValue<Course[]>(this.coursesNameInStorage);
+		if (courses && courses.length >= coursesNumber) {
+			courses = courses.filter((course, index) => {
+				return index <= coursesNumber;
+			}).map(course => new Course(course));
+			this.coursesListTracker.next(courses);
+		} else {
+			this.refreshCoursesList();
+		}
 		return this.coursesListTracker;
 	}
 
 	public getCoursesListByText(text: string): void{
 		this.network.getCoursesListByText(text).pipe(
-			map((coursesList) => this.createCoursesListFromServer(coursesList))
+			map((coursesList) => this.createTypeForCoursesList(coursesList))
 		).subscribe((coursesList) => {
 			this.coursesListTracker.next(coursesList);
 		});
@@ -98,20 +119,28 @@ export class CourseService {
 	}
 
 	protected findCourseById(id: number): void{
-		this.network.getCourseById(id).subscribe((course) => {
-			this.getCourseByIdTracker.next(...course);
-		});
+		const course = this.storageService.getValue<Course[]>(this.coursesNameInStorage)
+		.find((courseItem) => courseItem.id === id);
+		if (course) {
+			this.getCourseByIdTracker.next(course);
+		} else {
+			this.network.getCourseById(id).subscribe((courseItem) => {
+				this.getCourseByIdTracker.next(...courseItem);
+			});
+		}
 	}
 
 	protected deleteCourse(id: number): void {
 		this.network.deleteCourse(id).subscribe(() => {
-			this.getCoursesList();
+			this.refreshCoursesList();
 		});
 	}
 
 	public setNewCourse(newCourse: Course): void {
-		const subscribeCB = () => this.moveToCoursesPageTarget.next();
-
+		const subscribeCB = () => {
+			this.moveToCoursesPageTarget.next();
+			this.refreshCoursesList();
+		};
 		if (this.isNewCourse) {
 			this.network.addCourse(newCourse).subscribe(subscribeCB);
 		} else {

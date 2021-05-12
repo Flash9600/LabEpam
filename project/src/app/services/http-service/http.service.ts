@@ -1,7 +1,8 @@
-import { Observable, Subject, throwError } from 'rxjs';
+import { StorageService } from 'src/app/services/local-storage-service/storage.service';
+import { Observable, ReplaySubject, throwError } from 'rxjs';
 import { catchError, map, retryWhen, switchMap, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 
 import { Course } from 'src/app/interfaces/course.interface';
 import { User } from 'src/app/interfaces/userEntity.interface';
@@ -15,11 +16,11 @@ export class HttpService {
 
 	private token: string;
 
-	private user: User;
-
 	private errorUnauthorized = 401;
 
-	constructor(private httpClient: HttpClient) { }
+	private limitCoursesOnPage = 4;
+
+	constructor(private httpClient: HttpClient) {}
 
 	private setNewUser(user: User): Observable<object>{
 		return this.httpClient.post(`${this.mainLink}sign-in`, user);
@@ -41,6 +42,7 @@ export class HttpService {
 			}),
 			tap((value: string) => {
 				this.headers = new HttpHeaders({token: value});
+				console.log(value);
 				this.token = value;
 			}),
 			map((value) => !!value));
@@ -51,9 +53,8 @@ export class HttpService {
 	}
 
 	public getCoursesList(pageNumber: number): Observable<Course[]>{
-		const limitCourses = 4;
 		const params = new HttpParams().appendAll({
-			_limit: `${limitCourses * pageNumber}`,
+			_limit: `${this.limitCoursesOnPage * pageNumber}`,
 			_sort: 'title',
 		});
 		return this.httpClient.get<Course[]>(`${this.mainLink}courses`, {params});
