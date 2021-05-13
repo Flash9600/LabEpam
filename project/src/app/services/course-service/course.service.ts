@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import { Course } from 'src/app/interfaces/course.interface';
 import { OrderByPipe } from 'src/app/pipes/orderBy-pipe/order-by.pipe';
-import { map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, reduce, scan, switchMap } from 'rxjs/operators';
 import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import { StorageService } from '../local-storage-service/storage.service';
 
@@ -47,15 +47,20 @@ export class CourseService {
 			this.getCoursesList(this.pageNumber);
 		});
 		this.getCoursesListByTextTracker = new Subject<string>();
-		this.getCoursesListByTextTracker.subscribe((text) => {
-			if (text) {
-				this.getCoursesListByText(text);
-			}
+		this.getCoursesListByTextTracker.pipe(
+			distinctUntilChanged(),
+			filter(value => value.length > 3),
+			debounceTime(1000),
+			switchMap(text => this.network.getCoursesListByText(text).pipe(
+				filter((coursesList) => !!coursesList),
+				map((coursesList) => this.createTypeForCoursesList(coursesList))
+			))).subscribe((coursesList) => {
+			this.coursesListTracker.next(coursesList);
 		});
 	}
 
 	protected createTypeForCoursesList(coursesList: Course[]): Course[]{
-		if (coursesList[0].date instanceof Date) {
+		if (coursesList.length === 0 || coursesList[0].date instanceof Date) {
 			return coursesList;
 		}
 		return coursesList.map((course: Course) => new Course(course));
@@ -83,14 +88,6 @@ export class CourseService {
 			this.refreshCoursesList();
 		}
 		return this.coursesListTracker;
-	}
-
-	public getCoursesListByText(text: string): void{
-		this.network.getCoursesListByText(text).pipe(
-			map((coursesList) => this.createTypeForCoursesList(coursesList))
-		).subscribe((coursesList) => {
-			this.coursesListTracker.next(coursesList);
-		});
 	}
 
 	public getCourseById(id: string | undefined): void{

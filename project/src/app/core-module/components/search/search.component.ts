@@ -12,8 +12,8 @@ export class SearchComponent {
 
 	constructor(public courseService: CourseService) {}
 
-	findCoursesByInput(): void {
-			this.courseService.getCoursesListByTextTracker.next(this.inputText);
+	set findCoursesByInput(event: string) {
+		this.courseService.getCoursesListByTextTracker.next(event);
 	}
 
 }
