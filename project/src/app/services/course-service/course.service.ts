@@ -74,9 +74,9 @@ export class CourseService {
 		this.pageNumber = pageNumber;
 		const coursesNumber = pageNumber * this.limitCoursesOnPage;
 		let courses = this.storageService.getValue<Course[]>(this.coursesNameInStorage);
-		if (courses && courses.length >= coursesNumber) {
+		if (courses) {
 			courses = courses.filter((course, index) => {
-				return index <= coursesNumber;
+				return index + 1 <= coursesNumber;
 			}).map(course => new Course(course));
 			this.coursesListTracker.next(courses);
 		} else {
