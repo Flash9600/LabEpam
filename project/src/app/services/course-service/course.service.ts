@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import { Course } from 'src/app/interfaces/course.interface';
 import { OrderByPipe } from 'src/app/pipes/orderBy-pipe/order-by.pipe';
-import { debounceTime, distinctUntilChanged, filter, map, reduce, scan, switchMap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, reduce, scan, switchMap, tap } from 'rxjs/operators';
 import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import { StorageService } from '../local-storage-service/storage.service';
 
@@ -23,6 +23,7 @@ export class CourseService {
 	public getIdTracker: Subject<string>;
 	public moveToCoursesPageTarget: Subject<void>;
 	public loadMoreTracker: Subject<void>;
+	public showLoadMoreTracker: Subject<boolean>;
 	public getCoursesListByTextTracker: Subject<string>;
 
 	constructor(
@@ -46,16 +47,23 @@ export class CourseService {
 			this.pageNumber ++;
 			this.getCoursesList(this.pageNumber);
 		});
+		this.showLoadMoreTracker = new Subject<boolean>();
 		this.getCoursesListByTextTracker = new Subject<string>();
 		this.getCoursesListByTextTracker.pipe(
 			distinctUntilChanged(),
+			tap(value => {
+				if (value === '') {
+					this.getCoursesList();
+				}
+			}),
 			filter(value => value.length > 3),
-			debounceTime(1000),
+			debounceTime(2000),
 			switchMap(text => this.network.getCoursesListByText(text).pipe(
 				filter((coursesList) => !!coursesList),
 				map((coursesList) => this.createTypeForCoursesList(coursesList))
 			))).subscribe((coursesList) => {
 			this.coursesListTracker.next(coursesList);
+			this.showLoadMoreTracker.next(false);
 		});
 	}
 
@@ -87,6 +95,7 @@ export class CourseService {
 		} else {
 			this.refreshCoursesList();
 		}
+		this.showLoadMoreTracker.next(true);
 		return this.coursesListTracker;
 	}
 

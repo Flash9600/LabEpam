@@ -25,7 +25,10 @@ export class CustomCourseListComponent implements OnInit, OnDestroy{
 		const getCourseListSubscription = this.courseService.getCoursesList().subscribe((courses) => {
 			this.courses = courses;
 		});
-		this.trackers.push(getCourseListSubscription);
+		const showLoadMoreSubscription = this.courseService.showLoadMoreTracker.subscribe((isShow) =>
+			this.isShowLoadMoreBtn = isShow
+		);
+		this.trackers.push(getCourseListSubscription, showLoadMoreSubscription);
 	}
 
 	onCoursesList(id: number): void {
