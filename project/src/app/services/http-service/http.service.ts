@@ -1,8 +1,7 @@
-import { StorageService } from 'src/app/services/local-storage-service/storage.service';
-import { Observable, ReplaySubject, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, map, retryWhen, switchMap, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { Course } from 'src/app/interfaces/course.interface';
 import { User } from 'src/app/interfaces/userEntity.interface';
@@ -42,7 +41,6 @@ export class HttpService {
 			}),
 			tap((value: string) => {
 				this.headers = new HttpHeaders({token: value});
-				console.log(value);
 				this.token = value;
 			}),
 			map((value) => !!value));

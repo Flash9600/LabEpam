@@ -1,7 +1,7 @@
 import { Subscription } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Course } from 'src/app/interfaces/course.interface';
 
+import { Course } from 'src/app/interfaces/course.interface';
 import { CourseService } from 'src/app/services/course-service/course.service';
 
 @Component({
