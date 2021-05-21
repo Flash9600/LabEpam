@@ -132,7 +132,7 @@ export class CourseService {
 		if (course) {
 			this.getCourseByIdTracker.next(course);
 		} else {
-			this.network.getCourseById(id).subscribe((courseItem) => {
+			this.network.getCourseById(id).subscribe((courseItem: Course[]) => {
 				this.getCourseByIdTracker.next(...courseItem);
 			});
 		}

@@ -2,23 +2,21 @@
 <form class="form_content" [formGroup]="courseParamsControl" (ngSubmit)="submitNewCourse()">
     <label class="form_content-title">Title:
     <input formControlName="title" >
-    <span class="form_content-tooltip" *ngIf="isValidateValue('title')">Min length 4 symbols, max length 50 symbols</span>
+    <span class="tooltip" *ngIf="isValidateValue('title')">Min length 4 symbols, max length 50 symbols</span>
     </label>
     <label class="form_content-description">Description:
     <textarea formControlName="description"></textarea>
-    <span class="form_content-tooltip" *ngIf="isValidateValue('description')">Min length 4 symbols, max length 500 symbols</span>
+    <span class="tooltip" *ngIf="isValidateValue('description')">Min length 4 symbols, max length 500 symbols</span>
     </label>
     <label class="form_content-date">Date:
-    <app-date-input (inputEvent)="newCourse.date = $event" ></app-date-input>
-    <span class="form_content-tooltip" *ngIf="isValidateValue('date')">Min length 4 symbols, max length 50 symbols</span>
+    <app-date-input formControlName="date" ></app-date-input>
     </label>
     <label class="form_content-duration">Duration:
-    <app-duration-input (inputEvent)="newCourse.duration = $event" ></app-duration-input>
-    <span class="form_content-tooltip" *ngIf="isValidateValue('duration')">Min length 4 symbols, max length 50 symbols</span>
+    <app-duration-input formControlName="duration" ></app-duration-input>
     </label>
     <label class="form_content-authors">Authors:
     <app-authors-input (inputEvent)="authors" ngDefaultControl></app-authors-input>
-    <span class="form_content-tooltip" *ngIf="isValidateValue('authors')">Min length 4 symbols, max length 50 symbols</span>
+    <!-- <span class="tooltip" *ngIf="isValidateValue('authors')">Min length 4 symbols, max length 50 symbols</span> -->
     </label>
     <div class="form_content-btn_wrapper">
         <button type="submit" [disabled]="!courseParamsControl.valid">Save</button>

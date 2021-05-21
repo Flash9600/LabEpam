@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { CourseService } from 'src/app/services/course-service/course.service';
 import { Course } from 'src/app/interfaces/course.interface';
-import { Subscription } from 'rxjs';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
 	selector: 'app-add-course-page',
@@ -40,17 +40,14 @@ export class AddCoursePageComponent implements OnInit, OnDestroy{
 			title: [this.newCourse.title, this.getValidatorsArray(50)],
 			description: [this.newCourse.description, this.getValidatorsArray(500)],
 			date: [this.newCourse.date],
-			duration: [this.newCourse.duration],
-			authors: this.formBuilder.array([
-				'Ivan',
-				'Perry',
-				'Victor'
-			])
+			duration: [this.newCourse.duration, [Validators.required, Validators.min(5), Validators.max(200)]],
+			// TODO add authors
 		});
 	}
 
 	isValidateValue(controlName: string): boolean {
 		const control = (this.courseParamsControl.controls[controlName] as FormControl);
+
 		return control.invalid && (control.dirty || control.touched);
 	}
 
@@ -59,7 +56,15 @@ export class AddCoursePageComponent implements OnInit, OnDestroy{
 	}
 
 	submitNewCourse(): void{
-		this.courseService.setNewCourseTracker.next(this.newCourse);
+		const newCourse = new Course({
+			id: this.newCourse.id,
+			isTopRated: this.newCourse.isTopRated,
+			title: this.courseParamsControl.value.title,
+			date: this.courseParamsControl.value.date,
+			duration: this.courseParamsControl.value.duration,
+			description: this.courseParamsControl.value.description
+		});
+		this.courseService.setNewCourseTracker.next(newCourse);
 	}
 
 	moveToCoursesPage(): void{

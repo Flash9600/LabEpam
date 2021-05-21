@@ -1,1 +1,2 @@
-<input type="date" [(ngModel)]="sendInputValue">
+<input type="date" [formControl]="dateForm">
+<span class="tooltip" *ngIf="isValidation">Field is required</span>
