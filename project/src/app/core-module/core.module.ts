@@ -1,7 +1,7 @@
 import { RouterModule } from '@angular/router';
 import { NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { DurationPipe } from './pipes/duration-pipe/duration.pipe';
 import { AddCoursePageComponent } from './components/add-course-page/add-course-page.component';
@@ -39,6 +39,7 @@ import { SharedModule } from './../shared-module/shared.module';
 		RouterModule,
 		SharedModule,
 		CoreRoutingModule,
+		ReactiveFormsModule
 	],
 	exports: [
 		SearchComponent,
