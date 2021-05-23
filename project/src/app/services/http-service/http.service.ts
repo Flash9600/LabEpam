@@ -93,4 +93,10 @@ export class HttpService {
 		);
 	}
 
+	public getAuthorsList(): Observable<string[]> {
+		return this.httpClient.get<string[]>(`${this.mainLink}authors/`).pipe(
+			catchError((err) => throwError(err.message))
+		);
+	}
+
 }

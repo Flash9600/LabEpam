@@ -1,7 +1,7 @@
 <app-breadcrumbs [title]="title"></app-breadcrumbs>
 <form class="form_content" [formGroup]="courseParamsControl" (ngSubmit)="submitNewCourse()">
     <label class="form_content-title">Title:
-    <input formControlName="title" >
+    <input formControlName="title">
     <span class="tooltip" *ngIf="isValidateValue('title')">Min length 4 symbols, max length 50 symbols</span>
     </label>
     <label class="form_content-description">Description:
@@ -20,6 +20,6 @@
     </label>
     <div class="form_content-btn_wrapper">
         <button type="submit" [disabled]="!courseParamsControl.valid">Save</button>
-        <button (click)="moveToCoursesPage()">Cancel</button>
+        <button type="reset" (click)="moveToCoursesPage()">Cancel</button>
     </div>
 </form>

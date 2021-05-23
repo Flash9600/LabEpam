@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, map, reduce, scan, switchMap, tap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
 
 import { HttpService } from './../http-service/http.service';
 import { Course } from 'src/app/interfaces/course.interface';
@@ -25,6 +25,7 @@ export class CourseService {
 	public loadMoreTracker: Subject<void>;
 	public showLoadMoreTracker: Subject<boolean>;
 	public getCoursesListByTextTracker: Subject<string>;
+	public getAuthorListTracker: BehaviorSubject<string[]>;
 
 	constructor(
 		protected orderBy: OrderByPipe,
@@ -50,12 +51,16 @@ export class CourseService {
 		this.showLoadMoreTracker = new Subject<boolean>();
 		this.getCoursesListByTextTracker = new Subject<string>();
 		this.getCoursesListByTextTracker.pipe(
-			debounceTime(2000),
 			distinctUntilChanged(),
+			tap(value => {
+				if (value === '') {
+					this.getCoursesList();
+				}
+			}),
+			debounceTime(2000),
 			filter(value => {
 				if (value === '') {
 					this.getCoursesList();
-					return false;
 				}
 				return value.length > 3;
 			}),
@@ -66,6 +71,20 @@ export class CourseService {
 			this.coursesListTracker.next(coursesList);
 			this.showLoadMoreTracker.next(false);
 		});
+		this.getAuthorsList();
+	}
+
+	protected getAuthorsList(): void{
+		const authorStorageName = 'authors';
+		const authors = this.storageService.getValue<string[]>(authorStorageName);
+		if (authors) {
+			this.getAuthorListTracker = new BehaviorSubject(authors);
+		}else {
+			this.network.getAuthorsList().subscribe(authorsList => {
+				this.storageService.setValue<string[]>('authors', authorsList);
+				this.getAuthorListTracker = new BehaviorSubject(authorsList);
+			});
+		}
 	}
 
 	protected createTypeForCoursesList(coursesList: Course[]): Course[]{
@@ -79,7 +98,7 @@ export class CourseService {
 		this.network.getCoursesList(this.pageNumber).pipe(
 			map((coursesList) => this.createTypeForCoursesList(coursesList)))
 			.subscribe((coursesList) => {
-			this.storageService.setValue(this.coursesNameInStorage, coursesList);
+			this.storageService.setValue<Course[]>(this.coursesNameInStorage, coursesList);
 			this.coursesListTracker.next(coursesList);
 			});
 	}
@@ -122,6 +141,7 @@ export class CourseService {
 			duration: 0,
 			description: '',
 			isTopRated: false,
+			authors: ['']
 		});
 		this.getCourseByIdTracker.next(newCourse);
 	}

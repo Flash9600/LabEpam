@@ -5,6 +5,7 @@ export interface ICourse {
 	duration: number;
 	description: string;
 	isTopRated: boolean;
+	authors: string[];
 }
 
 export class Course {
@@ -14,6 +15,7 @@ export class Course {
 	public duration: number;
 	public description: string;
 	public isTopRated: boolean;
+	public authors: string[];
 
 	constructor( course: ICourse ) {
 		if (course.id >= 0) {
@@ -24,5 +26,6 @@ export class Course {
 		this.duration = course.duration;
 		this.description = course.description;
 		this.isTopRated = course.isTopRated;
+		this.authors = course.authors;
 	}
 }

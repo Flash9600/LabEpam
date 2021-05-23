@@ -37,7 +37,7 @@ export class AddCoursePageComponent implements OnInit, OnDestroy{
 		});
 		this.trackers.push(getCourseByIdSubscription);
 		this.courseParamsControl = this.formBuilder.group({
-			title: [this.newCourse.title, this.getValidatorsArray(50)],
+			title: [this.newCourse.title, [...this.getValidatorsArray(50), Validators.pattern('[a-zA-Z0-9 \-]*')]],
 			description: [this.newCourse.description, this.getValidatorsArray(500)],
 			date: [this.newCourse.date],
 			duration: [this.newCourse.duration, [Validators.required, Validators.min(5), Validators.max(200)]],
@@ -62,7 +62,8 @@ export class AddCoursePageComponent implements OnInit, OnDestroy{
 			title: this.courseParamsControl.value.title,
 			date: this.courseParamsControl.value.date,
 			duration: this.courseParamsControl.value.duration,
-			description: this.courseParamsControl.value.description
+			description: this.courseParamsControl.value.description,
+			authors: this.newCourse.authors
 		});
 		this.courseService.setNewCourseTracker.next(newCourse);
 	}
