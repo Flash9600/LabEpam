@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 
+import { User } from './../../interfaces/userEntity.interface';
 import { AuthorizationService } from 'src/app/services/authorization-service/authorization.service';
+import { NgModel } from '@angular/forms';
 
 
 @Component({
@@ -8,23 +11,35 @@ import { AuthorizationService } from 'src/app/services/authorization-service/aut
 	templateUrl: './user-login.component.html',
 	styleUrls: ['./user-login.component.scss']
 })
-export class UserLoginComponent {
+export class UserLoginComponent implements OnInit, OnDestroy{
 
-	public email: string;
-	public password: string;
+	public user: User;
+	public isShowError: boolean;
+	public ValidationErrorText: string;
+	protected subscription: Subscription;
 
 	constructor(protected authorizationService: AuthorizationService) { }
 
-	login(): void {
-		this.authorizationService.login(this.email, this.password);
+	ngOnInit(): void{
+		this.user = new User({
+			email: '',
+			password: ''
+		});
+		this.subscription = this.authorizationService.validationErrorTextTracker.subscribe((text) => {
+			this.ValidationErrorText = text;
+		});
 	}
 
-	get isShowValidationError(): string{
-		return	this.authorizationService.validationErrorText;
+	login(): void {
+		this.authorizationService.loginTracker.next(this.user);
 	}
 
 	closeError(): void{
-		this.authorizationService.toggleValidationError('');
+		this.authorizationService.validationErrorTextTracker.next('');
+	}
+
+	ngOnDestroy(): void{
+		this.subscription.unsubscribe();
 	}
 
 }

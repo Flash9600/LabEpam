@@ -19,7 +19,7 @@
     <!-- <span class="tooltip" *ngIf="isValidateValue('authors')">Min length 4 symbols, max length 50 symbols</span> -->
     </label>
     <div class="form_content-btn_wrapper">
-        <button type="submit" [disabled]="!courseParamsControl.valid">Save</button>
+        <button type="submit" [disabled]="courseParamsControl.invalid">Save</button>
         <button type="reset" (click)="moveToCoursesPage()">Cancel</button>
     </div>
 </form>

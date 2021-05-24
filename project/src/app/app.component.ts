@@ -14,8 +14,8 @@ export class AppComponent implements OnInit{
 	constructor( private authorizationService: AuthorizationService ) { }
 
 	ngOnInit(): void{
-		this.authorizationService.userEmailTracker
-		.subscribe((email) => this.userName = email);
+		this.authorizationService.loginTracker
+		.subscribe((user) => this.userName = user ? user.email : '');
 	}
 
 	logOut(): void {
