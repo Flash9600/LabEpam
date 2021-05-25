@@ -14,10 +14,10 @@ import { Course } from 'src/app/interfaces/course.interface';
 export class AddCoursePageComponent implements OnInit, OnDestroy{
 
 	public newCourse: Course;
-	public authors: string;
+	public authorsList: string[];
 	public title: string;
 	public courseParamsControl: FormGroup;
-	protected trackers: Subscription[] = [];
+	protected subscriptionsList: Subscription[] = [];
 
 	constructor(
 		protected router: Router,
@@ -33,15 +33,20 @@ export class AddCoursePageComponent implements OnInit, OnDestroy{
 			if (course) {
 				this.newCourse = course;
 				this.title = `Course ${course.title || 'New'}`;
+				this.setCourse();
 			}
 		});
-		this.trackers.push(getCourseByIdSubscription);
+		const authorsSubscription = this.courseService.getAuthorListTracker.subscribe((authorsList) => this.authorsList = authorsList);
+		this.subscriptionsList.push(getCourseByIdSubscription, authorsSubscription);
+	}
+
+	setCourse(): void {
 		this.courseParamsControl = this.formBuilder.group({
 			title: [this.newCourse.title, [...this.getValidatorsArray(50), Validators.pattern('[a-zA-Z0-9 \-]*')]],
 			description: [this.newCourse.description, this.getValidatorsArray(500)],
 			date: [this.newCourse.date],
 			duration: [this.newCourse.duration, [Validators.required, Validators.min(5), Validators.max(200)]],
-			// TODO add authors
+			authors: [this.newCourse.authors.join('/')]
 		});
 	}
 
@@ -57,13 +62,9 @@ export class AddCoursePageComponent implements OnInit, OnDestroy{
 
 	submitNewCourse(): void{
 		const newCourse = new Course({
+			...this.courseParamsControl.value,
 			id: this.newCourse.id,
-			isTopRated: this.newCourse.isTopRated,
-			title: this.courseParamsControl.value.title,
-			date: this.courseParamsControl.value.date,
-			duration: this.courseParamsControl.value.duration,
-			description: this.courseParamsControl.value.description,
-			authors: this.newCourse.authors
+			isTopRated: this.newCourse.isTopRated
 		});
 		this.courseService.setNewCourseTracker.next(newCourse);
 	}
@@ -73,7 +74,7 @@ export class AddCoursePageComponent implements OnInit, OnDestroy{
 	}
 
 	ngOnDestroy(): void{
-		this.trackers.forEach((subscriber) => subscriber.unsubscribe());
+		this.subscriptionsList.forEach((subscriber) => subscriber.unsubscribe());
 	}
 
 }

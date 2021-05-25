@@ -20,8 +20,8 @@ export class DateInputComponent implements OnInit, ControlValueAccessor, OnDestr
 
 	ngOnInit(): void{
 		this.dateForm = new FormControl('', [Validators.required]);
-		this.subscription = this.dateForm.valueChanges.subscribe((duration) => {
-			this.onChange(duration);
+		this.subscription = this.dateForm.valueChanges.subscribe((date) => {
+			this.onChange(date);
 			this.onTouched();
 		});
 	}

@@ -1,5 +1,5 @@
-<app-breadcrumbs [title]="title"></app-breadcrumbs>
-<form class="form_content" [formGroup]="courseParamsControl" (ngSubmit)="submitNewCourse()">
+<app-breadcrumbs [title]="title" ></app-breadcrumbs>
+<form class="form_content" *ngIf="newCourse" [formGroup]="courseParamsControl" (ngSubmit)="submitNewCourse()">
     <label class="form_content-title">Title:
     <input formControlName="title">
     <span class="tooltip" *ngIf="isValidateValue('title')">Min length 4 symbols, max length 50 symbols</span>
@@ -15,8 +15,7 @@
     <app-duration-input formControlName="duration" ></app-duration-input>
     </label>
     <label class="form_content-authors">Authors:
-    <app-authors-input (inputEvent)="authors" ngDefaultControl></app-authors-input>
-    <!-- <span class="tooltip" *ngIf="isValidateValue('authors')">Min length 4 symbols, max length 50 symbols</span> -->
+    <app-authors-input [availableAuthors]="authorsList" formControlName="authors"></app-authors-input>
     </label>
     <div class="form_content-btn_wrapper">
         <button type="submit" [disabled]="courseParamsControl.invalid">Save</button>

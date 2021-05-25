@@ -147,15 +147,18 @@ export class CourseService {
 	}
 
 	protected findCourseById(id: number): void{
-		const course = this.storageService.getValue<Course[]>(this.coursesNameInStorage)
-		.find((courseItem) => courseItem.id === id);
-		if (course) {
-			this.getCourseByIdTracker.next(course);
-		} else {
-			this.network.getCourseById(id).subscribe((courseItem: Course[]) => {
-				this.getCourseByIdTracker.next(...courseItem);
-			});
+		const coursesList = this.storageService.getValue<Course[]>(this.coursesNameInStorage);
+
+		if (coursesList) {
+			const course = coursesList.find((courseItem) => courseItem.id === id);
+			if (course) {
+				this.getCourseByIdTracker.next(course);
+				return;
+			}
 		}
+		this.network.getCourseById(id).subscribe((courseItem: Course[]) => {
+			this.getCourseByIdTracker.next(...courseItem);
+		});
 	}
 
 	protected deleteCourse(id: number): void {
