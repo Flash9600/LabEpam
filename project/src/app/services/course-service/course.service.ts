@@ -1,11 +1,11 @@
-import { HttpService } from './../http-service/http.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map, reduce, scan, switchMap, tap } from 'rxjs/operators';
 
+import { HttpService } from './../http-service/http.service';
 import { Course } from 'src/app/interfaces/course.interface';
 import { OrderByPipe } from 'src/app/pipes/orderBy-pipe/order-by.pipe';
-import { map } from 'rxjs/operators';
-import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import { StorageService } from '../local-storage-service/storage.service';
 
 @Injectable()
@@ -13,8 +13,8 @@ export class CourseService {
 
 	protected courseLength: number;
 	protected isNewCourse: boolean;
-	protected pageNumber: number;
 	private coursesNameInStorage = 'courses';
+	protected pageNumber = 1;
 	private limitCoursesOnPage = 4;
 	public courseForDeletionTracker: Subject<number>;
 	public coursesListTracker: ReplaySubject<Course[]>;
@@ -23,6 +23,7 @@ export class CourseService {
 	public getIdTracker: Subject<string>;
 	public moveToCoursesPageTarget: Subject<void>;
 	public loadMoreTracker: Subject<void>;
+	public showLoadMoreTracker: Subject<boolean>;
 	public getCoursesListByTextTracker: Subject<string>;
 
 	constructor(
@@ -43,19 +44,32 @@ export class CourseService {
 		this.moveToCoursesPageTarget.subscribe(() => this.router.navigateByUrl('/courses'));
 		this.loadMoreTracker = new Subject<void>();
 		this.loadMoreTracker.subscribe(() => {
-			this.pageNumber ++;
-			this.getCoursesList(this.pageNumber);
+			this.pageNumber++;
+			this.getCoursesList();
 		});
+		this.showLoadMoreTracker = new Subject<boolean>();
 		this.getCoursesListByTextTracker = new Subject<string>();
-		this.getCoursesListByTextTracker.subscribe((text) => {
-			if (text) {
-				this.getCoursesListByText(text);
-			}
+		this.getCoursesListByTextTracker.pipe(
+			debounceTime(2000),
+			distinctUntilChanged(),
+			filter(value => {
+				if (value === '') {
+					this.getCoursesList();
+					return false;
+				}
+				return value.length > 3;
+			}),
+			switchMap(text => this.network.getCoursesListByText(text).pipe(
+				filter((coursesList) => !!coursesList),
+				map((coursesList) => this.createTypeForCoursesList(coursesList))
+			))).subscribe((coursesList) => {
+			this.coursesListTracker.next(coursesList);
+			this.showLoadMoreTracker.next(false);
 		});
 	}
 
 	protected createTypeForCoursesList(coursesList: Course[]): Course[]{
-		if (coursesList[0].date instanceof Date) {
+		if (coursesList.length === 0 || coursesList[0].date instanceof Date) {
 			return coursesList;
 		}
 		return coursesList.map((course: Course) => new Course(course));
@@ -70,27 +84,21 @@ export class CourseService {
 			});
 	}
 
-	public getCoursesList(pageNumber: number = 1): ReplaySubject<Course[]> {
-		this.pageNumber = pageNumber;
-		const coursesNumber = pageNumber * this.limitCoursesOnPage;
+	protected isFreshCourses(length: number): boolean {
+		const coursesNumber = this.pageNumber * this.limitCoursesOnPage;
+		return length >= coursesNumber || length > coursesNumber - this.limitCoursesOnPage;
+	}
+
+	public getCoursesList(): ReplaySubject<Course[]> {
 		let courses = this.storageService.getValue<Course[]>(this.coursesNameInStorage);
-		if (courses) {
-			courses = courses.filter((course, index) => {
-				return index + 1 <= coursesNumber;
-			}).map(course => new Course(course));
+		if (courses && this.isFreshCourses(courses.length)) {
+			courses = courses.map(course => new Course(course));
 			this.coursesListTracker.next(courses);
 		} else {
 			this.refreshCoursesList();
 		}
+		this.showLoadMoreTracker.next(true);
 		return this.coursesListTracker;
-	}
-
-	public getCoursesListByText(text: string): void{
-		this.network.getCoursesListByText(text).pipe(
-			map((coursesList) => this.createTypeForCoursesList(coursesList))
-		).subscribe((coursesList) => {
-			this.coursesListTracker.next(coursesList);
-		});
 	}
 
 	public getCourseById(id: string | undefined): void{

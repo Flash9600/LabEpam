@@ -1,7 +1,7 @@
 import { Subscription } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Course } from 'src/app/interfaces/course.interface';
 
+import { Course } from 'src/app/interfaces/course.interface';
 import { CourseService } from 'src/app/services/course-service/course.service';
 
 @Component({
@@ -25,7 +25,10 @@ export class CustomCourseListComponent implements OnInit, OnDestroy{
 		const getCourseListSubscription = this.courseService.getCoursesList().subscribe((courses) => {
 			this.courses = courses;
 		});
-		this.trackers.push(getCourseListSubscription);
+		const showLoadMoreSubscription = this.courseService.showLoadMoreTracker.subscribe((isShow) =>
+			this.isShowLoadMoreBtn = isShow
+		);
+		this.trackers.push(getCourseListSubscription, showLoadMoreSubscription);
 	}
 
 	onCoursesList(id: number): void {
