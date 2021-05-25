@@ -16,5 +16,5 @@
     <button [routerLink]="[course.id]">Edit</button>
     <button (click)="confirmDeletion()">Delete</button>
   </div>
-  <app-confirmation *ngIf="isOpenConfirmation" (confirmDeletion)="onDeleteCourse()"></app-confirmation>
+  <app-confirmation *ngIf="isOpenConfirmation" (confirmDeletion)="onDeleteCourse($event)"></app-confirmation>
 </div>

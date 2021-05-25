@@ -14,9 +14,8 @@ import { CourseListComponent } from './components/custom-course-list/course-list
 import { CustomCourseListComponent } from './components/custom-course-list/custom-course-list.component';
 import { SearchComponent } from './components/search/search.component';
 import { DateColorDirective } from './directives/date-color-directive/date-color.directive';
-import { NoContentComponent } from './components/no-content/no-content.component';
-import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 import { CoreRoutingModule } from './router-module/core-routing.module';
+import { SharedModule } from './../shared-module/shared.module';
 
 
 
@@ -25,7 +24,6 @@ import { CoreRoutingModule } from './router-module/core-routing.module';
 		SearchComponent,
 		CourseListComponent,
 		CourseItemComponent,
-		BreadcrumbsComponent,
 		DateColorDirective,
 		DurationPipe,
 		ConfirmationComponent,
@@ -34,13 +32,13 @@ import { CoreRoutingModule } from './router-module/core-routing.module';
 		DateInputComponent,
 		DurationInputComponent,
 		AuthorsInputComponent,
-		NoContentComponent
 		],
 	imports: [
 		CommonModule,
 		FormsModule,
 		RouterModule,
-		CoreRoutingModule
+		SharedModule,
+		CoreRoutingModule,
 	],
 	exports: [
 		SearchComponent,
@@ -51,8 +49,6 @@ import { CoreRoutingModule } from './router-module/core-routing.module';
 		ConfirmationComponent,
 		CustomCourseListComponent,
 		AddCoursePageComponent,
-		NoContentComponent,
-		BreadcrumbsComponent
 		]
 })
 export class CoreModule {

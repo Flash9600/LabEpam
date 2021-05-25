@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { AuthorizationService } from 'src/app/services/authorization/authorization.service';
+import { AuthorizationService } from 'src/app/services/authorization-service/authorization.service';
 
 
 @Component({
@@ -10,18 +10,21 @@ import { AuthorizationService } from 'src/app/services/authorization/authorizati
 })
 export class UserLoginComponent {
 
-	public isShowValidationError = false;
 	public email: string;
 	public password: string;
 
-	constructor(public authorizationService: AuthorizationService) { }
+	constructor(protected authorizationService: AuthorizationService) { }
 
-	logIn(): void {
-		this.isShowValidationError = this.authorizationService.logIn(this.email, this.password);
+	login(): void {
+		this.authorizationService.login(this.email, this.password);
+	}
+
+	get isShowValidationError(): string{
+		return	this.authorizationService.validationErrorText;
 	}
 
 	closeError(): void{
-		this.isShowValidationError = false;
+		this.authorizationService.toggleValidationError('');
 	}
 
 }

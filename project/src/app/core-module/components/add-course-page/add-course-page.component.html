@@ -1,13 +1,13 @@
 <app-breadcrumbs [title]="title"></app-breadcrumbs>
-<div class="content">
+<div class="content" *ngIf="newCourse">
     <h4>Title:</h4>
-    <input [(ngModel)]="newCourse.title" >
+    <input [(ngModel)]="newCourse.title" required>
     <h4>Description:</h4>
-    <textarea [(ngModel)]="newCourse.description" ></textarea>
+    <textarea [(ngModel)]="newCourse.description"></textarea>
     <h4>Date:</h4>
-    <app-date-input (inputEvent)="newCourse.date = $event"></app-date-input>
+    <app-date-input (inputEvent)="newCourse.date = $event" required></app-date-input>
     <h4>Duration:</h4>
-    <app-duration-input (inputEvent)="newCourse.duration = $event" ></app-duration-input>
+    <app-duration-input (inputEvent)="newCourse.duration = $event" required></app-duration-input>
     <h4>Authors:</h4>
     <app-authors-input (inputEvent)="authors" ngDefaultControl></app-authors-input>
     <div class="btn-wrapper">

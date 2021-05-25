@@ -1,39 +1,50 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { CourseService } from 'src/app/services/course-service/course.service';
-import { ICourse } from 'src/app/interfaces/course.interface';
+import { Course } from 'src/app/interfaces/course.interface';
+import { Subscription } from 'rxjs';
 
 @Component({
 	selector: 'app-add-course-page',
 	templateUrl: './add-course-page.component.html',
 	styleUrls: ['./add-course-page.component.scss']
 })
-export class AddCoursePageComponent implements OnInit{
+export class AddCoursePageComponent implements OnInit, OnDestroy{
 
-	public newCourse: ICourse;
+	public newCourse: Course;
 	public authors: string;
-	public id: string | undefined;
 	public title: string;
+	protected trackers: Subscription[] = [];
 
 	constructor(
-		protected activatedRoute: ActivatedRoute,
 		protected router: Router,
-		protected courseService: CourseService
+		protected courseService: CourseService,
+		protected activatedRoute: ActivatedRoute
 		 ) {}
 
 	ngOnInit(): void{
-		this.id = this.activatedRoute.snapshot.params.id;
-		this.newCourse = this.courseService.getNewCourse(this.id);
-		this.title = `Course ${this.newCourse.title || 'New'}`;
+		const id = this.activatedRoute.snapshot.params.id;
+		this.courseService.getIdTracker.next(id);
+		const getCourseByIdSubscription = this.courseService.getCourseByIdTracker.subscribe((course) => {
+			if (course) {
+				this.newCourse = course;
+				this.title = `Course ${course.title || 'New'}`;
+			}
+		});
+		this.trackers.push(getCourseByIdSubscription);
 	}
 
 	checkNewCourse(): void{
-		this.courseService.updateCourse(this.newCourse);
-		this.moveToCoursesPage();
+		this.courseService.setNewCourseTracker.next(this.newCourse);
 	}
 
 	moveToCoursesPage(): void{
-		this.router.navigateByUrl('/courses');
+		this.courseService.moveToCoursesPageTarget.next();
 	}
+
+	ngOnDestroy(): void{
+		this.trackers.forEach((subscriber) => subscriber.unsubscribe());
+	}
+
 }

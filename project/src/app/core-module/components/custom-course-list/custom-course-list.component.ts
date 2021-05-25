@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Course } from 'src/app/interfaces/course.interface';
 
 import { CourseService } from 'src/app/services/course-service/course.service';
@@ -8,17 +9,37 @@ import { CourseService } from 'src/app/services/course-service/course.service';
 	templateUrl: './custom-course-list.component.html',
 	styleUrls: ['./custom-course-list.component.scss'],
 })
-export class CustomCourseListComponent {
+export class CustomCourseListComponent implements OnInit, OnDestroy{
 
 	constructor(public courseService: CourseService) { }
 
 	public courses: Course[];
 
-	onCourseList(id: number): void {
-		this.courseService.deleteCourse(id);
+	protected trackers: Subscription[] = [];
+
+	public isShowLoadMoreBtn: boolean;
+
+	ngOnInit(): void{
+		this.isShowLoadMoreBtn = true;
+
+		const getCourseListSubscription = this.courseService.getCoursesList().subscribe((courses) => {
+			this.courses = courses;
+		});
+		this.trackers.push(getCourseListSubscription);
 	}
 
-	get courseList(): Course[] {
-		return this.courseService.getCourseList();
+	onCoursesList(id: number): void {
+		this.courseService.courseForDeletionTracker.next(id);
 	}
+
+	onLoadMore(): void {
+		this.courseService.loadMoreTracker.next();
+	}
+
+	ngOnDestroy(): void{
+		this.trackers.forEach((subscription) => subscription.unsubscribe());
+	}
+
 }
+
+

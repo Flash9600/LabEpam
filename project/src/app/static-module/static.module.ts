@@ -6,13 +6,16 @@ import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
-	declarations: [HeaderComponent,
+	declarations: [
+		HeaderComponent,
 		FooterComponent
 	],
 	imports: [
 		CommonModule,
 		RouterModule
 	],
-	exports: [HeaderComponent, FooterComponent]
+	exports: [
+		HeaderComponent,
+		FooterComponent]
 })
 export class StaticModule { }

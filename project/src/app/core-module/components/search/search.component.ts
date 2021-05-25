@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-
-import { StateService } from 'src/app/services/state/state.service';
+import { CourseService } from 'src/app/services/course-service/course.service';
 
 @Component({
 	selector: 'app-search',
@@ -9,10 +8,12 @@ import { StateService } from 'src/app/services/state/state.service';
 })
 export class SearchComponent {
 
-	constructor(protected stateService: StateService) {}
+	public inputText: string;
 
-	switchSortWay(): void {
-		this.stateService.changeSortWayOfCoursesList();
+	constructor(public courseService: CourseService) {}
+
+	findCoursesByInput(): void {
+			this.courseService.getCoursesListByTextTracker.next(this.inputText);
 	}
 
 }

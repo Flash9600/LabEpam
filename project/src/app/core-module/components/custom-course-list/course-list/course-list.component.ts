@@ -12,12 +12,18 @@ import { Course } from 'src/app/interfaces/course.interface';
 })
 export class CourseListComponent {
 
-	@Input() public courseList: Course[];
+	@Input() public coursesList: Course[];
+	@Input() public isShowLoadMore: boolean;
 
-	@Output() courseListEvent =  new EventEmitter<number>();
+	@Output() courseDeletion =  new EventEmitter<number>();
+	@Output() loadMore =  new EventEmitter<void>();
 
 	onCourseItem(id: number): void {
-		this.courseListEvent.emit(id);
+		this.courseDeletion.emit(id);
+	}
+
+	onLoadMore(): void{
+		this.loadMore.emit();
 	}
 
 }

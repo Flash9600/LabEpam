@@ -12,4 +12,8 @@ export class ConfirmationComponent {
 	onConfirmDeletion(): void {
 		this.confirmDeletion.emit(true);
 	}
+
+	onRejectDeletion(): void{
+		this.confirmDeletion.emit(false);
+	}
 }
