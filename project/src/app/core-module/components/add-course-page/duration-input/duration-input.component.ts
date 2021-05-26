@@ -2,6 +2,8 @@ import { Subscription } from 'rxjs';
 import { Component, forwardRef, OnDestroy, OnInit  } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 
+import { validateDurationNumber } from 'src/app/core-module/forms-validators/validateDurationNumber';
+
 @Component({
 	selector: 'app-duration-input',
 	templateUrl: './duration-input.component.html',
@@ -21,21 +23,12 @@ export class DurationInputComponent implements OnInit, OnDestroy, ControlValueAc
 	protected subscription: Subscription;
 
 	ngOnInit(): void{
-		this.durationForm = new FormControl('', [this.validateNumber]);
+		this.durationForm = new FormControl('', [validateDurationNumber()]);
 		this.subscription = this.durationForm.valueChanges.subscribe((duration) => {
 			this.onChange(duration);
 			this.onTouched();
 		});
 
-	}
-
-	protected validateNumber(control: AbstractControl): {[key: string]: boolean} | null {
-		if (control.value < 5){
-			return {min: true, max: false};
-		} else if (control.value >= 200) {
-			return {max: true, min: false};
-		}
-		return null;
 	}
 
 	get isValidation(): boolean{

@@ -4,10 +4,8 @@ import { FormsModule } from '@angular/forms';
 
 import { ErrorMessageComponent } from './user-login/error-message/error-message.component';
 import { UserLoginComponent } from './user-login/user-login.component';
-import { EmailValidationDirective } from './directives/email-validation.directive';
-import { PasswordValidationDirective } from './directives/password-validation.directive';
-
-
+import { EmailValidationDirective } from './directives/email-validator/email-validation.directive';
+import { PasswordValidationDirective } from './directives/password-validator/password-validation.directive';
 
 @NgModule({
 	declarations: [

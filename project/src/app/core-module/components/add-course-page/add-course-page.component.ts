@@ -50,14 +50,14 @@ export class AddCoursePageComponent implements OnInit, OnDestroy{
 		});
 	}
 
+	getValidatorsArray(maxLength: number): Validators[]{
+		return [Validators.required, Validators.minLength(4), Validators.maxLength(maxLength)];
+	}
+
 	isValidateValue(controlName: string): boolean {
 		const control = (this.courseParamsControl.controls[controlName] as FormControl);
 
 		return control.invalid && (control.dirty || control.touched);
-	}
-
-	getValidatorsArray(maxLength: number): Validators[]{
-		return [Validators.required, Validators.minLength(4), Validators.maxLength(maxLength)];
 	}
 
 	submitNewCourse(): void{

@@ -47,17 +47,17 @@ export class AuthorsInputComponent implements OnInit, OnDestroy, ControlValueAcc
 	}
 
 	get availableAuthorsList(): string[] {
-			const authorsList: string[] = this.courseAuthors.value.authors;
-			return this.availableAuthors
-			.filter(availableAuthor => !authorsList.includes(availableAuthor))
-			.filter(availableAuthor => {
-				const reg = new RegExp(this.inputValue, 'ig');
-				const match = availableAuthor.match(reg);
-				if (match) {
-					return match[0] !== availableAuthor;
-				}
-				return false;
-			});
+		const authorsList: string[] = this.courseAuthors.value.authors;
+		return this.availableAuthors
+		.filter(availableAuthor => !authorsList.includes(availableAuthor))
+		.filter(availableAuthor => {
+			const reg = new RegExp(this.inputValue, 'ig');
+			const match = availableAuthor.match(reg);
+			if (match) {
+				return match[0] !== availableAuthor;
+			}
+			return false;
+		});
 	}
 
 	replaceAuthorToInput(author: string): void{
