@@ -16,6 +16,7 @@ import { SearchComponent } from './components/search/search.component';
 import { DateColorDirective } from './directives/date-color-directive/date-color.directive';
 import { CoreRoutingModule } from './router-module/core-routing.module';
 import { SharedModule } from './../shared-module/shared.module';
+import { SearchValidatorDirective } from './directives/search-validator/search-validator.directive';
 
 
 
@@ -32,6 +33,7 @@ import { SharedModule } from './../shared-module/shared.module';
 		DateInputComponent,
 		DurationInputComponent,
 		AuthorsInputComponent,
+		SearchValidatorDirective,
 		],
 	imports: [
 		CommonModule,

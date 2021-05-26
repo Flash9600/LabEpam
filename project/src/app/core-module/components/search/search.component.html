@@ -3,9 +3,7 @@
   #search="ngModel"
   [(ngModel)]="inputText"
   (ngModelChange)="findCoursesByInput($event)"
-  minlength="4"
-  maxlength="20"
-  pattern="[a-zA-Z0-9 \-]*">
+  appSearchValidator>
   <span class="tooltip" *ngIf="search.invalid">Use expressions of length 4 to 20 with spaces and dashes</span>
 </div>
 <button routerLink="/courses/new">Add course</button>
