@@ -8,7 +8,7 @@
         </div>
         <span  pan class="tooltip" *ngIf="isValidateValue">Invalid author`s name</span>
         <button class="add-author_btn" type="button" (click)="addAuthor()"
-        [disabled]="courseAuthors.invalid">Add author</button>
+        [disabled]="isValidateBtn">Add author</button>
 
     </div>
 

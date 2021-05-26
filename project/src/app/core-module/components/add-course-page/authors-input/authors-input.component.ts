@@ -32,9 +32,15 @@ export class AuthorsInputComponent implements OnInit, OnDestroy, ControlValueAcc
 		return controlInput.invalid && (controlInput.dirty || controlInput.touched);
 	}
 
+	get isValidateBtn(): boolean{
+		const controlInput = this.courseAuthors.controls.inputValue;
+		return controlInput.invalid || !controlInput.value;
+	}
+
 	ngOnInit(): void{
 		this.courseAuthors = new FormGroup({
 			inputValue: new FormControl(null, [
+				Validators.minLength(2),
 				Validators.maxLength(25),
 				Validators.pattern(/^[^<>'"/;`%?|!0-9]*$/)
 			]),
@@ -49,7 +55,9 @@ export class AuthorsInputComponent implements OnInit, OnDestroy, ControlValueAcc
 	get availableAuthorsList(): string[] {
 		const authorsList: string[] = this.courseAuthors.value.authors;
 		return this.availableAuthors
-		.filter(availableAuthor => !authorsList.includes(availableAuthor))
+		.filter(availableAuthor => {
+			return !authorsList.includes(availableAuthor);
+		})
 		.filter(availableAuthor => {
 			const reg = new RegExp(this.inputValue, 'ig');
 			const match = availableAuthor.match(reg);
@@ -79,7 +87,9 @@ export class AuthorsInputComponent implements OnInit, OnDestroy, ControlValueAcc
 
 	writeValue(value: string): void{
 		value.split('/').forEach(authorName => {
-			(this.courseAuthors.get('authors') as FormArray).push(new FormControl(authorName));
+			if (authorName) {
+				(this.courseAuthors.get('authors') as FormArray).push(new FormControl(authorName));
+			}
 		});
 	}
 
