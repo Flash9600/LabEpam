@@ -1,4 +1,9 @@
-<div>
-  <input type="text" placeholder="Name, fragment or date" [(ngModel)]="findCoursesByInput">
+<div class="search">
+  <input type="search" placeholder="Search by name, fragment or date"
+  #search="ngModel"
+  [(ngModel)]="inputText"
+  (ngModelChange)="findCoursesByInput($event)"
+  appSearchValidator>
+  <span class="tooltip" *ngIf="search.invalid">Use expressions of length 4 to 20 with spaces and dashes</span>
 </div>
 <button routerLink="/courses/new">Add course</button>

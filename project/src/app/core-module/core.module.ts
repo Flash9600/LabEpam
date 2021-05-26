@@ -1,7 +1,7 @@
 import { RouterModule } from '@angular/router';
 import { NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { DurationPipe } from './pipes/duration-pipe/duration.pipe';
 import { AddCoursePageComponent } from './components/add-course-page/add-course-page.component';
@@ -16,6 +16,7 @@ import { SearchComponent } from './components/search/search.component';
 import { DateColorDirective } from './directives/date-color-directive/date-color.directive';
 import { CoreRoutingModule } from './router-module/core-routing.module';
 import { SharedModule } from './../shared-module/shared.module';
+import { SearchValidatorDirective } from './directives/search-validator/search-validator.directive';
 
 
 
@@ -32,6 +33,7 @@ import { SharedModule } from './../shared-module/shared.module';
 		DateInputComponent,
 		DurationInputComponent,
 		AuthorsInputComponent,
+		SearchValidatorDirective,
 		],
 	imports: [
 		CommonModule,
@@ -39,6 +41,7 @@ import { SharedModule } from './../shared-module/shared.module';
 		RouterModule,
 		SharedModule,
 		CoreRoutingModule,
+		ReactiveFormsModule
 	],
 	exports: [
 		SearchComponent,

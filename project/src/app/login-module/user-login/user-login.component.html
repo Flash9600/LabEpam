@@ -2,10 +2,34 @@
     <div class="pop-up_title">
         <h4>Sign in</h4>
     </div>
-    <span>Email address:</span>
-    <input type="email"[(ngModel)]='email'>
-    <span>Password:</span>
-    <input type="password" [(ngModel)]='password'>
-    <button (click)="login()">Sign in</button>
+    <form #loginForm="ngForm" (ngSubmit)="login()" class="login-form">
+        <label>Email address:
+            <input type="email"
+                [(ngModel)]='user.email'
+                name="email"
+                #email="ngModel"
+                required
+                appEmailValidation
+            >
+            <span class="tooltip"
+            *ngIf="email.invalid && (email.touched || email.dirty)">
+            Incorrect email
+            </span>
+        </label>
+        <label>Password:
+            <input type="password"
+                [(ngModel)]='user.password'
+                name="password"
+                required
+                #password="ngModel"
+                appPasswordValidation
+            >
+            <span class="tooltip"
+            *ngIf="password.invalid && (password.touched || password.dirty)">
+            Password must contain min 4 symbols, numbers and letters of different case
+            </span>
+        </label>
+        <button type="submit" [disabled]="loginForm.invalid">Sign in</button>
+    </form>
 </div>
-<app-error-message *ngIf="isShowValidationError" (closeError)="closeError()" [text]="isShowValidationError"></app-error-message>
+<app-error-message *ngIf="ValidationErrorText" (closeError)="closeError()" [text]="ValidationErrorText"></app-error-message>

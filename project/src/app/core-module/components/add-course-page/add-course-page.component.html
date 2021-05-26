@@ -1,17 +1,24 @@
-<app-breadcrumbs [title]="title"></app-breadcrumbs>
-<div class="content" *ngIf="newCourse">
-    <h4>Title:</h4>
-    <input [(ngModel)]="newCourse.title" required>
-    <h4>Description:</h4>
-    <textarea [(ngModel)]="newCourse.description"></textarea>
-    <h4>Date:</h4>
-    <app-date-input (inputEvent)="newCourse.date = $event" required></app-date-input>
-    <h4>Duration:</h4>
-    <app-duration-input (inputEvent)="newCourse.duration = $event" required></app-duration-input>
-    <h4>Authors:</h4>
-    <app-authors-input (inputEvent)="authors" ngDefaultControl></app-authors-input>
-    <div class="btn-wrapper">
-        <button (click)="checkNewCourse()">Save</button>
-        <button (click)="moveToCoursesPage()">Cancel</button>
+<app-breadcrumbs [title]="title" ></app-breadcrumbs>
+<form class="form_content" *ngIf="newCourse" [formGroup]="courseParamsControl" (ngSubmit)="submitNewCourse()">
+    <label class="form_content-title">Title:
+    <input formControlName="title">
+    <span class="tooltip" *ngIf="isValidateValue('title')">Min length 4 symbols, max length 50 symbols</span>
+    </label>
+    <label class="form_content-description">Description:
+    <textarea formControlName="description"></textarea>
+    <span class="tooltip" *ngIf="isValidateValue('description')">Min length 4 symbols, max length 500 symbols</span>
+    </label>
+    <label class="form_content-date">Date:
+    <app-date-input formControlName="date" ></app-date-input>
+    </label>
+    <label class="form_content-duration">Duration:
+    <app-duration-input formControlName="duration" ></app-duration-input>
+    </label>
+    <label class="form_content-authors">Authors:
+    <app-authors-input [availableAuthors]="authorsList" formControlName="authors"></app-authors-input>
+    </label>
+    <div class="form_content-btn_wrapper">
+        <button type="submit" [disabled]="courseParamsControl.invalid">Save</button>
+        <button type="reset" (click)="moveToCoursesPage()">Cancel</button>
     </div>
-</div>
+</form>

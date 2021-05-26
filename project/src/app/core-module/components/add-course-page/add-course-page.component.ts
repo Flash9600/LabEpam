@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { CourseService } from 'src/app/services/course-service/course.service';
 import { Course } from 'src/app/interfaces/course.interface';
-import { Subscription } from 'rxjs';
 
 @Component({
 	selector: 'app-add-course-page',
@@ -13,14 +14,16 @@ import { Subscription } from 'rxjs';
 export class AddCoursePageComponent implements OnInit, OnDestroy{
 
 	public newCourse: Course;
-	public authors: string;
+	public authorsList: string[];
 	public title: string;
-	protected trackers: Subscription[] = [];
+	public courseParamsControl: FormGroup;
+	protected subscriptionsList: Subscription[] = [];
 
 	constructor(
 		protected router: Router,
 		protected courseService: CourseService,
-		protected activatedRoute: ActivatedRoute
+		protected activatedRoute: ActivatedRoute,
+		protected formBuilder: FormBuilder
 		 ) {}
 
 	ngOnInit(): void{
@@ -30,13 +33,40 @@ export class AddCoursePageComponent implements OnInit, OnDestroy{
 			if (course) {
 				this.newCourse = course;
 				this.title = `Course ${course.title || 'New'}`;
+				this.setCourse();
 			}
 		});
-		this.trackers.push(getCourseByIdSubscription);
+		const authorsSubscription = this.courseService.getAuthorListTracker.subscribe((authorsList) => this.authorsList = authorsList);
+		this.subscriptionsList.push(getCourseByIdSubscription, authorsSubscription);
 	}
 
-	checkNewCourse(): void{
-		this.courseService.setNewCourseTracker.next(this.newCourse);
+	setCourse(): void {
+		this.courseParamsControl = this.formBuilder.group({
+			title: [this.newCourse.title, [...this.getValidatorsArray(50), Validators.pattern('[a-zA-Z0-9 \-]*')]],
+			description: [this.newCourse.description, this.getValidatorsArray(500)],
+			date: [this.newCourse.date],
+			duration: [this.newCourse.duration, [Validators.required, Validators.min(5), Validators.max(200)]],
+			authors: [this.newCourse.authors.join('/')]
+		});
+	}
+
+	getValidatorsArray(maxLength: number): Validators[]{
+		return [Validators.required, Validators.minLength(4), Validators.maxLength(maxLength)];
+	}
+
+	isValidateValue(controlName: string): boolean {
+		const control = (this.courseParamsControl.controls[controlName] as FormControl);
+
+		return control.invalid && (control.dirty || control.touched);
+	}
+
+	submitNewCourse(): void{
+		const newCourse = new Course({
+			...this.courseParamsControl.value,
+			id: this.newCourse.id,
+			isTopRated: this.newCourse.isTopRated
+		});
+		this.courseService.setNewCourseTracker.next(newCourse);
 	}
 
 	moveToCoursesPage(): void{
@@ -44,7 +74,7 @@ export class AddCoursePageComponent implements OnInit, OnDestroy{
 	}
 
 	ngOnDestroy(): void{
-		this.trackers.forEach((subscriber) => subscriber.unsubscribe());
+		this.subscriptionsList.forEach((subscriber) => subscriber.unsubscribe());
 	}
 
 }
