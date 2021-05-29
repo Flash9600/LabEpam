@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
 
 import { HttpService } from '../http-service/http.service';
@@ -118,6 +118,11 @@ export class CourseService {
 		}
 		this.showLoadMoreTracker.next(true);
 		return this.coursesListTracker;
+	}
+
+	public getCoursesBySearch(text: string): Observable<Course[]>{
+		return this.network.getCoursesListByText(text).pipe(
+		map((coursesList) => this.createTypeForCoursesList(coursesList)));
 	}
 
 	public getCourseById(id: string | undefined): void{

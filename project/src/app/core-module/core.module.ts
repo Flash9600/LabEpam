@@ -1,3 +1,4 @@
+import { SearchEffects } from './store/effects/search.effects';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -49,7 +50,7 @@ import { coreReducers } from './store/reducers/core.reducers';
 		CoreRoutingModule,
 		ReactiveFormsModule,
 		StoreModule.forRoot(coreReducers),
-		EffectsModule.forRoot([CoursesEffects]),
+		EffectsModule.forRoot([CoursesEffects, SearchEffects]),
 		StoreDevtoolsModule.instrument()
 	],
 	providers: [

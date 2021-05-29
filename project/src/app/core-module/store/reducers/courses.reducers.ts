@@ -1,7 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
 import { ICoursesState } from './../../../interfaces/course.interface';
-import { getMoreCoursesAction, getCoursesBySearchAction, getCoursesSuccessAction } from '../actions/courses.actions';
+import { getMoreCoursesAction, getCoursesSuccessAction } from '../actions/courses.actions';
 import { initialCoursesState } from 'src/app/interfaces/course.interface';
 
 export const coursesReducersCreator = createReducer(
@@ -16,12 +16,6 @@ export const coursesReducersCreator = createReducer(
 			return {
 				...state,
 				courses
-			};
-	}),
-	on(getCoursesBySearchAction, (state: ICoursesState) => {
-			return {
-				...state,
-				courses: []
 			};
 	}),
 );

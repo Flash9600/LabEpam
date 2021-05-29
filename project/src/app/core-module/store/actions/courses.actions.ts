@@ -1,10 +1,10 @@
 import { createAction, props } from '@ngrx/store';
-import { Course } from 'src/app/interfaces/course.interface';
+
+import { ICoursesState } from './../../../interfaces/course.interface';
 
 export enum ECoursesActions {
 	getCourses = '[CoursesList] GetCourses',
 	getMoreCourses = '[CoursesList] GetMoreCourses',
-	getCoursesBySearch = '[CoursesList] GetPartOfCoursesBySearch',
 	getCoursesSuccess = '[CoursesList] GetCoursesSuccess'
 }
 
@@ -14,15 +14,10 @@ export const getCoursesAction = createAction(
 
 export const getMoreCoursesAction = createAction(
 	ECoursesActions.getMoreCourses,
-	props<{courses: Course[]}>()
-);
-
-export const getCoursesBySearchAction = createAction(
-	ECoursesActions.getCoursesBySearch,
-	 props<{search?: string }>()
+	props<ICoursesState>()
 );
 
 export const getCoursesSuccessAction = createAction(
 	ECoursesActions.getCoursesSuccess,
-	props<{courses: Course[]}>()
+	props<ICoursesState>()
 );

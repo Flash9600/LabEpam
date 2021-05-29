@@ -1,7 +1,7 @@
-export interface ISearchValue {
+export interface ISearchState {
 	value: string;
 }
 
-export const initialSearchState: ISearchValue = {
+export const initialSearchState: ISearchState = {
 	value: ''
-}
+};
