@@ -1,8 +1,11 @@
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 
+import { coursesSelector } from './../../store/selectors/courses.selectors';
 import { Course } from 'src/app/interfaces/course.interface';
 import { CourseService } from 'src/app/services/course-service/course.service';
+import { getCoursesAction } from '../../store/actions/courses.actions';
 
 @Component({
 	selector: 'app-custom-course-list',
@@ -11,9 +14,9 @@ import { CourseService } from 'src/app/services/course-service/course.service';
 })
 export class CustomCourseListComponent implements OnInit, OnDestroy{
 
-	constructor(public courseService: CourseService) { }
+	constructor(public courseService: CourseService, protected store: Store) { }
 
-	public courses: Course[];
+	public courses: Observable<Course[]>;
 
 	protected trackers: Subscription[] = [];
 
@@ -21,14 +24,13 @@ export class CustomCourseListComponent implements OnInit, OnDestroy{
 
 	ngOnInit(): void{
 		this.isShowLoadMoreBtn = true;
+		this.store.dispatch(getCoursesAction());
+		this.courses = this.store.select(coursesSelector);
 
-		const getCourseListSubscription = this.courseService.getCoursesList().subscribe((courses) => {
-			this.courses = courses;
-		});
 		const showLoadMoreSubscription = this.courseService.showLoadMoreTracker.subscribe((isShow) =>
 			this.isShowLoadMoreBtn = isShow
 		);
-		this.trackers.push(getCourseListSubscription, showLoadMoreSubscription);
+		this.trackers.push(showLoadMoreSubscription);
 	}
 
 	onCoursesList(id: number): void {

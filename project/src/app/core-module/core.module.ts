@@ -1,7 +1,10 @@
 import { RouterModule } from '@angular/router';
-import { NgModule} from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { DurationPipe } from './pipes/duration-pipe/duration.pipe';
 import { AddCoursePageComponent } from './components/add-course-page/add-course-page.component';
@@ -17,6 +20,9 @@ import { DateColorDirective } from './directives/date-color-directive/date-color
 import { CoreRoutingModule } from './router-module/core-routing.module';
 import { SharedModule } from './../shared-module/shared.module';
 import { SearchValidatorDirective } from './directives/search-validator/search-validator.directive';
+import { CourseService } from '../services/course-service/course.service';
+import { CoursesEffects } from './store/effects/courses.effects';
+import { coreReducers } from './store/reducers/core.reducers';
 
 
 
@@ -41,7 +47,13 @@ import { SearchValidatorDirective } from './directives/search-validator/search-v
 		RouterModule,
 		SharedModule,
 		CoreRoutingModule,
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		StoreModule.forRoot(coreReducers),
+		EffectsModule.forRoot([CoursesEffects]),
+		StoreDevtoolsModule.instrument()
+	],
+	providers: [
+		CourseService,
 	],
 	exports: [
 		SearchComponent,

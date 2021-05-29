@@ -1,4 +1,4 @@
-<app-course-list [coursesList]="courses"
+<app-course-list [coursesList]="courses |async"
 [isShowLoadMore]="isShowLoadMoreBtn"
 (courseDeletion)="onCoursesList($event)"
 (loadMore)="onLoadMore()"></app-course-list>

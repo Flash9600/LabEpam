@@ -34,3 +34,12 @@ export class Course {
 		}
 	}
 }
+
+export interface ICoursesState{
+	courses: Course[];
+}
+
+export const initialCoursesState: ICoursesState = {
+	courses: null
+};
+

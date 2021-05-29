@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
 
-import { HttpService } from './../http-service/http.service';
+import { HttpService } from '../http-service/http.service';
 import { Course } from 'src/app/interfaces/course.interface';
 import { OrderByPipe } from 'src/app/pipes/orderBy-pipe/order-by.pipe';
 import { StorageService } from '../local-storage-service/storage.service';
