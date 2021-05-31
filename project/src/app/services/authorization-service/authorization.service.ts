@@ -28,10 +28,8 @@ export class AuthorizationService {
 				tap(userData => this.user = userData),
 				switchMap(userData => this.network.makeAuthorization(userData))
 			).subscribe(() => {
-				if (!this.storageService.getValue<User | undefined>(this.userName)) {
 					this.storageService.setValue<User>(this.userName, this.user);
 					this.router.navigateByUrl('courses');
-				}
 				},
 				(err) => {
 					this.validationErrorTextTracker.next(`Incorrect username or password.`);

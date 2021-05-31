@@ -1,6 +1,6 @@
 import { map } from 'rxjs/operators';
 import { Router, CanLoad, Route, UrlSegment } from '@angular/router';
-import { Observable,  } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 import { User } from 'src/app/interfaces/userEntity.interface';

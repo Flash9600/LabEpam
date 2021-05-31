@@ -34,7 +34,6 @@ import { CoursesGuard } from './router-module/guards/courses.guard';
 	providers: [
 		OrderByPipe,
 		StorageService,
-		CourseService,
 		AuthorizationService,
 		CoursesGuard,
 		HttpService,

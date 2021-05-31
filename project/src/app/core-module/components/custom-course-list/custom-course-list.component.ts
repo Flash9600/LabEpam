@@ -24,7 +24,7 @@ export class CustomCourseListComponent implements OnInit{
 	ngOnInit(): void{
 		this.isShowLoadMoreBtn$ = this.store.select(isShowLoadMoreBtnSelector);
 		this.courses$ = this.store.select(coursesSelector);
-		this.store.dispatch(getCoursesAction());
+
 	}
 
 	onDeleteCourse(id: number): void {

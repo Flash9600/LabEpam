@@ -1,6 +1,6 @@
-import { map, mergeMap } from 'rxjs/operators';
+import { map, mergeMap, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { createEffect, ofType, Actions } from '@ngrx/effects';
+import { createEffect, ofType, Actions, ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { of } from 'rxjs';
 
 import { getCoursesSuccessAction, ECoursesActions, doRefreshCoursesAction, increaseCoursesPageAction } from './../actions/courses.actions';
@@ -16,7 +16,7 @@ export class CoursesEffects {
 
 	public getCourses$ = createEffect(() => {
 		return this.actions$.pipe(
-			ofType(ECoursesActions.getCourses),
+			ofType(ROOT_EFFECTS_INIT),
 			mergeMap(() =>
 				this.coursesService.getCoursesListFromStorage.pipe(
 					map((courses) => {

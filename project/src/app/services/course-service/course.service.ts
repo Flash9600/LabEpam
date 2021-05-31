@@ -1,3 +1,4 @@
+import { doRefreshCoursesAction } from './../../core-module/store/actions/courses.actions';
 import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -9,6 +10,7 @@ import { Course } from 'src/app/interfaces/course.interface';
 import { OrderByPipe } from 'src/app/pipes/orderBy-pipe/order-by.pipe';
 import { StorageService } from '../local-storage-service/storage.service';
 import { coursesPageNumberSelector } from 'src/app/core-module/store/selectors/courses.selectors';
+import { getCoursesAction } from 'src/app/core-module/store/actions/courses.actions';
 
 @Injectable()
 export class CourseService {
@@ -29,7 +31,7 @@ export class CourseService {
 		protected network: HttpService,
 		private storageService: StorageService,
 		private store: Store
-		) {
+	) {
 		this.store.select(coursesPageNumberSelector).subscribe(pageNumber => this.pageNumber = pageNumber);
 		this.getIdTracker = new Subject<string>();
 		this.getIdTracker.subscribe((id) => this.getCourseById(id));
@@ -38,7 +40,6 @@ export class CourseService {
 		this.setNewCourseTracker.subscribe((newCourse) => this.setNewCourse(newCourse));
 		this.moveToCoursesPageTarget = new Subject<void>();
 		this.moveToCoursesPageTarget.subscribe(() => this.router.navigateByUrl('/courses'));
-
 		this.getAuthorsList();
 	}
 
@@ -78,6 +79,10 @@ export class CourseService {
 	public getCoursesBySearch(text: string): Observable<Course[]>{
 		return this.network.getCoursesListByText(text).pipe(
 		map((coursesList) => this.createTypeForCoursesList(coursesList)));
+	}
+
+	public deleteCourse(id: number): Observable<string> {
+		return this.network.deleteCourse(id);
 	}
 
 	public getCourseById(id: string | undefined): void{
@@ -121,16 +126,11 @@ export class CourseService {
 		});
 	}
 
-	public deleteCourse(id: number): Observable<string> {
-		console.log(id);
-
-		return this.network.deleteCourse(id);
-	}
 
 	public setNewCourse(newCourse: Course): void {
 		const subscribeCB = () => {
 			this.moveToCoursesPageTarget.next();
-			this.refreshCoursesList;
+			this.store.dispatch(doRefreshCoursesAction());
 		};
 		if (this.isNewCourse) {
 			this.network.addCourse(newCourse).subscribe(subscribeCB);
