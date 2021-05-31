@@ -1,23 +1,55 @@
+import { Course } from 'src/app/interfaces/course.interface';
 import { createAction, props } from '@ngrx/store';
-
-import { ICoursesState } from './../../../interfaces/course.interface';
 
 export enum ECoursesActions {
 	getCourses = '[CoursesList] GetCourses',
+	doRefreshCourses = '[CoursesList] RefreshCourses',
 	getMoreCourses = '[CoursesList] GetMoreCourses',
-	getCoursesSuccess = '[CoursesList] GetCoursesSuccess'
+	getCoursesSuccess = '[CoursesList] GetCoursesSuccess',
+	doToggleConfirmation = '[CoursesList] ToggleConfirmation',
+	doToggleLoadMoreBtn = '[CourseList] ToggleLoadMoreBtn',
+	doDeleteCourseById = '[CourseList] DeleteCourseById',
+	increaseCoursesPage = '[CourseList] increaseCoursesPage',
+	doToggleSearchCourses = '[CoursesList] doToggleSearchCourses'
 }
 
 export const getCoursesAction = createAction(
 	ECoursesActions.getCourses
 );
 
-export const getMoreCoursesAction = createAction(
-	ECoursesActions.getMoreCourses,
-	props<ICoursesState>()
-);
-
 export const getCoursesSuccessAction = createAction(
 	ECoursesActions.getCoursesSuccess,
-	props<ICoursesState>()
+	props<{ courses: Course[] }>()
 );
+
+export const doRefreshCoursesAction = createAction(
+	ECoursesActions.doRefreshCourses
+);
+
+export const getMoreCoursesAction = createAction(
+	ECoursesActions.getMoreCourses
+);
+
+export const doToggleLoadMoreBtnAction = createAction(
+	ECoursesActions.doToggleLoadMoreBtn,
+	props<{ isShowLoadMoreBtn: boolean }>()
+);
+
+export const doToggleSearchCoursesAction = createAction(
+	ECoursesActions.doToggleSearchCourses,
+	props<{ isSearchCourses: boolean }>()
+);
+
+export const increaseCoursesPageAction = createAction(
+	ECoursesActions.increaseCoursesPage
+);
+
+export const doDeleteCourseByIdAction = createAction(
+	ECoursesActions.doDeleteCourseById,
+	props<{courseId: number}>()
+);
+
+export const doToggleConfirmationAction = createAction(
+	ECoursesActions.doToggleConfirmation
+);
+

@@ -7,13 +7,15 @@ import { Component, Output, EventEmitter } from '@angular/core';
 })
 export class ConfirmationComponent {
 
-	@Output() confirmDeletion = new EventEmitter<boolean>();
+	@Output() confirmDeletion = new EventEmitter<void>();
+
+	@Output() undoDeletion =  new EventEmitter<void>();
 
 	onConfirmDeletion(): void {
-		this.confirmDeletion.emit(true);
+		this.confirmDeletion.emit();
 	}
 
-	onRejectDeletion(): void{
-		this.confirmDeletion.emit(false);
+	onUndoDeletion(): void{
+		this.undoDeletion.emit();
 	}
 }

@@ -1,8 +1,9 @@
-import { Observable, Subscription } from 'rxjs';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { doDeleteCourseByIdAction, getMoreCoursesAction } from './../../store/actions/courses.actions';
+import { Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { coursesSelector } from './../../store/selectors/courses.selectors';
+import { coursesSelector, isShowLoadMoreBtnSelector } from './../../store/selectors/courses.selectors';
 import { Course } from 'src/app/interfaces/course.interface';
 import { CourseService } from 'src/app/services/course-service/course.service';
 import { getCoursesAction } from '../../store/actions/courses.actions';
@@ -12,37 +13,26 @@ import { getCoursesAction } from '../../store/actions/courses.actions';
 	templateUrl: './custom-course-list.component.html',
 	styleUrls: ['./custom-course-list.component.scss'],
 })
-export class CustomCourseListComponent implements OnInit, OnDestroy{
+export class CustomCourseListComponent implements OnInit{
 
 	constructor(public courseService: CourseService, protected store: Store) { }
 
-	public courses: Observable<Course[]>;
+	public courses$: Observable<Course[]>;
 
-	protected trackers: Subscription[] = [];
-
-	public isShowLoadMoreBtn: boolean;
+	public isShowLoadMoreBtn$: Observable<boolean>;
 
 	ngOnInit(): void{
-		this.isShowLoadMoreBtn = true;
+		this.isShowLoadMoreBtn$ = this.store.select(isShowLoadMoreBtnSelector);
+		this.courses$ = this.store.select(coursesSelector);
 		this.store.dispatch(getCoursesAction());
-		this.courses = this.store.select(coursesSelector);
-
-		const showLoadMoreSubscription = this.courseService.showLoadMoreTracker.subscribe((isShow) =>
-			this.isShowLoadMoreBtn = isShow
-		);
-		this.trackers.push(showLoadMoreSubscription);
 	}
 
-	onCoursesList(id: number): void {
-		this.courseService.courseForDeletionTracker.next(id);
+	onDeleteCourse(id: number): void {
+		this.store.dispatch(doDeleteCourseByIdAction({courseId: id}));
 	}
 
 	onLoadMore(): void {
-		this.courseService.loadMoreTracker.next();
-	}
-
-	ngOnDestroy(): void{
-		this.trackers.forEach((subscription) => subscription.unsubscribe());
+		this.store.dispatch(getMoreCoursesAction());
 	}
 
 }

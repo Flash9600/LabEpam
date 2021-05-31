@@ -11,20 +11,19 @@ import { Course } from 'src/app/interfaces/course.interface';
 })
 export class CourseItemComponent {
 
-	public isOpenConfirmation = false;
+	public isShowConfirmation: boolean;
 
 	@Input() course: Course;
 
 	@Output() deleteCourse = new EventEmitter<number>();
 
-	confirmDeletion(): void {
-		this.isOpenConfirmation = true;
+	toggleConfirmation(): void{
+		this.isShowConfirmation = !this.isShowConfirmation;
 	}
 
-	onDeleteCourse(isDeletion: boolean): void {
-			this.isOpenConfirmation = false;
-		 if (isDeletion) {
-			this.deleteCourse.emit(this.course.id);
-		}
+	onDeleteCourse(): void {
+		this.toggleConfirmation();
+		this.deleteCourse.emit(this.course.id);
 	}
 }
+

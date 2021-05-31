@@ -1,25 +1,48 @@
+import { doToggleSearchCoursesAction } from './../actions/courses.actions';
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { ICoursesState } from './../../../interfaces/course.interface';
-import { getMoreCoursesAction, getCoursesSuccessAction } from '../actions/courses.actions';
-import { initialCoursesState } from 'src/app/interfaces/course.interface';
+import {
+	getCoursesSuccessAction,
+	increaseCoursesPageAction,
+	doToggleLoadMoreBtnAction,
+	doToggleConfirmationAction
+} from '../actions/courses.actions';
+import { ICoursesState, initialCoursesState } from '../state/coursesList.state';
 
 export const coursesReducersCreator = createReducer(
 	initialCoursesState,
-	on(getCoursesSuccessAction, (state: ICoursesState, {courses}): ICoursesState => {
-			return {
-				...state,
-				courses
-			};
+	on(getCoursesSuccessAction, (state: ICoursesState, { courses }): ICoursesState => {
+		return {
+			...state,
+			courses
+		};
 	}),
-	on(getMoreCoursesAction, (state: ICoursesState, {courses}) => {
-			return {
-				...state,
-				courses
-			};
+	on(increaseCoursesPageAction, (state: ICoursesState) => {
+		return {
+			...state,
+			pageNumber: state.pageNumber + 1
+		};
 	}),
+	on(doToggleLoadMoreBtnAction, (state: ICoursesState, { isShowLoadMoreBtn }) => {
+		return {
+			...state,
+			isShowLoadMoreBtn
+		};
+	}),
+	on(doToggleSearchCoursesAction, (state: ICoursesState, { isSearchCourses }) => {
+		return {
+			...state,
+			isSearchCourses
+		};
+	}),
+	on(doToggleConfirmationAction, (state: ICoursesState) => {
+		return {
+			...state,
+			isShowConfirmation: !state.isShowConfirmation
+		}; // без эффектов
+	})
 );
 
-export function coursesReducers(state: ICoursesState, actions: Action): ICoursesState  {
+export function coursesReducers(state: ICoursesState, actions: Action): ICoursesState {
 	return coursesReducersCreator(state, actions);
 }

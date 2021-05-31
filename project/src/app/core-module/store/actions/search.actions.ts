@@ -1,4 +1,4 @@
-import { ISearchState } from './../../../interfaces/search.interface';
+import { ISearchState } from '../state/search.state';
 import { createAction, props } from '@ngrx/store';
 
 

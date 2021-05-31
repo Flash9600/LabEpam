@@ -2,8 +2,6 @@ import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from 
 
 import { Course } from 'src/app/interfaces/course.interface';
 
-
-
 @Component({
 	selector: 'app-course-list',
 	templateUrl: './course-list.component.html',

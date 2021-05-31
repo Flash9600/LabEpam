@@ -1,5 +1,5 @@
-import { ICoursesState } from './course.interface';
-import { ISearchState } from './search.interface';
+import { ICoursesState } from '../core-module/store/state/coursesList.state';
+import { ISearchState } from '../core-module/store/state/search.state';
 
 export interface IState {
 	coursesList: ICoursesState;

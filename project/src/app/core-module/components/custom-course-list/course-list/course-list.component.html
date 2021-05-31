@@ -1,7 +1,9 @@
 <app-breadcrumbs></app-breadcrumbs>
 <app-search></app-search>
 <div *ngIf="coursesList">
-  <app-course-item *ngFor="let course of coursesList" [course]="course" (deleteCourse)="onCourseItem($event)"
+  <app-course-item *ngFor="let course of coursesList"
+  [course]="course"
+  (deleteCourse)="onCourseItem($event)"
     appDateColor>
   </app-course-item>
   <button *ngIf="isShowLoadMore" (click)="onLoadMore()">LOAD MORE</button>

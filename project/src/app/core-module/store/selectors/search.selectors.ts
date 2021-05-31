@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { ISearchState } from 'src/app/interfaces/search.interface';
+import { ISearchState } from 'src/app/core-module/store/state/search.state';
 
 export const State = createFeatureSelector<ISearchState>('search');
 

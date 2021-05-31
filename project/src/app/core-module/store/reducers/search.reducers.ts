@@ -1,8 +1,8 @@
-import { ISearchState } from './../../../interfaces/search.interface';
+import { ISearchState } from '../state/search.state';
 import { setSearchAction } from './../actions/search.actions';
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { initialSearchState } from 'src/app/interfaces/search.interface';
+import { initialSearchState } from 'src/app/core-module/store/state/search.state';
 
 export const searchReducersCreator = createReducer(
 	initialSearchState,
