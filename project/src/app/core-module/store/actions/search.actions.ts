@@ -1,5 +1,6 @@
-import { ISearchState } from '../state/search.state';
 import { createAction, props } from '@ngrx/store';
+
+import { ISearchState } from '../state/search.state';
 
 
 export enum ESearchActions {

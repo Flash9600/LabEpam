@@ -29,7 +29,9 @@ export class AuthorizationService {
 				switchMap(userData => this.network.makeAuthorization(userData))
 			).subscribe(() => {
 					this.storageService.setValue<User>(this.userName, this.user);
-					this.router.navigateByUrl('courses');
+					if (!user) {
+						this.router.navigateByUrl('courses');
+					}
 				},
 				(err) => {
 					this.validationErrorTextTracker.next(`Incorrect username or password.`);

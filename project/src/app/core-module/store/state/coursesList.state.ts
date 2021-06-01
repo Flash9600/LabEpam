@@ -1,3 +1,4 @@
+import { ICourse } from './../../../interfaces/course.interface';
 import { Course } from 'src/app/interfaces/course.interface';
 
 export interface ICoursesState{
@@ -13,5 +14,5 @@ export const initialCoursesState: ICoursesState = {
 	pageNumber: 1,
 	isSearchCourses: false,
 	isShowLoadMoreBtn: true,
-	isShowConfirmation: false
+	isShowConfirmation: false,
 };

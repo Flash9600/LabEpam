@@ -24,6 +24,8 @@ import { SearchValidatorDirective } from './directives/search-validator/search-v
 import { CourseService } from '../services/course-service/course.service';
 import { CoursesEffects } from './store/effects/courses.effects';
 import { coreReducers } from './store/reducers/core.reducers';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { NewCourseEffects } from './store/effects/newCourse.effects';
 
 
 
@@ -50,8 +52,9 @@ import { coreReducers } from './store/reducers/core.reducers';
 		CoreRoutingModule,
 		ReactiveFormsModule,
 		StoreModule.forRoot(coreReducers),
-		EffectsModule.forRoot([CoursesEffects, SearchEffects]),
-		StoreDevtoolsModule.instrument()
+		EffectsModule.forRoot([CoursesEffects, SearchEffects, NewCourseEffects]),
+		StoreDevtoolsModule.instrument(),
+		StoreRouterConnectingModule.forRoot()
 	],
 	providers: [
 		CourseService,

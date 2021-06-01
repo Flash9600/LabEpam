@@ -1,9 +1,13 @@
-import { map, mergeMap, tap } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { createEffect, ofType, Actions, ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { of } from 'rxjs';
 
-import { getCoursesSuccessAction, ECoursesActions, doRefreshCoursesAction, increaseCoursesPageAction } from './../actions/courses.actions';
+import { getCoursesSuccessAction,
+	ECoursesActions,
+	doRefreshCoursesAction,
+	increaseCoursesPageAction
+} from './../actions/courses.actions';
 import { CourseService } from 'src/app/services/course-service/course.service';
 
 @Injectable()

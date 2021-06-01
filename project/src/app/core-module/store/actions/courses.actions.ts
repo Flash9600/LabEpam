@@ -6,11 +6,10 @@ export enum ECoursesActions {
 	doRefreshCourses = '[CoursesList] RefreshCourses',
 	getMoreCourses = '[CoursesList] GetMoreCourses',
 	getCoursesSuccess = '[CoursesList] GetCoursesSuccess',
-	doToggleConfirmation = '[CoursesList] ToggleConfirmation',
 	doToggleLoadMoreBtn = '[CourseList] ToggleLoadMoreBtn',
 	doDeleteCourseById = '[CourseList] DeleteCourseById',
 	increaseCoursesPage = '[CourseList] increaseCoursesPage',
-	doToggleSearchCourses = '[CoursesList] doToggleSearchCourses'
+	doToggleSearchCourses = '[CoursesList] doToggleSearchCourses',
 }
 
 export const getCoursesAction = createAction(
@@ -49,7 +48,5 @@ export const doDeleteCourseByIdAction = createAction(
 	props<{courseId: number}>()
 );
 
-export const doToggleConfirmationAction = createAction(
-	ECoursesActions.doToggleConfirmation
-);
+
 

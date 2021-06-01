@@ -1,12 +1,12 @@
 import { doToggleLoadMoreBtnAction, getCoursesAction, doToggleSearchCoursesAction } from './../actions/courses.actions';
-import { debounceTime, distinctUntilChanged, filter, map, switchMap, startWith, concatAll } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { createEffect, ofType, Actions } from '@ngrx/effects';
+import { concat, of } from 'rxjs';
 
 import { ESearchActions } from './../actions/search.actions';
 import { CourseService } from 'src/app/services/course-service/course.service';
 import { getCoursesSuccessAction } from '../actions/courses.actions';
-import { concat, of } from 'rxjs';
 
 @Injectable()
 export class SearchEffects {

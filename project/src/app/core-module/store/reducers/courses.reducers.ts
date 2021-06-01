@@ -5,7 +5,6 @@ import {
 	getCoursesSuccessAction,
 	increaseCoursesPageAction,
 	doToggleLoadMoreBtnAction,
-	doToggleConfirmationAction
 } from '../actions/courses.actions';
 import { ICoursesState, initialCoursesState } from '../state/coursesList.state';
 
@@ -35,12 +34,6 @@ export const coursesReducersCreator = createReducer(
 			isSearchCourses
 		};
 	}),
-	on(doToggleConfirmationAction, (state: ICoursesState) => {
-		return {
-			...state,
-			isShowConfirmation: !state.isShowConfirmation
-		}; // без эффектов
-	})
 );
 
 export function coursesReducers(state: ICoursesState, actions: Action): ICoursesState {

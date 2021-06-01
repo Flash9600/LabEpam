@@ -19,9 +19,6 @@ export class CourseService {
 	protected isNewCourse: boolean;
 	private coursesNameInStorage = 'courses';
 	protected pageNumber = 1;
-	public setNewCourseTracker: Subject<Course>;
-	public getCourseByIdTracker: Subject<Course>;
-	public getIdTracker: Subject<string>;
 	public moveToCoursesPageTarget: Subject<void>;
 	public getAuthorListTracker: BehaviorSubject<string[]>;
 
@@ -33,11 +30,6 @@ export class CourseService {
 		private store: Store
 	) {
 		this.store.select(coursesPageNumberSelector).subscribe(pageNumber => this.pageNumber = pageNumber);
-		this.getIdTracker = new Subject<string>();
-		this.getIdTracker.subscribe((id) => this.getCourseById(id));
-		this.getCourseByIdTracker = new BehaviorSubject<Course>(null);
-		this.setNewCourseTracker = new Subject<Course>();
-		this.setNewCourseTracker.subscribe((newCourse) => this.setNewCourse(newCourse));
 		this.moveToCoursesPageTarget = new Subject<void>();
 		this.moveToCoursesPageTarget.subscribe(() => this.router.navigateByUrl('/courses'));
 		this.getAuthorsList();
@@ -85,22 +77,8 @@ export class CourseService {
 		return this.network.deleteCourse(id);
 	}
 
-	public getCourseById(id: string | undefined): void{
-		const numbId = +id;
-
-		if (isNaN(numbId)) {
-			this.isNewCourse = true;
-			this.createNewCourse();
-		} else if (numbId >= 0){
-			this.isNewCourse = false;
-			this.findCourseById(numbId);
-		} else if (id !== undefined){
-			this.router.navigate(['error']);
-		}
-	}
-
-	protected createNewCourse(): void{
-		const newCourse = new Course({
+	public createNewCourse(): Course{
+		return new Course({
 			title: '',
 			date: new Date(),
 			duration: 0,
@@ -108,35 +86,20 @@ export class CourseService {
 			isTopRated: false,
 			authors: ['']
 		});
-		this.getCourseByIdTracker.next(newCourse);
 	}
 
-	protected findCourseById(id: number): void{
-		const coursesList = this.storageService.getValue<Course[]>(this.coursesNameInStorage);
-
-		if (coursesList) {
-			const course = coursesList.find((courseItem) => courseItem.id === id);
-			if (course) {
-				this.getCourseByIdTracker.next(course);
-				return;
-			}
-		}
-		this.network.getCourseById(id).subscribe((courseItem: Course[]) => {
-			this.getCourseByIdTracker.next(...courseItem);
-		});
+	public getCourseByIdFromNetwork(id: number): Observable<Course>{
+		return this.network.getCourseById(id).pipe(
+			map((course: Course[]) => this.createTypeForCoursesList(course)[0])
+		);
 	}
 
+	public addNewCourseToNetwork(newCourse: Course): Observable<Course> {
+		return this.network.addCourse(newCourse);
+	}
 
-	public setNewCourse(newCourse: Course): void {
-		const subscribeCB = () => {
-			this.moveToCoursesPageTarget.next();
-			this.store.dispatch(doRefreshCoursesAction());
-		};
-		if (this.isNewCourse) {
-			this.network.addCourse(newCourse).subscribe(subscribeCB);
-		} else {
-			this.network.updateCourse(newCourse).subscribe(subscribeCB);
-		}
+	public updateCourseToNetwork(newCourse: Course): Observable<Course> {
+		return this.network.updateCourse(newCourse);
 	}
 
 }

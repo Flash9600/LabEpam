@@ -1,3 +1,5 @@
+import { doSubmitNewCourseAction } from './../../store/actions/newCourse.actions';
+import { Store } from '@ngrx/store';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -5,6 +7,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
 import { CourseService } from 'src/app/services/course-service/course.service';
 import { Course } from 'src/app/interfaces/course.interface';
+import { routerSelector } from '../../store/selectors/router.selector';
+import { newCourseSelector } from '../../store/selectors/newCourse.selector';
 
 @Component({
 	selector: 'app-add-course-page',
@@ -23,13 +27,12 @@ export class AddCoursePageComponent implements OnInit, OnDestroy{
 		protected router: Router,
 		protected courseService: CourseService,
 		protected activatedRoute: ActivatedRoute,
-		protected formBuilder: FormBuilder
+		protected formBuilder: FormBuilder,
+		protected store: Store
 		 ) {}
 
 	ngOnInit(): void{
-		const id = this.activatedRoute.snapshot.params.id;
-		this.courseService.getIdTracker.next(id);
-		const getCourseByIdSubscription = this.courseService.getCourseByIdTracker.subscribe((course) => {
+		const getCourseByIdSubscription = this.store.select(newCourseSelector).subscribe((course) => {
 			if (course) {
 				this.newCourse = course;
 				this.title = `Course ${course.title || 'New'}`;
@@ -37,7 +40,7 @@ export class AddCoursePageComponent implements OnInit, OnDestroy{
 			}
 		});
 		const authorsSubscription = this.courseService.getAuthorListTracker.subscribe((authorsList) => this.authorsList = authorsList);
-		this.subscriptionsList.push(getCourseByIdSubscription, authorsSubscription);
+		this.subscriptionsList.push( getCourseByIdSubscription, authorsSubscription);
 	}
 
 	setCourse(): void {
@@ -66,7 +69,7 @@ export class AddCoursePageComponent implements OnInit, OnDestroy{
 			id: this.newCourse.id,
 			isTopRated: this.newCourse.isTopRated
 		});
-		this.courseService.setNewCourseTracker.next(newCourse);
+		this.store.dispatch(doSubmitNewCourseAction({newCourse}));
 	}
 
 	moveToCoursesPage(): void{

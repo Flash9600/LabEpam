@@ -20,6 +20,7 @@
 app-header{
   @include fixed();
   top: 0;
+  z-index: 1;
   height:80px;
 }
 app-footer{

@@ -13,7 +13,7 @@ export const coursesSelector = createSelector(State, (state) => {
 	return state.courses.slice(0, state.pageNumber * coursesCountAtPage);
 });
 
-export const isShowConfirmationSelector = createSelector(State, (state) => state.isShowConfirmation);
+export const allCoursesSelector = createSelector(State, (state) => state.courses);
 
 export const isShowLoadMoreBtnSelector = createSelector(State, (state) => state.isShowLoadMoreBtn);
 
