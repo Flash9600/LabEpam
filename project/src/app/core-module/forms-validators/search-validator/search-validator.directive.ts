@@ -28,9 +28,9 @@ export class SearchValidatorDirective implements AsyncValidator{
 			return true;
 		}
 	 const length = value.length;
-	 const minLength = 3;
+	 const minLength = 2;
 	 const maxLength = 20;
-	 return !!(length > minLength && length < maxLength && value.match(/[a-zA-Z0-9 \-]*/));
+	 return !!(length >= minLength && length <= maxLength && value.match(/[a-zA-Z0-9 \-]*/));
 	}
 
 }

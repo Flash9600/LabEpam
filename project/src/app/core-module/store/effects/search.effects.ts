@@ -1,11 +1,10 @@
 import { debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { createEffect, ofType, Actions } from '@ngrx/effects';
+import { createEffect, ofType, Actions, rootEffectsInit } from '@ngrx/effects';
 import { concat, of } from 'rxjs';
 
 import {
 	doToggleLoadMoreBtnAction,
-	getCoursesAction,
 	doToggleSearchCoursesAction
 } from './../actions/courses.actions';
 import { ESearchActions } from './../actions/search.actions';
@@ -40,7 +39,7 @@ export class SearchEffects {
 				return of(
 					doToggleLoadMoreBtnAction({ isShowLoadMoreBtn: true }),
 					doToggleSearchCoursesAction({ isSearchCourses: false }),
-					getCoursesAction()
+					rootEffectsInit()
 				);
 			}
 		}),

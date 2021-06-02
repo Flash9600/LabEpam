@@ -21,7 +21,7 @@ import { SearchComponent } from './components/search/search.component';
 import { DateColorDirective } from './directives/date-color-directive/date-color.directive';
 import { CoreRoutingModule } from './router-module/core-routing.module';
 import { SharedModule } from './../shared-module/shared.module';
-import { SearchValidatorDirective } from './directives/search-validator/search-validator.directive';
+import { SearchValidatorDirective } from './forms-validators/search-validator/search-validator.directive';
 import { CourseService } from '../services/course-service/course.service';
 import { CoursesEffects } from './store/effects/courses.effects';
 import { coreReducers } from './store/reducers/core.reducers';
