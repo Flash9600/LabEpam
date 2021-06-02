@@ -86,6 +86,7 @@ export class AuthorsInputComponent implements OnInit, OnDestroy, ControlValueAcc
 	onTouched(): void {}
 
 	writeValue(value: string): void{
+		(this.courseAuthors.get('authors') as FormArray).clear();
 		value.split('/').forEach(authorName => {
 			if (authorName) {
 				(this.courseAuthors.get('authors') as FormArray).push(new FormControl(authorName));

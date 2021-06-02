@@ -1,6 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { doAddNewCourseAction, doToggleNewCourseAction } from '../actions/newCourse.actions';
+import { doAddNewCourseAction, doAuthorsListSuccessAction, doToggleNewCourseAction } from '../actions/newCourse.actions';
 import { initialNewCourseState } from '../state/newCourse.state';
 import { INewCourseState } from 'src/app/interfaces/newCourseState.interface';
 
@@ -16,6 +16,12 @@ export const newCourseReducersCreator = createReducer(
 		return {
 			...state,
 			isNewCourse
+		};
+	}),
+	on(doAuthorsListSuccessAction, (state, { authorsList }): INewCourseState => {
+		return {
+			...state,
+			authorsList
 		};
 	})
 );

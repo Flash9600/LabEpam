@@ -1,29 +1,25 @@
-import { doRefreshCoursesAction } from './../../core-module/store/actions/courses.actions';
 import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 import { HttpService } from '../http-service/http.service';
 import { Course } from 'src/app/interfaces/course.interface';
-import { OrderByPipe } from 'src/app/pipes/orderBy-pipe/order-by.pipe';
 import { StorageService } from '../local-storage-service/storage.service';
 import { coursesPageNumberSelector } from 'src/app/core-module/store/selectors/courses.selectors';
-import { getCoursesAction } from 'src/app/core-module/store/actions/courses.actions';
 
 @Injectable()
 export class CourseService {
 
 	protected courseLength: number;
 	protected isNewCourse: boolean;
-	private coursesNameInStorage = 'courses';
-	protected pageNumber = 1;
+	protected coursesStorageName = 'courses';
+	protected authorStorageName = 'authors';
+	protected pageNumber: number;
 	public moveToCoursesPageTarget: Subject<void>;
-	public getAuthorListTracker: BehaviorSubject<string[]>;
 
 	constructor(
-		protected orderBy: OrderByPipe,
 		protected router: Router,
 		protected network: HttpService,
 		private storageService: StorageService,
@@ -32,20 +28,18 @@ export class CourseService {
 		this.store.select(coursesPageNumberSelector).subscribe(pageNumber => this.pageNumber = pageNumber);
 		this.moveToCoursesPageTarget = new Subject<void>();
 		this.moveToCoursesPageTarget.subscribe(() => this.router.navigateByUrl('/courses'));
-		this.getAuthorsList();
 	}
 
-	protected getAuthorsList(): void{
-		const authorStorageName = 'authors';
-		const authors = this.storageService.getValue<string[]>(authorStorageName);
-		if (authors) {
-			this.getAuthorListTracker = new BehaviorSubject(authors);
-		}else {
-			this.network.getAuthorsList().subscribe(authorsList => {
-				this.storageService.setValue<string[]>('authors', authorsList);
-				this.getAuthorListTracker = new BehaviorSubject(authorsList);
-			});
-		}
+	public get getAuthorsListFromStorage(): Observable<string[]>{
+		return of(this.storageService.getValue<string[]>(this.authorStorageName));
+	}
+
+	public get getAuthorsListFromNetwork(): Observable<string[]>{
+		return this.network.getAuthorsList().pipe(
+			tap(authorsList => {
+				this.storageService.setValue<string[]>(this.authorStorageName, authorsList);
+			})
+		);
 	}
 
 	protected createTypeForCoursesList(coursesList: Course[] | undefined): Course[]{
@@ -58,11 +52,11 @@ export class CourseService {
 	public get refreshCoursesList(): Observable<Course[]>{
 		return this.network.getCoursesList(this.pageNumber).pipe(
 			map(coursesList => this.createTypeForCoursesList(coursesList)),
-			tap((coursesList: Course[]) => this.storageService.setValue<Course[]>(this.coursesNameInStorage, coursesList)));
+			tap((coursesList: Course[]) => this.storageService.setValue<Course[]>(this.coursesStorageName, coursesList)));
 	}
 
 	public get getCoursesListFromStorage(): Observable<Course[]> {
-		const courses = this.storageService.getValue<Course[]>(this.coursesNameInStorage);
+		const courses = this.storageService.getValue<Course[]>(this.coursesStorageName);
 		return of(courses).pipe(
 			map(coursesList => this.createTypeForCoursesList(coursesList))
 		);

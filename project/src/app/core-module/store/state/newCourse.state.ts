@@ -10,5 +10,6 @@ export const initialNewCourseState: INewCourseState = {
 		isTopRated: false,
 		authors: ['']
 	}),
-	isNewCourse: true
+	isNewCourse: true,
+	authorsList: []
 };

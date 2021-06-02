@@ -48,6 +48,7 @@
       "timeEnd",
       "trace"
     ],
+    "forin":true,
     "no-empty": false,
     "no-inferrable-types": [
       true,

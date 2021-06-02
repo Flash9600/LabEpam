@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { filter, map, mergeMap, switchMap, startWith, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { createEffect, ofType, Actions } from '@ngrx/effects';
+import { createEffect, ofType, Actions, ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { RouterNavigatedAction, ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
 import { doRefreshCoursesAction } from './../actions/courses.actions';
 import { CourseService } from 'src/app/services/course-service/course.service';
 import { allCoursesSelector } from './../selectors/courses.selectors';
-import { doAddNewCourseAction, doToggleNewCourseAction, ENewCourseActions } from '../actions/newCourse.actions';
+import { doAddNewCourseAction, doAuthorsListSuccessAction, doToggleNewCourseAction, ENewCourseActions } from '../actions/newCourse.actions';
 import { Course } from 'src/app/interfaces/course.interface';
 import { isNewCourseSelector } from '../selectors/newCourse.selector';
 
@@ -39,12 +39,12 @@ export class NewCourseEffects {
 							}
 						}),
 						map((course: Course | typeof doToggleNewCourseAction) =>
-						course instanceof Course ? doAddNewCourseAction({newCourse: course}) : course),
-						startWith(doToggleNewCourseAction({isNewCourse: false}))
+							course instanceof Course ? doAddNewCourseAction({ newCourse: course }) : course),
+						startWith(doToggleNewCourseAction({ isNewCourse: false }))
 					);
 				}
 				const newCourse = this.coursesService.createNewCourse();
-				return of(doAddNewCourseAction({newCourse}), doToggleNewCourseAction({isNewCourse: true}));
+				return of(doAddNewCourseAction({ newCourse }), doToggleNewCourseAction({ isNewCourse: true }));
 			})
 		);
 	});
@@ -52,19 +52,36 @@ export class NewCourseEffects {
 	public setNewCourse$ = createEffect(() => {
 		return this.actions$.pipe(
 			ofType(ENewCourseActions.doSubmitNewCourse),
-			switchMap((newCourseState: {newCourse: Course}) =>
+			switchMap((newCourseState: { newCourse: Course }) =>
 				this.store.select(isNewCourseSelector).pipe(
-				mergeMap((isNewCourse) => {
-					console.log(isNewCourse, newCourseState );
-					if (isNewCourse) {
-						return this.coursesService.addNewCourseToNetwork(newCourseState.newCourse);
-					} else {
-						return this.coursesService.updateCourseToNetwork(newCourseState.newCourse);
-					}
-				})
-			)),
+					mergeMap((isNewCourse) => {
+						if (isNewCourse) {
+							return this.coursesService.addNewCourseToNetwork(newCourseState.newCourse);
+						} else {
+							return this.coursesService.updateCourseToNetwork(newCourseState.newCourse);
+						}
+					})
+				)),
 			tap(() => this.coursesService.moveToCoursesPageTarget.next()),
 			map(() => doRefreshCoursesAction())
+		);
+	});
+
+	public getAuthors$ = createEffect(() => {
+		return this.actions$.pipe(
+			ofType(ROOT_EFFECTS_INIT),
+			mergeMap(() =>
+				this.coursesService.getAuthorsListFromStorage.pipe(
+					mergeMap((authorsList: string[]) => {
+						if (!authorsList) {
+							return this.coursesService.getAuthorsListFromNetwork;
+						} else {
+							return of(authorsList);
+						}
+					}),
+				)
+			),
+			map((authorsList) => doAuthorsListSuccessAction({ authorsList }))
 		);
 	});
 }

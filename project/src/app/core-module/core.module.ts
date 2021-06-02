@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 import { DurationPipe } from './pipes/duration-pipe/duration.pipe';
 import { AddCoursePageComponent } from './components/add-course-page/add-course-page.component';
@@ -24,7 +25,6 @@ import { SearchValidatorDirective } from './directives/search-validator/search-v
 import { CourseService } from '../services/course-service/course.service';
 import { CoursesEffects } from './store/effects/courses.effects';
 import { coreReducers } from './store/reducers/core.reducers';
-import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { NewCourseEffects } from './store/effects/newCourse.effects';
 
 

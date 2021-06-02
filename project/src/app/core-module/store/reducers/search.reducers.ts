@@ -6,7 +6,7 @@ import { initialSearchState } from 'src/app/core-module/store/state/search.state
 
 export const searchReducersCreator = createReducer(
 	initialSearchState,
-	on(setSearchAction, (state, {value}): ISearchState => {
+	on(setSearchAction, (state, { value }): ISearchState => {
 		return {
 			...state,
 			value
@@ -14,6 +14,6 @@ export const searchReducersCreator = createReducer(
 	}),
 );
 
-export function searchReducers(state: ISearchState, actions: Action): ISearchState  {
+export function searchReducers(state: ISearchState, actions: Action): ISearchState {
 	return searchReducersCreator(state, actions);
 }

@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { createEffect, ofType, Actions, ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { of } from 'rxjs';
 
-import { getCoursesSuccessAction,
+import {
+	getCoursesSuccessAction,
 	ECoursesActions,
 	doRefreshCoursesAction,
 	increaseCoursesPageAction
@@ -54,7 +55,7 @@ export class CoursesEffects {
 	public deleteCourseById$ = createEffect(() => {
 		return this.actions$.pipe(
 			ofType(ECoursesActions.doDeleteCourseById),
-			mergeMap(({courseId}) => this.coursesService.deleteCourse(courseId).pipe(
+			mergeMap(({ courseId }) => this.coursesService.deleteCourse(courseId).pipe(
 				map(() => doRefreshCoursesAction())
 			))
 		);
