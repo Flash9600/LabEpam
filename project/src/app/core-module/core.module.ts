@@ -22,7 +22,7 @@ import { DateColorDirective } from './directives/date-color-directive/date-color
 import { CoreRoutingModule } from './router-module/core-routing.module';
 import { SharedModule } from './../shared-module/shared.module';
 import { SearchValidatorDirective } from './forms-validators/search-validator/search-validator.directive';
-import { CourseService } from '../services/course-service/course.service';
+import { CourseService } from './services/course-service/course.service';
 import { CoursesEffects } from './store/effects/courses.effects';
 import { coreReducers } from './store/reducers/core.reducers';
 import { NewCourseEffects } from './store/effects/newCourse.effects';

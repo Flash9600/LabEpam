@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { doSubmitNewCourseAction } from './../../store/actions/newCourse.actions';
-import { CourseService } from 'src/app/services/course-service/course.service';
+import { CourseService } from 'src/app/core-module/services/course-service/course.service';
 import { Course } from 'src/app/interfaces/course.interface';
 import { newCourseSelector } from '../../store/selectors/newCourse.selector';
 

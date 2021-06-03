@@ -9,7 +9,7 @@ import {
 	doRefreshCoursesAction,
 	increaseCoursesPageAction
 } from './../actions/courses.actions';
-import { CourseService } from 'src/app/services/course-service/course.service';
+import { CourseService } from 'src/app/core-module/services/course-service/course.service';
 
 @Injectable()
 export class CoursesEffects {

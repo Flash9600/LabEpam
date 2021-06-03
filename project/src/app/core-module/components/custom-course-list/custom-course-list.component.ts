@@ -5,8 +5,7 @@ import { Store } from '@ngrx/store';
 
 import { coursesSelector, isShowLoadMoreBtnSelector } from './../../store/selectors/courses.selectors';
 import { Course } from 'src/app/interfaces/course.interface';
-import { CourseService } from 'src/app/services/course-service/course.service';
-import { getCoursesAction } from '../../store/actions/courses.actions';
+import { CourseService } from 'src/app/core-module/services/course-service/course.service';
 
 @Component({
 	selector: 'app-custom-course-list',

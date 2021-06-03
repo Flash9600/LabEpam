@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 import { Observable, of, Subject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
-import { HttpService } from '../http-service/http.service';
+import { HttpService } from '../../../services/http-service/http.service';
 import { Course } from 'src/app/interfaces/course.interface';
-import { StorageService } from '../local-storage-service/storage.service';
+import { StorageService } from '../../../services/local-storage-service/storage.service';
 import { coursesPageNumberSelector } from 'src/app/core-module/store/selectors/courses.selectors';
 
 @Injectable()

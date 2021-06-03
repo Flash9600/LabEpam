@@ -5,8 +5,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { StaticModule } from './static-module/static.module';
-import { OrderByPipe } from './pipes/orderBy-pipe/order-by.pipe';
-import { CourseService } from './services/course-service/course.service';
 import { StorageService } from './services/local-storage-service/storage.service';
 import { AuthorizationService } from './services/authorization-service/authorization.service';
 import { AppRoutingModule } from './router-module/app-routing.module';
@@ -28,11 +26,9 @@ import { CoursesGuard } from './router-module/guards/courses.guard';
 		RouterModule,
 		StaticModule,
 		LoginModule,
-		SharedModule,
-
+		SharedModule
 	],
 	providers: [
-		OrderByPipe,
 		StorageService,
 		AuthorizationService,
 		CoursesGuard,

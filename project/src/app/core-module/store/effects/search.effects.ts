@@ -8,7 +8,7 @@ import {
 	doToggleSearchCoursesAction
 } from './../actions/courses.actions';
 import { ESearchActions } from './../actions/search.actions';
-import { CourseService } from 'src/app/services/course-service/course.service';
+import { CourseService } from 'src/app/core-module/services/course-service/course.service';
 import { getCoursesSuccessAction } from '../actions/courses.actions';
 
 @Injectable()

@@ -6,7 +6,7 @@ import { RouterNavigatedAction, ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
 import { doRefreshCoursesAction } from './../actions/courses.actions';
-import { CourseService } from 'src/app/services/course-service/course.service';
+import { CourseService } from 'src/app/core-module/services/course-service/course.service';
 import { allCoursesSelector } from './../selectors/courses.selectors';
 import { doAddNewCourseAction, doAuthorsListSuccessAction, doToggleNewCourseAction, ENewCourseActions } from '../actions/newCourse.actions';
 import { Course } from 'src/app/interfaces/course.interface';
