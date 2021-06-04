@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 
 import { HttpService } from './../http-service/http.service';
 import { StorageService } from 'src/app/services/local-storage-service/storage.service';
@@ -20,8 +20,12 @@ export class AuthorizationService {
 		protected router: Router,
 		protected network: HttpService) {
 			this.userName = 'user';
-			const user = this.storageService.getValue<User | undefined>(this.userName);
 			this.validationErrorTextTracker = new Subject<string>();
+			this.login();
+		}
+
+		protected login(): void{
+			const user = this.storageService.getValue<User | undefined>(this.userName);
 			this.loginTracker = new BehaviorSubject<User | undefined>(user);
 			this.loginTracker.pipe(
 				filter(userData => !!userData),
@@ -34,9 +38,10 @@ export class AuthorizationService {
 					}
 				},
 				(err) => {
+					this.login();
 					this.validationErrorTextTracker.next(`Incorrect username or password.`);
 			});
-		}
+	}
 
 	public logOut(): void {
 		this.storageService.deleteValue(this.userName);

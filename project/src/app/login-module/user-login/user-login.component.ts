@@ -1,10 +1,8 @@
 import { Subscription } from 'rxjs';
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { User } from './../../interfaces/userEntity.interface';
 import { AuthorizationService } from 'src/app/services/authorization-service/authorization.service';
-import { NgModel } from '@angular/forms';
-
 
 @Component({
 	selector: 'app-user-login',
