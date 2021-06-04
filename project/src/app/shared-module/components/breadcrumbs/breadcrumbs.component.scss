@@ -1,0 +1,15 @@
+:host {
+  background-color: #4bdcdc;
+  display: flex;
+  height: 34px;
+  border-radius: 25px;
+  margin-top: 90px;
+  margin-bottom: 15px;
+  align-items: center;
+
+  ul {
+    display: flex;
+    margin: 15px;
+    list-style: none;
+  }
+}

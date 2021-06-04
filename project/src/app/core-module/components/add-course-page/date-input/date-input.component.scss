@@ -1,0 +1,10 @@
+:host{
+    display: flex;
+    justify-content: space-between;
+    width: 25%;
+    min-width: 290px;
+    align-items: center;
+    input{
+        width: 70%;
+    }
+}

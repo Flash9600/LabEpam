@@ -1,0 +1,17 @@
+:host {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+
+  .search{
+    position: relative;
+    width: 80%;
+  }
+
+  input {
+    margin-right: 25px;
+    width: 100%;
+    max-width: 365px;
+    min-width: 300px;
+  }
+}

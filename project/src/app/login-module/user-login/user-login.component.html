@@ -1,0 +1,35 @@
+<div class="pop-up_wrapper">
+    <div class="pop-up_title">
+        <h4>Sign in</h4>
+    </div>
+    <form #loginForm="ngForm"  class="login-form">
+        <label>Email address:
+            <input type="email"
+                [(ngModel)]='user.email'
+                name="email"
+                #email="ngModel"
+                required
+                appEmailValidation
+            >
+            <span class="tooltip"
+            *ngIf="email.invalid && (email.touched || email.dirty)">
+            Incorrect email
+            </span>
+        </label>
+        <label>Password:
+            <input type="password"
+                [(ngModel)]='user.password'
+                name="password"
+                required
+                #password="ngModel"
+                appPasswordValidation
+            >
+            <span class="tooltip"
+            *ngIf="password.invalid && (password.touched || password.dirty)">
+            Password must contain min 4 symbols, numbers and letters of different case
+            </span>
+        </label>
+        <button type="submit" [disabled]="loginForm.invalid" (click)="login()">Sign in</button>
+    </form>
+</div>
+<app-error-message *ngIf="ValidationErrorText" (closeError)="closeError()" [text]="ValidationErrorText"></app-error-message>

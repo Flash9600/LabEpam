@@ -1,0 +1,134 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body, div, span, applet, object, iframe,
+ h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+  box-sizing: border-box;
+  font-size: 1.1rem;
+}
+
+ul{
+  list-style-type: none;
+}
+
+button {
+  cursor: pointer;
+  background: #00bcd2;
+  border-radius: 10px;
+  border: 0;
+  padding: 10px;
+  color: #fff;
+  outline: none;
+  &:hover {
+    box-shadow: 0px 0px 7px 5px rgba(34, 60, 80, 0.2) inset;
+  }
+  &:active{
+    transform: scale(1.05);
+  }
+  &:disabled{
+    background: #7fa3a7;
+    cursor: default;
+    box-shadow: 0px 0px 7px 5px rgba(34, 60, 80, 0.2) inset;
+  }
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.pop-up{
+  width: 100%;
+  min-height: 100%;
+  background-color: rgba(0, 0, 0, 0.61);
+  overflow: hidden;
+  position: fixed;
+  top:0;
+  left:0;
+  z-index: 1;
+}
+
+.pop-up_wrapper{
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    justify-content: space-around;
+    background: #10d6d6;
+    padding: 30px;
+    animation: slideRight 0.6s;
+    .pop-up_title {
+        text-align: center;
+    }
+}
+
+input, textarea{
+  min-height: 25px;
+  min-width: 150px;
+  border-radius: 5px;
+  background: #bff1f1 ;
+  border: 2px solid #00bcd2;
+  outline: #01818f;
+  font-size: 1.05rem;
+}
+
+.ng-dirty:not(.ng-valid),
+.ng-touched:not(.ng-valid){
+  border-color: #d20e00;
+}
+
+.tooltip{
+  position: absolute;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  padding: 0 10px 0 10px;
+  color: #30333A;
+  left: 0;
+  font-weight: 700;
+  font-size: 0.7rem;
+  border-radius: 10px;
+  transition: all 0.5s ease;
+  top: calc(100% + 10px);
+  color: #fff;
+  background: rgb(209, 26, 6);
+  box-shadow: 0px 0px 10px 3px rgba(209, 27, 6, 0.76);
+}
+
+@keyframes slideRight {
+  0% {
+      transform: translate(-50%, -200%);
+  }
+  50% {
+      transform: translate(-50%, -42%);
+  }
+  65% {
+      transform: translate(-50%, -54%);
+  }
+  80% {
+      transform: translate(-50%, -46%);
+  }
+  95% {
+      transform: translate(-50%, -42%);
+  }
+  100% {
+      transform: translate(-50%, -50%);
+  }
+}
