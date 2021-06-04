@@ -1,3 +1,0 @@
-<input class="duration-input" placeholder="time in minutes" type="number" [formControl]="durationForm">
-<span class="duration-text" [innerText]="durationForm.value | duration" *ngIf="durationForm.value"></span>
-<span class="tooltip" *ngIf="isValidation">{{warningText}}</span>
