@@ -2,7 +2,7 @@ import { Subscription } from 'rxjs';
 import { Component, forwardRef, OnDestroy, OnInit  } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { validateDurationNumber } from 'src/app/core-module/forms-validators/validateDurationNumber';
+import { validateDurationNumber } from 'src/app/core-module/forms-validators/duration-number-validator/validateDurationNumber';
 
 @Component({
 	selector: 'app-duration-input',

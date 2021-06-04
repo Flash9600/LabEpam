@@ -1,25 +1,38 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { NgModel } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
+import { searchSelector } from '../../store/selectors/search.selectors';
 
-import { CourseService } from 'src/app/services/course-service/course.service';
+import { setSearchAction } from './../../store/actions/search.actions';
 
 @Component({
 	selector: 'app-search',
 	templateUrl: './search.component.html',
 	styleUrls: ['./search.component.scss']
 })
-export class SearchComponent {
+export class SearchComponent implements OnInit, OnDestroy{
 
 	public inputText: string;
 
-	constructor(public courseService: CourseService) {}
+	public inputSubscription: Subscription;
+
+	constructor(protected store: Store) {}
 
 	@ViewChild('search') searchForm: NgModel;
 
+	ngOnInit(): void{
+		this.inputSubscription = this.store.select(searchSelector)
+		.subscribe(value => this.inputText = value);
+	}
+
 	findCoursesByInput(event: string): void{
 		if (this.searchForm.valid) {
-			this.courseService.getCoursesListByTextTracker.next(event);
+			this.store.dispatch(setSearchAction({value: event}));
 		}
 	}
 
+	ngOnDestroy(): void{
+		this.inputSubscription.unsubscribe();
+	}
 }

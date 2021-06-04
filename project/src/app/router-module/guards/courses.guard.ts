@@ -1,10 +1,11 @@
-import { User } from './../interfaces/userEntity.interface';
-import { map } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 import { Router, CanLoad, Route, UrlSegment } from '@angular/router';
-import { Observable,  } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 
-import { AuthorizationService } from '../services/authorization-service/authorization.service';
+import { User } from 'src/app/interfaces/userEntity.interface';
+import { AuthorizationService } from 'src/app/services/authorization-service/authorization.service';
+
 
 @Injectable()
 export class CoursesGuard implements CanLoad {
@@ -21,7 +22,8 @@ export class CoursesGuard implements CanLoad {
 					return false;
 				}
 				return true;
-			})
+			}),
+			mergeMap((value) => of(value))
 		);
 	}
 }

@@ -4,6 +4,6 @@
   [(ngModel)]="inputText"
   (ngModelChange)="findCoursesByInput($event)"
   appSearchValidator>
-  <span class="tooltip" *ngIf="search.invalid">Use expressions of length 4 to 20 with spaces and dashes</span>
+  <span class="tooltip" *ngIf="search.invalid">Use expressions of length 2 to 20 with spaces and dashes</span>
 </div>
 <button routerLink="/courses/new">Add course</button>

@@ -1,5 +1,5 @@
 .loader{
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -33,6 +33,7 @@ justify-content: center;
     top: 50%;
     text-align: center;
     color: #000000;
+    font-weight: bold;
     animation: pulse 0.45s linear alternate infinite;
   }
 }

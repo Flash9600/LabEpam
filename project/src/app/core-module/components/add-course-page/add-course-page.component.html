@@ -15,7 +15,7 @@
     <app-duration-input formControlName="duration" ></app-duration-input>
     </label>
     <label class="form_content-authors">Authors:
-    <app-authors-input [availableAuthors]="authorsList" formControlName="authors"></app-authors-input>
+    <app-authors-input [availableAuthors]="authorsList | async" formControlName="authors"></app-authors-input>
     </label>
     <div class="form_content-btn_wrapper">
         <button type="submit" [disabled]="courseParamsControl.invalid">Save</button>
