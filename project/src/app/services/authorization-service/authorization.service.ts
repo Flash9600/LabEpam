@@ -33,9 +33,7 @@ export class AuthorizationService {
 				switchMap(userData => this.network.makeAuthorization(userData))
 			).subscribe(() => {
 					this.storageService.setValue<User>(this.userName, this.user);
-					if (!user) {
-						this.router.navigateByUrl('courses');
-					}
+					this.router.navigateByUrl('courses');
 				},
 				(err) => {
 					this.login();

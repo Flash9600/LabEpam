@@ -20,7 +20,7 @@ import { CoursesGuard } from './router-module/guards/courses.guard';
 		AppComponent
 	],
 	imports: [
-		BrowserModule,
+		BrowserModule.withServerTransition({ appId: 'serverApp' }),
 		AppRoutingModule,
 		HttpClientModule,
 		RouterModule,
