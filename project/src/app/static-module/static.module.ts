@@ -4,11 +4,13 @@ import { CommonModule } from '@angular/common';
 
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
+import { MainPageComponent } from './components/main-page/main-page.component';
 
 @NgModule({
 	declarations: [
 		HeaderComponent,
-		FooterComponent
+		FooterComponent,
+		MainPageComponent
 	],
 	imports: [
 		CommonModule,
@@ -16,6 +18,8 @@ import { HeaderComponent } from './components/header/header.component';
 	],
 	exports: [
 		HeaderComponent,
-		FooterComponent]
+		FooterComponent,
+		MainPageComponent
+	]
 })
 export class StaticModule { }

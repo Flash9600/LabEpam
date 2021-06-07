@@ -23,6 +23,7 @@ export class UserLoginComponent implements OnInit, OnDestroy{
 			email: '',
 			password: ''
 		});
+		this.authorizationService.loginTracker.next(null);
 		this.subscription = this.authorizationService.validationErrorTextTracker.subscribe((text) => {
 			this.ValidationErrorText = text;
 		});

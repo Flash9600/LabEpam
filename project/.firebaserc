@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "appangular-3f8d2": {
+      "hosting": {
+        "tryAngular": [
+          "appangular-3f8d2"
+        ]
+      }
+    }
+  }
+}

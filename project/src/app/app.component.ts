@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { delay } from 'rxjs/operators';
 
 import { AuthorizationService } from './services/authorization-service/authorization.service';
 
@@ -7,18 +8,15 @@ import { AuthorizationService } from './services/authorization-service/authoriza
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
 
 	public userName: string;
 
-	constructor( private authorizationService: AuthorizationService ) { }
+	constructor(private authorizationService: AuthorizationService) { }
 
-	ngOnInit(): void{
-		this.authorizationService.loginTracker
-		.subscribe((user) => this.userName = user ? user.email : '');
+	ngOnInit(): void {
+		this.authorizationService.loginTracker.pipe(delay(1000))
+			.subscribe((user) => this.userName = user ? user.email : '');
 	}
 
-	logOut(): void {
-		this.authorizationService.logOut();
-	}
 }

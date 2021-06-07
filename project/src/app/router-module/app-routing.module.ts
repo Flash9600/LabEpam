@@ -1,17 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { MainPageComponent } from './../static-module/components/main-page/main-page.component';
 import { NoContentComponent } from '../shared-module/components/no-content/no-content.component';
 import { UserLoginComponent } from '../login-module/user-login/user-login.component';
 import { CoursesGuard } from './guards/courses.guard';
 
 const routes: Routes = [
-	{ path: '', redirectTo: 'courses', pathMatch: 'full'},
+	{ path: '', redirectTo: 'main', pathMatch: 'full' },
 
-	{ path: 'login', component: UserLoginComponent},
+	{ path: 'login', component: UserLoginComponent },
 
-	{ path: 'courses', loadChildren: () => import('../core-module/core.module')
-		.then(module => module.CoreModule ),
+	{ path: 'main', component: MainPageComponent },
+
+	{
+		path: 'courses', loadChildren: () => import('../core-module/core.module')
+			.then(module => module.CoreModule),
 		canLoad: [CoursesGuard]
 	},
 
@@ -20,8 +24,8 @@ const routes: Routes = [
 
 @NgModule({
 	imports: [RouterModule.forRoot(routes, {
-    initialNavigation: 'enabled'
-})],
+		initialNavigation: 'enabled'
+	})],
 	exports: [RouterModule]
 })
 export class AppRoutingModule { }
