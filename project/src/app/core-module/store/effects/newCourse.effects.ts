@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { filter, map, mergeMap, switchMap, startWith, tap } from 'rxjs/operators';
+import { filter, map, mergeMap, switchMap, startWith, tap, debounceTime } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { createEffect, ofType, Actions, ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { RouterNavigatedAction, ROUTER_NAVIGATED } from '@ngrx/router-store';
@@ -8,7 +8,12 @@ import { Store } from '@ngrx/store';
 import { doRefreshCoursesAction } from './../actions/courses.actions';
 import { CourseService } from 'src/app/core-module/services/course-service/course.service';
 import { allCoursesSelector } from './../selectors/courses.selectors';
-import { doAddNewCourseAction, doAuthorsListSuccessAction, doToggleNewCourseAction, ENewCourseActions } from '../actions/newCourse.actions';
+import {
+	doAddNewCourseAction,
+	doAuthorsListSuccessAction,
+	doToggleNewCourseAction,
+	ENewCourseActions
+} from '../actions/newCourse.actions';
 import { Course } from 'src/app/interfaces/course.interface';
 import { isNewCourseSelector } from '../selectors/newCourse.selector';
 
@@ -52,6 +57,7 @@ export class NewCourseEffects {
 	public setNewCourse$ = createEffect(() => {
 		return this.actions$.pipe(
 			ofType(ENewCourseActions.doSubmitNewCourse),
+			debounceTime(500),
 			switchMap((newCourseState: { newCourse: Course }) =>
 				this.store.select(isNewCourseSelector).pipe(
 					mergeMap((isNewCourse) => {

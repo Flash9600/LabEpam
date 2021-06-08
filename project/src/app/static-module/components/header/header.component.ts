@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 
 @Component({
@@ -7,17 +7,12 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 	styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-	public btnAuthorizationText: string;
+	public btnAuthorization: string;
 	public userLogin: string;
-
-	@Output() showUserLogin = new EventEmitter<void>();
 
 	@Input() set userName(name: string) {
 		this.userLogin = name;
-		this.btnAuthorizationText = !!name ? 'Sign out' : 'Sign in';
+		this.btnAuthorization = !!name ? 'Sign out' : '';
 	}
 
-	onShowUserLogin(): void{
-		this.showUserLogin.emit();
-	}
 }

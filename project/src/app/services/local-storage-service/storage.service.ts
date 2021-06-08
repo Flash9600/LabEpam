@@ -1,14 +1,9 @@
-import { Inject, Injectable, InjectionToken } from '@angular/core';
-
-const BROWSER_STORAGE = new InjectionToken<Storage>('Storage',
-{
-	providedIn: 'root',
-	factory: () => localStorage
-});
+import { Inject, Injectable } from '@angular/core';
+import { LOCAL_STORAGE } from '@ng-web-apis/common';
 
 @Injectable()
 export class StorageService {
-	constructor(@Inject(BROWSER_STORAGE) protected storage: Storage){}
+	constructor(@Inject(LOCAL_STORAGE) protected storage: Storage){}
 
 	public setValue<T>(name: string, value: T): void{
 		this.storage.setItem(name, JSON.stringify(value));

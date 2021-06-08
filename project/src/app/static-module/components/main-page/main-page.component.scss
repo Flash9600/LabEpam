@@ -1,0 +1,15 @@
+.main-page {
+    width: 20%;
+    margin: auto;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    gap: 10%;
+    align-items: center;
+    flex-direction: column;
+    button{
+        min-width: 160px;
+        transform: scale(1.5);
+        width: 70%;
+    }
+}
