@@ -17,8 +17,6 @@ export class CoursesGuard implements CanLoad {
 		protected network: HttpService) { }
 
 	canLoad(rout: Route, segments: UrlSegment[]): Observable<boolean> {
-		console.log('start guard');
-
 		return this.authorizationService.loginTracker.pipe(
 			map((user: User) => {
 				if (!user) {
